@@ -8,9 +8,9 @@ ansible = "~=9.0"
 
 [dev-packages]
 ansible-lint = "*"
-molecule = "<7.0.0,>=6.0.0"
+molecule = "~=6.0"
 molecule-qemu = "*"
-pytest-testinfra = "<11.0.0,>=10.0.0"
+pytest-testinfra = "~=10.0"
 
 [requires]
 python_version = "3.11"
