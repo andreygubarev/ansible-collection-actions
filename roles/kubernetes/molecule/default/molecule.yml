@@ -11,6 +11,7 @@ platforms:
     image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
     image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
     network_mode: vmnet-shared
+    network_ssh_port: 22
   - name: instance-2
     groups:
       - kubernetes_agent
@@ -18,6 +19,7 @@ platforms:
     image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
     image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
     network_mode: vmnet-shared
+    network_ssh_port: 22
 provisioner:
   name: ansible
   lint:
