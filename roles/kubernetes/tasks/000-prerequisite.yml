@@ -1,0 +1,52 @@
+---
+- name: Assert configuration
+  ansible.builtin.assert:
+    that:
+      - kubernetes_cluster_token is defined
+      - kubernetes_cluster_token != ""
+      - kubernetes_cluster_seed is defined
+      - kubernetes_cluster_seed != ""
+      - kubernetes_node_role is defined
+      - kubernetes_node_role in ["server", "agent"]
+
+- name: Assert architecture
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.architecture == "x86_64" or
+        ansible_facts.architecture is search("aarch64") or
+        ( ansible_facts.architecture is search("arm") and ansible_facts.userspace_bits == "64" )
+
+- name: Enable IPv4 forwarding
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
+    reload: true
+
+- name: Enable IPv6 forwarding
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: "1"
+    state: present
+    reload: true
+
+- name: Enable IPv6 router advertisements
+  ansible.posix.sysctl:
+    name: net.ipv6.conf.all.accept_ra
+    value: "2"
+    state: present
+    reload: true
+
+- name: Create k3s configuration folder
+  ansible.builtin.file:
+    path: "{{ k3s_service_confdir }}/config.yaml.d"
+    state: directory
+    mode: "0755"
+
+- name: Create k3s state directory
+  ansible.builtin.file:
+    path: "{{ k3s_service_statedir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0644

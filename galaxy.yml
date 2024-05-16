@@ -11,9 +11,10 @@ description: Collection of useful Ansible roles
 license_file: LICENSE
 
 tags:
-- infrastructure
+  - infrastructure
 
-dependencies: {}
+dependencies:
+  "ansible.posix": ">=1.0.0,<2.0.0"
 
 repository: https://github.com/andreygubarev/ansible-collection-common
 documentation: https://github.com/andreygubarev/ansible-collection-common
@@ -24,3 +25,7 @@ build_ignore:
   - Makefile
   - .git
   - .gitignore
+  - .envrc
+  - .yamllint
+  - Pipfile
+  - Pipfile.lock
