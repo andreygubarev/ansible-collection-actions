@@ -3,3 +3,8 @@ kubernetes_cluster_seeds: ""
 kubernetes_cluster_token: ""
 
 kubernetes_node_role: ""
+
+kubernetes_service_name: kubernetes
+kubernetes_service_enabled: true
+kubernetes_service_statedir: /var/lib/kubernetes
+kubernetes_service_confdir: /etc/kubernetes

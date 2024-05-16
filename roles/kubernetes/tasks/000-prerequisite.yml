@@ -37,15 +37,15 @@
     state: present
     reload: true
 
-- name: Create k3s configuration folder
+- name: Ensure configuration directory
   ansible.builtin.file:
-    path: "{{ k3s_service_confdir }}/config.yaml.d"
+    path: "{{ kubernetes_service_confdir }}/config.yaml.d"
     state: directory
     mode: "0755"
 
-- name: Create k3s state directory
+- name: Ensure state directory
   ansible.builtin.file:
-    path: "{{ k3s_service_statedir }}"
+    path: "{{ kubernetes_service_statedir }}"
     state: directory
     owner: root
     group: root
