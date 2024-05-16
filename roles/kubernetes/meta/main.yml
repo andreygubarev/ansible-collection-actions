@@ -1,0 +1,18 @@
+galaxy_info:
+  author: Andrey Gubarev <andrey@andreygubarev.com> (andreygubarev.com)
+  description: Install Kubernetes (using k3s)
+  company: andreygubarev
+
+  license: MIT
+
+  min_ansible_version: '7.0.0'
+
+  platforms:
+  - name: Debian
+    versions:
+    - bookworm
+
+  galaxy_tags:
+  - infrastructure
+
+dependencies: []
