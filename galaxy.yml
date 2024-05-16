@@ -1,5 +1,5 @@
 namespace: andreygubarev
-name: general
+name: common
 version: 1.0.0
 
 readme: README.md
@@ -15,10 +15,10 @@ tags:
 
 dependencies: {}
 
-repository: https://github.com/andreygubarev/ansible-general
-documentation: https://github.com/andreygubarev/ansible-general
-homepage: https://github.com/andreygubarev/ansible-general
-issues: https://github.com/andreygubarev/ansible-general/issues
+repository: https://github.com/andreygubarev/ansible-collection-common
+documentation: https://github.com/andreygubarev/ansible-collection-common
+homepage: https://github.com/andreygubarev/ansible-collection-common
+issues: https://github.com/andreygubarev/ansible-collection-common/issues
 
 build_ignore:
   - Makefile

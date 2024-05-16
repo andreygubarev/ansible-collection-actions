@@ -1,1 +1,1 @@
-# `andreygubarev.general`
+# `andreygubarev.common`
