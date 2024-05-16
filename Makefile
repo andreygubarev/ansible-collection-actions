@@ -15,8 +15,8 @@ ANSIBLE_ROLES := $(shell find roles -mindepth 1 -maxdepth 1 -type d)
 $(ANSIBLE_ROLES):
 	cd $@ && $(ANSIBLE_MOLECULE) test
 
-.PHONY: format
-format: ## Automatically format the source code
+.PHONY: lint
+lint: ## Lint the Ansible code
 	@$(ANSIBLE_LINT) -v
 
 .PHONY: test
