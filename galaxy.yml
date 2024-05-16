@@ -10,7 +10,8 @@ authors:
 description: Collection of useful Ansible roles
 license_file: LICENSE
 
-tags: []
+tags:
+- infrastructure
 
 dependencies: {}
 
