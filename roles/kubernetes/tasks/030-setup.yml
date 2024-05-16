@@ -34,4 +34,4 @@
 
 - name: Set k3s cluster seed status
   ansible.builtin.set_fact:
-    k3s_node_running: true
+    kubernetes_node_running: true
