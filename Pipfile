@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 ansible = "~=9.0"
+netaddr = "*"
 
 [dev-packages]
 ansible-lint = "*"

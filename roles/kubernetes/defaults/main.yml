@@ -11,7 +11,7 @@ kubernetes_cluster_token: ""
 
 # Kubernetes | Cluster | Addons
 kubernetes_addon_kubevip_enabled: false
-kubernetes_addon_kubevip_version: v0.8.0
+kubernetes_addon_kubevip_version: v0.6.4
 kubernetes_addon_localstorage_enabled: false
 kubernetes_addon_traefik_enabled: false
 
@@ -24,8 +24,8 @@ kubernetes_flannel_interface: ""
 # Kubernetes | Service
 kubernetes_service_name: kubernetes
 kubernetes_service_enabled: true
-kubernetes_service_statedir: /var/lib/kubernetes
-kubernetes_service_confdir: /etc/kubernetes
+kubernetes_service_statedir: /var/lib/rancher/k3s
+kubernetes_service_confdir: /etc/rancher/k3s
 
 # Kubernetes | Service | Command
 kubernetes_command: /usr/local/bin/k3s
