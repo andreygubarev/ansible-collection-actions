@@ -1,3 +1,6 @@
 ---
 - name: Prerequisite
   ansible.builtin.import_tasks: 000-prerequisite.yml
+
+- name: Download
+  ansible.builtin.import_tasks: 010-download.yml
