@@ -4,13 +4,37 @@ dependency:
 driver:
   name: molecule-qemu
 platforms:
-  - name: debian-bookworm-arm64
+  - name: instance-1
+    groups:
+      - kubernetes_server
     image_arch: aarch64
     image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
     image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
+    network_mode: vmnet-shared
+  - name: instance-2
+    groups:
+      - kubernetes_agent
+    image_arch: aarch64
+    image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
+    image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
+    network_mode: vmnet-shared
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  inventory:
+    host_vars:
+      instance-1:
+        kubernetes_node_label:
+          - topology.kubernetes.io/region=us-east-1
+          - topology.kubernetes.io/zone=us-east-1a
+    group_vars:
+      all:
+        kubernetes_cluster_seed: "instance-1"
+        kubernetes_cluster_token: "secret"
+      kubernetes_server:
+        kubernetes_node_role: server
+      kubernetes_agent:
+        kubernetes_node_role: agent
 verifier:
   name: testinfra

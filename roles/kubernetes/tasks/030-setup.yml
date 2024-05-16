@@ -1,0 +1,37 @@
+---
+- name: Create cluster config
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: "{{ kubernetes_service_confdir }}/config.yaml"
+    owner: root
+    group: root
+    mode: 0644
+  register: kubernetes_config
+
+- name: Create systemd service
+  ansible.builtin.template:
+    src: kubernetes.service.j2
+    dest: "/etc/systemd/system/{{ kubernetes_service_name }}.service"
+    owner: root
+    group: root
+    mode: 0644
+  register: kubernetes_service
+
+- name: Set k3s service state based on k3s_config
+  ansible.builtin.set_fact:
+    kubernetes_service_state: "{{ 'restarted' if kubernetes_config.changed or kubernetes_service.changed or kubernetes_binary.changed else 'started' }}"
+
+- name: Ensure service is started and enabled
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "{{ kubernetes_service_name }}"
+    state: "{{ kubernetes_service_state }}"
+    enabled: "{{ kubernetes_service_enabled }}"
+
+- name: Wait for k3s to be ready
+  ansible.builtin.wait_for:
+    path: "{{ kubernetes_service_statedir }}/{{ kubernetes_node_role }}"
+
+- name: Set k3s cluster seed status
+  ansible.builtin.set_fact:
+    k3s_node_running: true

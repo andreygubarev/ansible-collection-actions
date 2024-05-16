@@ -1,13 +1,13 @@
 ---
-# - name: Assert configuration
-#   ansible.builtin.assert:
-#     that:
-#       - kubernetes_cluster_token is defined
-#       - kubernetes_cluster_token != ""
-#       - kubernetes_cluster_seed is defined
-#       - kubernetes_cluster_seed != ""
-#       - kubernetes_node_role is defined
-#       - kubernetes_node_role in ["server", "agent"]
+- name: Assert configuration
+  ansible.builtin.assert:
+    that:
+      - kubernetes_cluster_seed is defined
+      - kubernetes_cluster_seed != ""
+      - kubernetes_cluster_token is defined
+      - kubernetes_cluster_token != ""
+      - kubernetes_node_role is defined
+      - kubernetes_node_role in ["server", "agent"]
 
 - name: Assert architecture
   ansible.builtin.assert:

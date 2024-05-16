@@ -1,13 +1,62 @@
 ---
+# Kubernetes
 kubernetes_version: v1.30.0+k3s1
-kubernetes_command: /usr/local/bin/k3s
 
-kubernetes_cluster_seeds: ""
+# Kubernetes | Cluster
+kubernetes_cluster_feature_gates:
+- TopologyAwareHints=true
+kubernetes_cluster_seed_endpoint: 100.100.100.100
+kubernetes_cluster_seed: ""
 kubernetes_cluster_token: ""
 
+# Kubernetes | Cluster | Addons
+kubernetes_addon_kubevip_enabled: false
+kubernetes_addon_kubevip_version: v0.8.0
+kubernetes_addon_localstorage_enabled: false
+kubernetes_addon_traefik_enabled: false
+
+# Kubernetes | Node
 kubernetes_node_role: ""
 
+# Kubernetes | Network
+kubernetes_flannel_interface: ""
+
+# Kubernetes | Service
 kubernetes_service_name: kubernetes
 kubernetes_service_enabled: true
 kubernetes_service_statedir: /var/lib/kubernetes
 kubernetes_service_confdir: /etc/kubernetes
+
+# Kubernetes | Service | Command
+kubernetes_command: /usr/local/bin/k3s
+
+kubernetes_command_args:
+  server: >
+    --config {{ kubernetes_service_confdir }}/config.yaml
+    {% for feature_gates in kubernetes_cluster_feature_gates %}
+    --kube-apiserver-arg=feature-gates={{ feature_gates }}
+    --kube-scheduler-arg=feature-gates={{ feature_gates }}
+    --kube-controller-manager-arg=feature-gates={{ feature_gates }}
+    --kube-proxy-arg=feature-gates={{ feature_gates }}
+    --kubelet-arg=feature-gates={{ feature_gates }}
+    {% endfor %}
+    {% if kubernetes_flannel_interface != "" %}
+    --flannel-iface={{ kubernetes_flannel_interface }}
+    {% endif %}
+    --data-dir={{ kubernetes_service_statedir }}
+    {{ kubernetes_command_extra_args.server }}
+  agent: >
+    --config {{ kubernetes_service_confdir }}/config.yaml
+    {% for feature_gates in kubernetes_cluster_feature_gates %}
+    --kube-proxy-arg=feature-gates={{ feature_gates }}
+    --kubelet-arg=feature-gates={{ feature_gates }}
+    {% endfor %}
+    {% if kubernetes_flannel_interface != "" %}
+    --flannel-iface={{ kubernetes_flannel_interface }}
+    {% endif %}
+    --data-dir={{ kubernetes_service_statedir }}
+    {{ kubernetes_command_extra_args.agent }}
+
+kubernetes_command_extra_args:
+  server: ""
+  agent: ""
