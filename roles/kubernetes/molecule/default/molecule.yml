@@ -43,6 +43,8 @@ provisioner:
       all:
         kubernetes_cluster_apiserver: "192.168.65.100"
         kubernetes_cluster_apitoken: "secret"
+        kubernetes_network_tailscale_enabled: true
+        kubernetes_network_tailscale_token: "tskey-auth-kQnFj7gYsH11CNTRL-7ALGRztp4AFXp9zjM2YHAFkEc6oCx9j3E"
       kubernetes_server:
         kubernetes_addon_embeddedregistry_enabled: true
         kubernetes_addon_kubevip_enabled: true
