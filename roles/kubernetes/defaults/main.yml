@@ -31,6 +31,13 @@ kubernetes_network_interface: ""
 kubernetes_network_subnet_pods: "10.42.0.0/16"
 kubernetes_network_subnet_services: "10.43.0.0/16"
 
+# Kubernetes | Network | Flannel
+kubernetes_network_flannel_backend: vxlan
+
+# Kubernetes | Network | Tailscale
+kubernetes_network_tailscale_enabled: false
+kubernetes_network_tailscale_token: ""
+
 # Kubernetes | Service
 kubernetes_service_name: kubernetes
 kubernetes_service_enabled: true
@@ -57,8 +64,12 @@ kubernetes_command_args:
     {% endfor %}
     --cluster-cidr {{ kubernetes_network_subnet_pods }}
     --service-cidr {{ kubernetes_network_subnet_services }}
+    --flannel-backend={{ kubernetes_network_flannel_backend }}
     {% if kubernetes_network_interface != "" %}
     --flannel-iface={{ kubernetes_network_interface }}
+    {% endif %}
+    {% if kubernetes_network_tailscale_enabled %}
+    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_token }}"
     {% endif %}
     --data-dir={{ kubernetes_service_statedir }}
     {{ kubernetes_command_extra_args.server }}
@@ -71,6 +82,9 @@ kubernetes_command_args:
     {% endfor %}
     {% if kubernetes_network_interface != "" %}
     --flannel-iface={{ kubernetes_network_interface }}
+    {% endif %}
+    {% if kubernetes_network_tailscale_enabled %}
+    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_token }}"
     {% endif %}
     --data-dir={{ kubernetes_service_statedir }}
     {{ kubernetes_command_extra_args.agent }}
