@@ -2,12 +2,12 @@
 - name: Assert configuration
   ansible.builtin.assert:
     that:
-      - kubernetes_cluster_seed is defined
-      - kubernetes_cluster_seed != ""
       - kubernetes_cluster_apiserver is defined
       - kubernetes_cluster_apiserver != ""
       - kubernetes_cluster_apitoken is defined
       - kubernetes_cluster_apitoken != ""
+      - kubernetes_cluster_bootstrap is defined
+      - kubernetes_cluster_bootstrap != ""
       - kubernetes_node_role is defined
       - kubernetes_node_role in ["server", "agent"]
 

@@ -33,6 +33,7 @@ provisioner:
         kubernetes_node_labels:
           - topology.kubernetes.io/region=us-east-1
           - topology.kubernetes.io/zone=us-east-1a
+        kubernetes_cluster_bootstrap: true
       instance-2:
         kubernetes_node_role: agent
         kubernetes_node_labels:
@@ -42,7 +43,6 @@ provisioner:
       all:
         kubernetes_cluster_apiserver: "192.168.65.100"
         kubernetes_cluster_apitoken: "secret"
-        kubernetes_cluster_seed: "instance-1"
       kubernetes_server:
         kubernetes_addon_kubevip_enabled: true
 verifier:

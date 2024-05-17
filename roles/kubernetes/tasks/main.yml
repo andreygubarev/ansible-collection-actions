@@ -5,13 +5,9 @@
 - name: Download
   ansible.builtin.import_tasks: 010-download.yml
 
-- name: Set node facts
-  ansible.builtin.set_fact:
-    kubernetes_node_seed: "{{ ansible_hostname == kubernetes_cluster_seed }}"
+- name: Bootstrap cluster
+  when: kubernetes_cluster_bootstrap
+  ansible.builtin.import_tasks: 020-bootstrap.yml
 
-- name: Setup cluster seed
-  when: kubernetes_node_seed
-  ansible.builtin.import_tasks: 020-setup-seed.yml
-
-- name: Setup cluster nodes
+- name: Setup cluster
   ansible.builtin.import_tasks: 030-setup.yml
