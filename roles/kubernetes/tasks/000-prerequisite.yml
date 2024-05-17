@@ -72,6 +72,8 @@
         owner: root
         group: root
         mode: 0644
+        modification_time: preserve
+        access_time: preserve
 
     - name: Disable local-storage addon
       when: not kubernetes_addon_localstorage_enabled
@@ -81,6 +83,8 @@
         owner: root
         group: root
         mode: 0644
+        modification_time: preserve
+        access_time: preserve
 
     - name: Assert kube-vip address is set
       when: kubernetes_addon_kubevip_enabled
