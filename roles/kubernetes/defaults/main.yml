@@ -13,11 +13,18 @@ kubernetes_cluster_feature_gates:
 kubernetes_node_role: ""
 kubernetes_node_labels: []
 
-# Kubernetes | Addons
+# Kubernetes | Addons | CoreDNS
+kubernetes_addon_coredns_enabled: true
+
+# Kubernetes | Addons | KubeVIP
 kubernetes_addon_kubevip_enabled: false
 kubernetes_addon_kubevip_version: v0.6.4
 kubernetes_addon_kubevip_address: ""
+
+# Kubernetes | Addons | Local Storage
 kubernetes_addon_localstorage_enabled: false
+
+# Kubernetes | Addons | Traefik
 kubernetes_addon_traefik_enabled: false
 
 # Kubernetes | Network
