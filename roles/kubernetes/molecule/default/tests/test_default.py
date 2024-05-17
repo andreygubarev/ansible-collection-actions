@@ -1,10 +1,16 @@
 """Role testing files using testinfra."""
 
+def test_kubernetes_service(host):
+    """Validate k3s service."""
+    s = host.service("kubernetes")
 
-def test_hosts_file(host):
-    """Validate /etc/hosts file."""
-    f = host.file("/etc/hosts")
+    assert s.is_running
+    assert s.is_enabled
+
+
+def test_kubernetes_binary(host):
+    """Validate k3s binary."""
+    f = host.file("/usr/local/bin/k3s")
 
     assert f.exists
-    assert f.user == "root"
-    assert f.group == "root"
+    assert f.is_executable
