@@ -4,10 +4,10 @@ dependency:
 driver:
   name: molecule-qemu
 platforms:
-  - name: debian-bullseye-arm64
+  - name: instance-1
     image_arch: aarch64
-    image_url: https://cloud.debian.org/images/cloud/bullseye/latest/debian-11-genericcloud-arm64.qcow2
-    image_checksum: sha512:https://cloud.debian.org/images/cloud/bullseye/latest/SHA512SUMS
+    image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
+    image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
     network_mode: user
     network_ssh_port: 2222
 provisioner:
