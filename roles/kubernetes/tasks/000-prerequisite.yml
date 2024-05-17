@@ -20,7 +20,7 @@
         ( ansible_facts.architecture is search("arm") and ansible_facts.userspace_bits == "64" )
 
 - name: Assert tailscale
-  when: kubernetes_network_tailscale_enabled == true
+  when: kubernetes_network_tailscale_enabled
   block:
     - name: Check if tailscale is installed
       ansible.builtin.command:
@@ -35,7 +35,7 @@
 
 - name: Set node name
   when: kubernetes_node_name == ""
-  set_fact:
+  ansible.builtin.set_fact:
     kubernetes_node_name: "{{ ansible_facts.hostname }}"
 
 - name: Enable IPv4 forwarding
@@ -121,7 +121,7 @@
       when: kubernetes_addon_kubevip_enabled
       block:
         - name: Assert kube-vip address is set
-          assert:
+          ansible.builtin.assert:
             that:
               - kubernetes_addon_kubevip_address != ""
 

@@ -106,5 +106,3 @@ kubernetes_command_args:
 kubernetes_command_extra_args:
   server: ""
   agent: ""
-
-
