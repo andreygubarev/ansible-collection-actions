@@ -17,6 +17,14 @@
     mode: 0644
   register: kubernetes_config
 
+- name: Create cluster registries
+  ansible.builtin.template:
+    src: registries.yaml.j2
+    dest: "{{ kubernetes_registry_config }}"
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Create systemd service
   ansible.builtin.template:
     src: kubernetes.service.j2

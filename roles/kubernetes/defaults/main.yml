@@ -6,8 +6,7 @@ kubernetes_version: v1.30.0+k3s1
 kubernetes_cluster_apiserver: ""
 kubernetes_cluster_apitoken: ""
 kubernetes_cluster_bootstrap: false
-kubernetes_cluster_feature_gates:
-- TopologyAwareHints=true
+kubernetes_cluster_feature_gates: []
 
 # Kubernetes | Node
 kubernetes_node_role: ""
@@ -38,12 +37,17 @@ kubernetes_service_enabled: true
 kubernetes_service_statedir: /var/lib/rancher/k3s
 kubernetes_service_confdir: /etc/rancher/k3s
 
+# Kubernetes | Registry | Embedded
+kubernetes_registry_config: "{{ kubernetes_service_confdir }}/registries.yaml"
+kubernetes_registry_embedded_enabled: false
+
 # Kubernetes | Service | Command
 kubernetes_command: /usr/local/bin/k3s
 
 kubernetes_command_args:
   server: >
     --config {{ kubernetes_service_confdir }}/config.yaml
+    --private-registry {{ kubernetes_registry_config }}
     {% for feature_gates in kubernetes_cluster_feature_gates %}
     --kube-apiserver-arg=feature-gates={{ feature_gates }}
     --kube-scheduler-arg=feature-gates={{ feature_gates }}
@@ -60,6 +64,7 @@ kubernetes_command_args:
     {{ kubernetes_command_extra_args.server }}
   agent: >
     --config {{ kubernetes_service_confdir }}/config.yaml
+    --private-registry {{ kubernetes_registry_config }}
     {% for feature_gates in kubernetes_cluster_feature_gates %}
     --kube-proxy-arg=feature-gates={{ feature_gates }}
     --kubelet-arg=feature-gates={{ feature_gates }}
@@ -73,3 +78,5 @@ kubernetes_command_args:
 kubernetes_command_extra_args:
   server: ""
   agent: ""
+
+
