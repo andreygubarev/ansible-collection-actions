@@ -7,11 +7,11 @@ node-label:
 {% endfor %}
 {% endif %}
 
-{% if kubernetes_node_seed and not kubernetes_node_running %}
+{% if kubernetes_cluster_bootstrap and not kubernetes_node_running %}
 cluster-init: true
 {% endif %}
 
-{% if not kubernetes_node_seed %}
+{% if not kubernetes_cluster_bootstrap %}
 server: https://{{ kubernetes_cluster_apiserver }}:6443
 {% endif %}
 

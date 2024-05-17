@@ -3,21 +3,21 @@
 kubernetes_version: v1.30.0+k3s1
 
 # Kubernetes | Cluster
-kubernetes_cluster_feature_gates:
-- TopologyAwareHints=true
-kubernetes_cluster_bootstrap: false
 kubernetes_cluster_apiserver: ""
 kubernetes_cluster_apitoken: ""
-
-# Kubernetes | Cluster | Addons
-kubernetes_addon_kubevip_enabled: false
-kubernetes_addon_kubevip_version: v0.6.4
-kubernetes_addon_localstorage_enabled: false
-kubernetes_addon_traefik_enabled: false
+kubernetes_cluster_bootstrap: false
+kubernetes_cluster_feature_gates:
+- TopologyAwareHints=true
 
 # Kubernetes | Node
 kubernetes_node_role: ""
 kubernetes_node_labels: []
+
+# Kubernetes | Addons
+kubernetes_addon_kubevip_enabled: false
+kubernetes_addon_kubevip_version: v0.6.4
+kubernetes_addon_localstorage_enabled: false
+kubernetes_addon_traefik_enabled: false
 
 # Kubernetes | Network
 kubernetes_network_interface: ""
