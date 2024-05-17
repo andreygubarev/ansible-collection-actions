@@ -1,10 +1,10 @@
 ---
-- name: Register cluster seed status
+- name: Register node status
   ansible.builtin.stat:
     path: "{{ kubernetes_service_statedir }}/server/node-token"
   register: kubernetes_node_running
 
-- name: Set cluster seed status
+- name: Set node status
   ansible.builtin.set_fact:
     kubernetes_node_running: "{{ kubernetes_node_running.stat.exists }}"
 
@@ -17,7 +17,7 @@
     mode: 0644
   register: kubernetes_config
 
-- name: Create cluster registries
+- name: Create cluster registries config
   ansible.builtin.template:
     src: registries.yaml.j2
     dest: "{{ kubernetes_registry_config }}"
@@ -34,7 +34,7 @@
     mode: 0644
   register: kubernetes_service
 
-- name: Set k3s service state based on k3s_config
+- name: Set systemd service state based on k3s_config
   ansible.builtin.set_fact:
     kubernetes_service_state: "{{ 'restarted' if kubernetes_config.changed or kubernetes_service.changed or kubernetes_binary.changed else 'started' }}"
 
@@ -45,10 +45,10 @@
     state: "{{ kubernetes_service_state }}"
     enabled: "{{ kubernetes_service_enabled }}"
 
-- name: Wait for k3s to be ready
+- name: Wait for cluster to be ready
   ansible.builtin.wait_for:
     path: "{{ kubernetes_service_statedir }}/{{ kubernetes_node_role }}"
 
-- name: Set k3s cluster seed status
+- name: Set node status
   ansible.builtin.set_fact:
     kubernetes_node_running: true
