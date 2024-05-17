@@ -55,7 +55,6 @@ kubernetes_command: /usr/local/bin/k3s
 
 kubernetes_command_args:
   server: >
-    --config {{ kubernetes_service_confdir }}/config.yaml
     {% if kubernetes_node_name != "" %}
     --node-name={{ kubernetes_node_name }}
     {% endif %}
@@ -83,7 +82,10 @@ kubernetes_command_args:
     --data-dir={{ kubernetes_service_statedir }}
     {{ kubernetes_command_extra_args.server }}
   agent: >
-    --config {{ kubernetes_service_confdir }}/config.yaml
+    {% if kubernetes_node_name != "" %}
+    --node-name={{ kubernetes_node_name }}
+    {% endif %}
+    --with-node-id
     --private-registry {{ kubernetes_registry_config }}
     {% for feature_gates in kubernetes_cluster_feature_gates %}
     --kube-proxy-arg=feature-gates={{ feature_gates }}

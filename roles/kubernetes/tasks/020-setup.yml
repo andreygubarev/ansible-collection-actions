@@ -54,6 +54,7 @@
     owner: root
     group: root
     mode: 0644
+  register: kubernetes_service_env
 
 - name: Create systemd service
   ansible.builtin.template:
@@ -66,7 +67,7 @@
 
 - name: Set systemd service state based on k3s_config
   ansible.builtin.set_fact:
-    kubernetes_service_state: "{{ 'restarted' if kubernetes_config.changed or kubernetes_service.changed or kubernetes_binary.changed else 'started' }}"
+    kubernetes_service_state: "{{ 'restarted' if kubernetes_config.changed or kubernetes_service.changed or kubernetes_service_env.changed or kubernetes_binary.changed else 'started' }}"
 
 - name: Ensure service is started and enabled
   ansible.builtin.systemd:
