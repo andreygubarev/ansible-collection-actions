@@ -39,15 +39,15 @@ kubernetes_network_flannel_backend: vxlan
 kubernetes_network_tailscale_enabled: false
 kubernetes_network_tailscale_token: ""
 
+# Kubernetes | Registry
+kubernetes_registry_config: "{{ kubernetes_service_confdir }}/registries.yaml"
+kubernetes_registry_embedded_enabled: false
+
 # Kubernetes | Service
 kubernetes_service_name: kubernetes
 kubernetes_service_enabled: true
 kubernetes_service_statedir: /var/lib/rancher/k3s
 kubernetes_service_confdir: /etc/rancher/k3s
-
-# Kubernetes | Registry | Embedded
-kubernetes_registry_config: "{{ kubernetes_service_confdir }}/registries.yaml"
-kubernetes_registry_embedded_enabled: false
 
 # Kubernetes | Service | Command
 kubernetes_command: /usr/local/bin/k3s
