@@ -9,6 +9,14 @@
   when: kubernetes_cluster_bootstrap
   ansible.builtin.import_tasks: 020-setup.yml
 
+- name: Wait for cluster seed endpoint to be ready
+  when: kubernetes_cluster_bootstrap
+  ansible.builtin.wait_for:
+    host: "{{ kubernetes_cluster_apiserver }}"
+    port: 6443
+    timeout: 300
+    state: started
+
 - name: Setup cluster
   when: not kubernetes_cluster_bootstrap
   ansible.builtin.import_tasks: 020-setup.yml
