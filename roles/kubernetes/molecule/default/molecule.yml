@@ -45,5 +45,6 @@ provisioner:
         kubernetes_cluster_apitoken: "secret"
       kubernetes_server:
         kubernetes_addon_kubevip_enabled: true
+        kubernetes_addon_kubevip_address: "192.168.65.100"
 verifier:
   name: testinfra

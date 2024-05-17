@@ -52,3 +52,56 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Configure addons
+  when: kubernetes_node_role == "server"
+  block:
+    - name: Create manifests directory
+      ansible.builtin.file:
+        path: "{{ kubernetes_service_statedir }}/server/manifests"
+        state: directory
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Disable traefik addon
+      when: not kubernetes_addon_traefik_enabled
+      ansible.builtin.file:
+        path: "{{ kubernetes_service_statedir }}/server/manifests/traefik.yaml.skip"
+        state: touch
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Disable local-storage addon
+      when: not kubernetes_addon_localstorage_enabled
+      ansible.builtin.file:
+        path: "{{ kubernetes_service_statedir }}/server/manifests/local-storage.yaml.skip"
+        state: touch
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Assert kube-vip address is set
+      when: kubernetes_addon_kubevip_enabled
+      assert:
+        that:
+          - kubernetes_addon_kubevip_address != ""
+
+    - name: Create kube-vip manifest for rbac
+      when: kubernetes_addon_kubevip_enabled
+      ansible.builtin.get_url:
+        url: "https://raw.githubusercontent.com/kube-vip/kube-vip/{{ kubernetes_addon_kubevip_version }}/docs/manifests/rbac.yaml"
+        dest: "{{ kubernetes_service_statedir }}/server/manifests/kubevip-rbac.yaml"
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Create kube-vip manifest for daemonset
+      when: kubernetes_addon_kubevip_enabled
+      ansible.builtin.template:
+        src: "kubevip.yaml.j2"
+        dest: "{{ kubernetes_service_statedir }}/server/manifests/kubevip-daemonset.yaml"
+        owner: root
+        group: root
+        mode: 0644
