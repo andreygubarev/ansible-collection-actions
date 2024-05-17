@@ -3,7 +3,7 @@
   ansible.builtin.assert:
     that:
       - ansible_distribution in ['Ubuntu', 'Debian']
-      - ansible_distribution_release in ['focal', 'jammy', 'bullseye']
+      - ansible_distribution_release in ['focal', 'jammy', 'bullseye', 'bookworm']
     success_msg: "Supported OS detected: {{ ansible_distribution }} {{ ansible_distribution_release }}"
     fail_msg: "Unsupported OS detected: {{ ansible_distribution }} {{ ansible_distribution_release }}"
 
@@ -52,47 +52,50 @@
     mode: 0644
   register: tailscale_systemd_service
 
-- name: Enable Tailscale service
-  ansible.builtin.systemd:
-    name: tailscaled
-    enabled: true
-    daemon_reload: "{{ tailscale_systemd_service.changed }}"
-    state: "{{ tailscale_systemd_service.changed | ternary('restarted', 'started') }}"
-
-- name: Wait for Tailscale to be ready
-  ansible.builtin.wait_for:
-    path: "{{ tailscale_socket }}"
-    state: present
-    timeout: 60
-
-- name: Register Tailscale status
-  ansible.builtin.command: >-
-    tailscale
-    --socket {{ tailscale_socket }}
-    status --json
-  register: tailscale_status
-  changed_when: false
-
-- name: Register Tailscale node
-  when: (tailscale_status.stdout | from_json)['BackendState'] == 'NeedsLogin'
+- name: Tailscale configuration
+  when: tailscale_enabled
   block:
-    - name: Assert Tailscale auth key is defined
-      ansible.builtin.assert:
-        that:
-          - tailscale_auth_key is defined
-          - tailscale_auth_key != ""
-        success_msg: "Tailscale auth key is defined"
-        fail_msg: "Tailscale auth key is not defined"
+    - name: Enable Tailscale service
+      ansible.builtin.systemd:
+        name: tailscaled
+        enabled: true
+        daemon_reload: "{{ tailscale_systemd_service.changed }}"
+        state: "{{ tailscale_systemd_service.changed | ternary('restarted', 'started') }}"
 
-    - name: Register Tailscale node
+    - name: Wait for Tailscale to be ready
+      ansible.builtin.wait_for:
+        path: "{{ tailscale_socket }}"
+        state: present
+        timeout: 60
+
+    - name: Register Tailscale status
       ansible.builtin.command: >-
         tailscale
         --socket {{ tailscale_socket }}
-        up
-        --hostname {{ ansible_hostname }}
-        {% if tailscale_login_server %}
-        --login-server {{ tailscale_login_server }}
-        {% endif %}
-        --timeout {{ tailscale_login_timeout }}
-        --auth-key {{ tailscale_auth_key }}
-      changed_when: true
+        status --json
+      register: tailscale_status
+      changed_when: false
+
+    - name: Register Tailscale node
+      when: (tailscale_status.stdout | from_json)['BackendState'] == 'NeedsLogin'
+      block:
+        - name: Assert Tailscale auth key is defined
+          ansible.builtin.assert:
+            that:
+              - tailscale_auth_key is defined
+              - tailscale_auth_key != ""
+            success_msg: "Tailscale auth key is defined"
+            fail_msg: "Tailscale auth key is not defined"
+
+        - name: Register Tailscale node
+          ansible.builtin.command: >-
+            tailscale
+            --socket {{ tailscale_socket }}
+            up
+            --hostname {{ ansible_hostname }}
+            {% if tailscale_login_server %}
+            --login-server {{ tailscale_login_server }}
+            {% endif %}
+            --timeout {{ tailscale_login_timeout }}
+            --auth-key {{ tailscale_auth_key }}
+          changed_when: true

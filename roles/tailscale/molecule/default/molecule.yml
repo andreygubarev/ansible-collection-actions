@@ -12,5 +12,10 @@ platforms:
     network_ssh_port: 2222
 provisioner:
   name: ansible
+  inventory:
+    host_vars:
+      instance-1:
+        tailscale_enabled: false
+
 verifier:
   name: testinfra
