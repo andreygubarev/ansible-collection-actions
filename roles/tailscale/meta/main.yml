@@ -1,6 +1,6 @@
 galaxy_info:
   author: Andrey Gubarev <andrey@andreygubarev.com> (andreygubarev.com)
-  description: Install Kubernetes (using k3s)
+  description: Ansible role for setting up Tailscale client
   company: andreygubarev
 
   license: MIT
@@ -12,8 +12,11 @@ galaxy_info:
     versions:
     - bullseye
     - bookworm
+  - name: Ubuntu
+    versions:
+    - focal
 
   galaxy_tags:
-  - infrastructure
+  - networking
 
 dependencies: []
