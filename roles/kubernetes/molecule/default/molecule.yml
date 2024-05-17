@@ -15,8 +15,6 @@ platforms:
     vm_cpus: 2
     vm_memory: 2048
   - name: instance-2
-    groups:
-      - kubernetes_agent
     image_arch: aarch64
     image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
     image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
@@ -31,10 +29,12 @@ provisioner:
   inventory:
     host_vars:
       instance-1:
+        kubernetes_node_role: server
         kubernetes_node_label:
           - topology.kubernetes.io/region=us-east-1
           - topology.kubernetes.io/zone=us-east-1a
       instance-2:
+        kubernetes_node_role: agent
         kubernetes_node_label:
           - topology.kubernetes.io/region=us-east-1
           - topology.kubernetes.io/zone=us-east-1b
@@ -43,10 +43,7 @@ provisioner:
         kubernetes_cluster_apiserver: "192.168.65.100"
         kubernetes_cluster_token: "secret"
         kubernetes_cluster_seed: "instance-1"
-        kubernetes_addon_kubevip_enabled: true
       kubernetes_server:
-        kubernetes_node_role: server
-      kubernetes_agent:
-        kubernetes_node_role: agent
+        kubernetes_addon_kubevip_enabled: true
 verifier:
   name: testinfra
