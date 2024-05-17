@@ -1,4 +1,4 @@
-token: {{ kubernetes_cluster_token }}
+token: {{ kubernetes_cluster_apitoken }}
 
 {% if kubernetes_node_labels is defined and kubernetes_node_labels != [] %}
 node-label:

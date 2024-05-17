@@ -6,8 +6,8 @@
       - kubernetes_cluster_seed != ""
       - kubernetes_cluster_apiserver is defined
       - kubernetes_cluster_apiserver != ""
-      - kubernetes_cluster_token is defined
-      - kubernetes_cluster_token != ""
+      - kubernetes_cluster_apitoken is defined
+      - kubernetes_cluster_apitoken != ""
       - kubernetes_node_role is defined
       - kubernetes_node_role in ["server", "agent"]
 

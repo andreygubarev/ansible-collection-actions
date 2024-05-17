@@ -7,7 +7,7 @@ kubernetes_cluster_feature_gates:
 - TopologyAwareHints=true
 kubernetes_cluster_seed: ""
 kubernetes_cluster_apiserver: ""
-kubernetes_cluster_token: ""
+kubernetes_cluster_apitoken: ""
 
 # Kubernetes | Cluster | Addons
 kubernetes_addon_kubevip_enabled: false

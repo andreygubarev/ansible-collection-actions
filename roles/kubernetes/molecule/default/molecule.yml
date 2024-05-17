@@ -41,7 +41,7 @@ provisioner:
     group_vars:
       all:
         kubernetes_cluster_apiserver: "192.168.65.100"
-        kubernetes_cluster_token: "secret"
+        kubernetes_cluster_apitoken: "secret"
         kubernetes_cluster_seed: "instance-1"
       kubernetes_server:
         kubernetes_addon_kubevip_enabled: true
