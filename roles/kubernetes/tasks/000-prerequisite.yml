@@ -33,6 +33,11 @@
         that:
           - tailscale_version.rc == 0
 
+- name: Set node name
+  when: kubernetes_node_name == ""
+  set_fact:
+    kubernetes_node_name: "{{ ansible_facts.hostname }}"
+
 - name: Enable IPv4 forwarding
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward

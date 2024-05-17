@@ -9,6 +9,7 @@ kubernetes_cluster_bootstrap: false
 kubernetes_cluster_feature_gates: []
 
 # Kubernetes | Node
+kubernetes_node_name: ""
 kubernetes_node_role: ""
 kubernetes_node_labels: []
 kubernetes_node_external_ip: ""
@@ -55,6 +56,10 @@ kubernetes_command: /usr/local/bin/k3s
 kubernetes_command_args:
   server: >
     --config {{ kubernetes_service_confdir }}/config.yaml
+    {% if kubernetes_node_name != "" %}
+    --node-name={{ kubernetes_node_name }}
+    {% endif %}
+    --with-node-id
     --private-registry {{ kubernetes_registry_config }}
     {% for feature_gates in kubernetes_cluster_feature_gates %}
     --kube-apiserver-arg=feature-gates={{ feature_gates }}
