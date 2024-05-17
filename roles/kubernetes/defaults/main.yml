@@ -11,6 +11,7 @@ kubernetes_cluster_feature_gates: []
 # Kubernetes | Node
 kubernetes_node_role: ""
 kubernetes_node_labels: []
+kubernetes_node_external_ip: ""
 
 # Kubernetes | Addons | CoreDNS
 kubernetes_addon_coredns_enabled: true
@@ -65,6 +66,9 @@ kubernetes_command_args:
     --cluster-cidr {{ kubernetes_network_subnet_pods }}
     --service-cidr {{ kubernetes_network_subnet_services }}
     --flannel-backend={{ kubernetes_network_flannel_backend }}
+    {% if kubernetes_node_external_ip != "" %}
+    --node-external-ip={{ kubernetes_node_external_ip }}
+    {% endif %}
     {% if kubernetes_network_interface != "" %}
     --flannel-iface={{ kubernetes_network_interface }}
     {% endif %}
@@ -80,6 +84,9 @@ kubernetes_command_args:
     --kube-proxy-arg=feature-gates={{ feature_gates }}
     --kubelet-arg=feature-gates={{ feature_gates }}
     {% endfor %}
+    {% if kubernetes_node_external_ip != "" %}
+    --node-external-ip={{ kubernetes_node_external_ip }}
+    {% endif %}
     {% if kubernetes_network_interface != "" %}
     --flannel-iface={{ kubernetes_network_interface }}
     {% endif %}

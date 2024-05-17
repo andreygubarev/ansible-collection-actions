@@ -7,6 +7,7 @@ After=network-online.target
 
 [Service]
 Type=notify
+EnvironmentFile=-/etc/systemd/system/{{ kubernetes_service_name }}.service.env
 ExecStartPre=-/sbin/modprobe br_netfilter
 ExecStartPre=-/sbin/modprobe overlay
 ExecStart={{ kubernetes_command }} {{ kubernetes_node_role }} {{ kubernetes_command_args[kubernetes_node_role] }}
