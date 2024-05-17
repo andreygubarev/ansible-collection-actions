@@ -4,8 +4,8 @@
     that:
       - kubernetes_cluster_seed is defined
       - kubernetes_cluster_seed != ""
-      - kubernetes_cluster_seed_endpoint is defined
-      - kubernetes_cluster_seed_endpoint != ""
+      - kubernetes_cluster_apiserver is defined
+      - kubernetes_cluster_apiserver != ""
       - kubernetes_cluster_token is defined
       - kubernetes_cluster_token != ""
       - kubernetes_node_role is defined

@@ -31,7 +31,7 @@ spec:
         - name: port
           value: "6443"
         - name: vip_cidr
-          value: "{{ kubernetes_cluster_seed_endpoint | ansible.utils.ipsubnet | ansible.utils.ipaddr('prefix') }}"
+          value: "{{ kubernetes_cluster_apiserver | ansible.utils.ipsubnet | ansible.utils.ipaddr('prefix') }}"
         - name: cp_enable
           value: "true"
         - name: cp_namespace
@@ -49,7 +49,7 @@ spec:
         - name: vip_retryperiod
           value: "2"
         - name: address
-          value: {{ kubernetes_cluster_seed_endpoint }}
+          value: {{ kubernetes_cluster_apiserver }}
         image: ghcr.io/kube-vip/kube-vip:{{ kubernetes_addon_kubevip_version }}
         imagePullPolicy: Always
         name: kube-vip

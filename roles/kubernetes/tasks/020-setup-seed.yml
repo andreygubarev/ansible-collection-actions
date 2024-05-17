@@ -60,7 +60,7 @@
 
 - name: Wait for cluster seed endpoint to be ready
   ansible.builtin.wait_for:
-    host: "{{ kubernetes_cluster_seed_endpoint }}"
+    host: "{{ kubernetes_cluster_apiserver }}"
     port: 6443
     timeout: 300
     state: started

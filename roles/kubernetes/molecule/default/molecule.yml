@@ -38,7 +38,7 @@ provisioner:
       all:
         kubernetes_cluster_token: "secret"
         kubernetes_cluster_seed: "instance-1"
-        kubernetes_cluster_seed_endpoint: "192.168.65.100"
+        kubernetes_cluster_apiserver: "192.168.65.100"
         kubernetes_addon_kubevip_enabled: true
       kubernetes_server:
         kubernetes_node_role: server

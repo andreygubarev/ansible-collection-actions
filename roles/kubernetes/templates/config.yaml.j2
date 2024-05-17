@@ -12,7 +12,7 @@ cluster-init: true
 {% endif %}
 
 {% if not kubernetes_node_seed %}
-server: https://{{ kubernetes_cluster_seed_endpoint }}:6443
+server: https://{{ kubernetes_cluster_apiserver }}:6443
 {% endif %}
 
 {% if kubernetes_node_role == 'server' %}

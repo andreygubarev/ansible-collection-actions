@@ -6,7 +6,7 @@ kubernetes_version: v1.30.0+k3s1
 kubernetes_cluster_feature_gates:
 - TopologyAwareHints=true
 kubernetes_cluster_seed: ""
-kubernetes_cluster_seed_endpoint: ""
+kubernetes_cluster_apiserver: ""
 kubernetes_cluster_token: ""
 
 # Kubernetes | Cluster | Addons
