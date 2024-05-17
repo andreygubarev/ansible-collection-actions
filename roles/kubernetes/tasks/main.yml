@@ -10,8 +10,8 @@
     kubernetes_node_seed: "{{ ansible_hostname == kubernetes_cluster_seed }}"
 
 - name: Setup cluster seed
-  ansible.builtin.import_tasks: 020-setup-seed.yml
   when: kubernetes_node_seed
+  ansible.builtin.import_tasks: 020-setup-seed.yml
 
 - name: Setup cluster nodes
   ansible.builtin.import_tasks: 030-setup.yml

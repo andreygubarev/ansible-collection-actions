@@ -17,6 +17,7 @@ kubernetes_addon_traefik_enabled: false
 
 # Kubernetes | Node
 kubernetes_node_role: ""
+kubernetes_node_labels: []
 
 # Kubernetes | Network
 kubernetes_network_interface: ""

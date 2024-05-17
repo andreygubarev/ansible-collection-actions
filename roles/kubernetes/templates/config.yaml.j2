@@ -1,8 +1,8 @@
 token: {{ kubernetes_cluster_token }}
 
-{% if kubernetes_node_label is defined %}
+{% if kubernetes_node_labels is defined and kubernetes_node_labels != [] %}
 node-label:
-{% for label in kubernetes_node_label %}
+{% for label in kubernetes_node_labels %}
 - "{{ label }}"
 {% endfor %}
 {% endif %}

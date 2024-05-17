@@ -30,12 +30,12 @@ provisioner:
     host_vars:
       instance-1:
         kubernetes_node_role: server
-        kubernetes_node_label:
+        kubernetes_node_labels:
           - topology.kubernetes.io/region=us-east-1
           - topology.kubernetes.io/zone=us-east-1a
       instance-2:
         kubernetes_node_role: agent
-        kubernetes_node_label:
+        kubernetes_node_labels:
           - topology.kubernetes.io/region=us-east-1
           - topology.kubernetes.io/zone=us-east-1b
     group_vars:
