@@ -124,7 +124,7 @@
     - name: Disable KubeVIP addon
       when: not kubernetes_addon_kubevip_enabled
       block:
-        - name: Disable kube-vip addon
+        - name: Disable kube-vip addon rbac
           ansible.builtin.file:
             path: "{{ kubernetes_service_statedir }}/server/manifests/kubevip-rbac.yaml.skip"
             state: touch
@@ -134,7 +134,7 @@
             modification_time: preserve
             access_time: preserve
 
-        - name: Disable kube-vip addon
+        - name: Disable kube-vip addon daemonset
           ansible.builtin.file:
             path: "{{ kubernetes_service_statedir }}/server/manifests/kubevip-daemonset.yaml.skip"
             state: touch
