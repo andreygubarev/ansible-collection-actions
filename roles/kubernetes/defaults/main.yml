@@ -47,7 +47,7 @@ kubernetes_network_cilium_enabled: false
 
 # Kubernetes | Network | Tailscale
 kubernetes_network_tailscale_enabled: false
-kubernetes_network_tailscale_token: ""
+kubernetes_network_tailscale_authkey: ""
 
 # Kubernetes | Registry
 kubernetes_registry_config: "{{ kubernetes_service_confdir }}/registries.yaml"
@@ -94,7 +94,7 @@ kubernetes_command_args:
     --flannel-backend=none
     {% endif %}
     {% if kubernetes_network_tailscale_enabled %}
-    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_token }}"
+    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_authkey }}"
     {% endif %}
     --data-dir={{ kubernetes_service_statedir }}
     {{ kubernetes_command_extra_args.server }}
@@ -120,7 +120,7 @@ kubernetes_command_args:
       --disable-network-policy
     {% endif %}
     {% if kubernetes_network_tailscale_enabled %}
-    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_token }}"
+    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_authkey }}"
     {% endif %}
     --data-dir={{ kubernetes_service_statedir }}
     {{ kubernetes_command_extra_args.agent }}
