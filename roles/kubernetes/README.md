@@ -10,8 +10,7 @@ https://raw.githubusercontent.com/istio/istio/master/samples/httpbin/httpbin.yam
 
 - https://docs.k3s.io/networking/basic-network-options#custom-cni
 - https://docs.cilium.io/en/stable/installation/k3s/
-- https://docs.cilium.io/en/stable/installation/k
-8s-install-helm/
+- https://docs.cilium.io/en/stable/installation/k8s-install-helm/
 
 ### Gateway API Support
 
