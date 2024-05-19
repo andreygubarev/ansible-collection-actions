@@ -10,7 +10,7 @@
       - kubernetes_cluster_apitoken != ""
       - kubernetes_cluster_bootstrap is defined
       - kubernetes_cluster_bootstrap and kubernetes_node_role == "server" or not kubernetes_cluster_bootstrap
-      - kubernetes_network_flannel_backend in ["vxlan", "host-gw", "wireguard-native"]
+      - kubernetes_network_flannel_backend in ["none", "vxlan", "host-gw", "wireguard-native"]
 
 - name: Assert architecture
   ansible.builtin.assert:

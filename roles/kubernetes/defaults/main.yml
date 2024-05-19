@@ -29,6 +29,7 @@ kubernetes_addon_localstorage_enabled: false
 kubernetes_addon_traefik_enabled: false
 
 # Kubernetes | Network
+kubernetes_network_policy_enabled: true
 kubernetes_network_interface: ""
 kubernetes_network_subnet_pods: "10.42.0.0/16"
 kubernetes_network_subnet_services: "10.43.0.0/16"
@@ -75,6 +76,9 @@ kubernetes_command_args:
     {% endif %}
     {% if kubernetes_network_interface != "" %}
     --flannel-iface={{ kubernetes_network_interface }}
+    {% endif %}
+    {% if not kubernetes_network_policy_enabled %}
+    --disable-network-policy
     {% endif %}
     {% if kubernetes_network_tailscale_enabled %}
     --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_token }}"
