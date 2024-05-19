@@ -50,6 +50,7 @@
     cilium upgrade
     --reuse-values
     --set k8sServiceHost={{ kubernetes_cluster_apiserver }}
+  changed_when: false
 
 - name: Install Cilium
   when: cilium_installed.rc != 0
