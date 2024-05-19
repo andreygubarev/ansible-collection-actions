@@ -117,9 +117,6 @@ kubernetes_command_args:
     {% if kubernetes_network_flannel_interface != "" %}
     --flannel-iface={{ kubernetes_network_flannel_interface }}
     {% endif %}
-    {% elif kubernetes_network_cilium_enabled %}
-    --disable-kube-proxy
-    --disable-network-policy
     {% endif %}
     {% if kubernetes_network_tailscale_enabled %}
     --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_authkey }}"
