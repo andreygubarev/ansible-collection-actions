@@ -83,3 +83,7 @@
 - name: Set node status
   ansible.builtin.set_fact:
     kubernetes_node_running: true
+
+- name: Enable Cilium
+  when: kubernetes_cluster_bootstrap and kubernetes_network_cilium_enabled
+  ansible.builtin.import_tasks: 030-cilium.yml
