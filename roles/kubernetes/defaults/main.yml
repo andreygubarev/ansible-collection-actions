@@ -42,9 +42,6 @@ kubernetes_network_flannel_enabled: true
 kubernetes_network_flannel_backend: vxlan
 kubernetes_network_flannel_interface: ""
 
-# Kubernetes | Network | Cilium
-kubernetes_network_cilium_enabled: false
-
 # Kubernetes | Network | Tailscale
 kubernetes_network_tailscale_enabled: false
 kubernetes_network_tailscale_token: ""
@@ -86,10 +83,6 @@ kubernetes_command_args:
     {% if kubernetes_network_flannel_interface != "" %}
     --flannel-iface={{ kubernetes_network_flannel_interface }}
     {% endif %}
-    {% elif kubernetes_network_cilium_enabled %}
-    --disable-kube-proxy
-    --disable-network-policy
-    --flannel-backend=none
     {% else %}
     --flannel-backend=none
     {% endif %}
@@ -112,12 +105,9 @@ kubernetes_command_args:
     --node-external-ip={{ kubernetes_node_external_ip }}
     {% endif %}
     {% if kubernetes_network_flannel_enabled %}
-      {% if kubernetes_network_flannel_interface != "" %}
-      --flannel-iface={{ kubernetes_network_flannel_interface }}
-      {% endif %}
-    {% elif kubernetes_network_cilium_enabled %}
-      --disable-kube-proxy
-      --disable-network-policy
+    {% if kubernetes_network_flannel_interface != "" %}
+    --flannel-iface={{ kubernetes_network_flannel_interface }}
+    {% endif %}
     {% endif %}
     {% if kubernetes_network_tailscale_enabled %}
     --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_token }}"

@@ -15,9 +15,4 @@ https://raw.githubusercontent.com/istio/istio/master/samples/httpbin/httpbin.yam
 ### Gateway API Support
 
 - https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/
-- https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#kubeproxy-free
-
-```bash
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/experimental-install.yaml
-```
+    - https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#kubeproxy-free

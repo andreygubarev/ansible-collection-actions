@@ -21,13 +21,15 @@ provisioner:
       instance-1:
         kubernetes_node_role: server
         kubernetes_cluster_bootstrap: true
-        kubernetes_addon_embeddedregistry_enabled: true
-        kubernetes_network_flannel_backend: none
+        kubernetes_network_flannel_enabled: true
         # kubernetes_addon_kubevip_enabled: true
         # kubernetes_addon_kubevip_address: "192.168.67.100"
     group_vars:
       all:
         kubernetes_cluster_apiserver: "127.0.0.1"
         kubernetes_cluster_apitoken: "secret"
+        kubernetes_network_tailscale_enabled: true
+        kubernetes_network_tailscale_token: "tskey-auth-kKk2BvdrTS11CNTRL-oECFL1VoWkERmWuUrWVvkEUCV9iwQi6j"
+
 verifier:
   name: testinfra
