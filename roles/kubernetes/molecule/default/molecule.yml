@@ -23,8 +23,6 @@ provisioner:
         kubernetes_cluster_bootstrap: true
         kubernetes_network_flannel_enabled: false
         kubernetes_network_cilium_enabled: true
-        kubernetes_network_tailscale_enabled: true
-        kubernetes_network_tailscale_authkey: "tskey-auth-kebWbjFRwb11CNTRL-8XcWnTnJcdBSCuW3PjoEdBzmG6GXJwwqb"
     group_vars:
       all:
         kubernetes_cluster_apiserver: "127.0.0.1"
