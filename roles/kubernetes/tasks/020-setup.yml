@@ -71,13 +71,13 @@
   ansible.builtin.wait_for:
     path: "{{ kubernetes_service_statedir }}/{{ kubernetes_node_role }}"
 
-- name: Set node status
-  ansible.builtin.set_fact:
-    kubernetes_node_running: true
-
 - name: Setup Cilium
   when: kubernetes_network_cilium_enabled
   block:
     - name: Configure Cilium
       when: kubernetes_cluster_bootstrap
       ansible.builtin.import_tasks: 030-cilium.yml
+
+- name: Set node status
+  ansible.builtin.set_fact:
+    kubernetes_node_running: true

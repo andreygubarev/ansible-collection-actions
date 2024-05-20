@@ -79,24 +79,24 @@
     group: root
 
 ### Cilium ####################################################################
-- name: Set Cilium Architecture (amd64)
+- name: Set Cilium CLI Architecture (amd64)
   when: ansible_architecture == 'x86_64'
   ansible.builtin.set_fact:
     ciliumcli_architecture: amd64
 
-- name: Set Cilium Architecture (arm64)
+- name: Set Cilium CLI Architecture (arm64)
   when: ansible_architecture == 'aarch64'
   ansible.builtin.set_fact:
     ciliumcli_architecture: arm64
 
-- name: Donwload Cilium CLI Archive
+- name: Download Cilium CLI
   ansible.builtin.get_url:
     url: "https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
     checksum: "sha256:https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
     dest: /tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz
     mode: 0644
 
-- name: Extract Cilium CLI Archive
+- name: Extract Cilium CLI
   ansible.builtin.unarchive:
     src: "/tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
     dest: /usr/local/bin
