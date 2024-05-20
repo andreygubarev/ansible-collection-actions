@@ -8,161 +8,17 @@
     group: root
 
 ### kubectl ###################################################################
-- name: Set kubectl Architecture (amd64)
-  when: ansible_architecture == 'x86_64'
-  ansible.builtin.set_fact:
-    kubectl_architecture: amd64
-
-- name: Set kubectl Architecture (arm64)
-  when: ansible_architecture == 'aarch64'
-  ansible.builtin.set_fact:
-    kubectl_architecture: arm64
-
-- name: Cache kubectl Checksum
-  ansible.builtin.stat:
-    path: "{{ kubernetes_download_cache }}/kubectl.sha256"
-  register: kubectl_checksum
-
-- name: Download kubectl Checksum
-  when: not kubectl_checksum.stat.exists
-  ansible.builtin.get_url:
-    url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
-    dest: "{{ kubernetes_download_cache }}/kubectl.sha256"
-    mode: 0644
-
-- name: Cache kubectl
-  ansible.builtin.stat:
-    path: "{{ kubernetes_download_cache }}/kubectl"
-  register: kubectl_binary
-
 - name: Download kubectl
-  when: not kubectl_binary.stat.exists
-  ansible.builtin.get_url:
-    url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl"
-    checksum: "sha256:file://{{ kubernetes_download_cache }}/kubectl.sha256"
-    dest: "{{ kubernetes_download_cache }}/kubectl"
-    mode: 0755
-    owner: root
-    group: root
-
-- name: Install kubectl
-  ansible.builtin.copy:
-    src: "{{ kubernetes_download_cache }}/kubectl"
-    remote_src: true
-    dest: /usr/local/bin/kubectl
-    mode: 0755
-    owner: root
-    group: root
+  ansible.builtin.import_tasks: downloads/kubectl.yml
 
 ### K3S #######################################################################
-- name: Set K3S Architecture (amd64)
-  when: ansible_architecture == 'x86_64'
-  ansible.builtin.set_fact:
-    k3s_architecture: amd64
-
-- name: Set K3S Architecture (arm64)
-  when: ansible_architecture == 'aarch64'
-  ansible.builtin.set_fact:
-    k3s_architecture: arm64
-
-- name: Download K3S Checksum
-  ansible.builtin.get_url:
-    url: "https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-{{ k3s_architecture }}.txt"
-    dest: "{{ kubernetes_download_cache }}/k3s.sha256sum"
-    mode: 0644
-    owner: root
-    group: root
-
-- name: Download K3S (amd64)
-  when: k3s_architecture == 'amd64'
-  ansible.builtin.get_url:
-    url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s
-    checksum: sha256:file://{{ kubernetes_download_cache }}/k3s.sha256sum
-    dest: "{{ kubernetes_download_cache }}/k3s"
-    owner: root
-    group: root
-    mode: 0755
-  register: kubernetes_binary
-
-- name: Download K3S (arm64)
-  when: k3s_architecture == 'arm64'
-  ansible.builtin.get_url:
-    url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s-arm64
-    checksum: sha256:file://{{ kubernetes_download_cache }}/k3s.sha256sum
-    dest: "{{ kubernetes_download_cache }}/k3s"
-    owner: root
-    group: root
-    mode: 0755
-  register: kubernetes_binary
-
-- name: Install K3S
-  ansible.builtin.copy:
-    src: "{{ kubernetes_download_cache }}/k3s"
-    remote_src: true
-    dest: /usr/local/bin/k3s
-    mode: 0755
-    owner: root
-    group: root
+- name: Download k3s
+  ansible.builtin.import_tasks: downloads/k3s.yml
 
 ### Helm ######################################################################
-- name: Set Helm Architecture (amd64)
-  when: ansible_architecture == 'x86_64'
-  ansible.builtin.set_fact:
-    helm_architecture: amd64
-
-- name: Set Helm Architecture (arm64)
-  when: ansible_architecture == 'aarch64'
-  ansible.builtin.set_fact:
-    helm_architecture: arm64
-
-- name: Download Helm
-  ansible.builtin.get_url:
-    url: "https://get.helm.sh/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz"
-    checksum: "sha256:https://get.helm.sh/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz.sha256"
-    dest: /tmp/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz
-    mode: 0644
-
-- name: Extract Helm
-  ansible.builtin.unarchive:
-    src: "/tmp/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz"
-    dest: /usr/local/bin
-    remote_src: true
-    include:
-      - linux-{{ helm_architecture }}/helm
-    extra_opts:
-    - --transform
-    - s|linux-{{ helm_architecture }}/||g
-    creates: /usr/local/bin/helm
-    mode: 0755
-    owner: root
-    group: root
+- name: Download helm
+  ansible.builtin.import_tasks: downloads/helm.yml
 
 ### Cilium ####################################################################
-- name: Set Cilium CLI Architecture (amd64)
-  when: ansible_architecture == 'x86_64'
-  ansible.builtin.set_fact:
-    ciliumcli_architecture: amd64
-
-- name: Set Cilium CLI Architecture (arm64)
-  when: ansible_architecture == 'aarch64'
-  ansible.builtin.set_fact:
-    ciliumcli_architecture: arm64
-
-- name: Download Cilium CLI
-  ansible.builtin.get_url:
-    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
-    checksum: "sha256:https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
-    dest: /tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz
-    mode: 0644
-
-- name: Extract Cilium CLI
-  ansible.builtin.unarchive:
-    src: "/tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
-    dest: /usr/local/bin
-    remote_src: true
-    include:
-      - cilium
-    creates: /usr/local/bin/cilium
-    mode: 0755
-    owner: root
-    group: root
+- name: Download cilium
+  ansible.builtin.import_tasks: downloads/cilium.yml

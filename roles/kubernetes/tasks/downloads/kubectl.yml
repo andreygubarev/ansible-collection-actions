@@ -1,0 +1,46 @@
+---
+- name: Set kubectl Architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    kubectl_architecture: amd64
+
+- name: Set kubectl Architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    kubectl_architecture: arm64
+
+- name: Cache kubectl Checksum
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/kubectl.sha256"
+  register: kubectl_checksum
+
+- name: Download kubectl Checksum
+  when: not kubectl_checksum.stat.exists
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
+    dest: "{{ kubernetes_download_cache }}/kubectl.sha256"
+    mode: 0644
+
+- name: Cache kubectl
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/kubectl"
+  register: kubectl_binary
+
+- name: Download kubectl
+  when: not kubectl_binary.stat.exists
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl"
+    checksum: "sha256:file://{{ kubernetes_download_cache }}/kubectl.sha256"
+    dest: "{{ kubernetes_download_cache }}/kubectl"
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Install kubectl
+  ansible.builtin.copy:
+    src: "{{ kubernetes_download_cache }}/kubectl"
+    remote_src: true
+    dest: /usr/local/bin/kubectl
+    mode: 0755
+    owner: root
+    group: root
