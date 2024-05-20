@@ -10,4 +10,4 @@
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://docker.io/rancher/mirrored-coredns-coredns:1.10.1
-    docker-archive:{{ kubernetes_download_images }}/coredns-1.10.1.tar
+    docker-archive:{{ kubernetes_download_images }}/coredns-1.10.1.tar:rancher/mirrored-coredns-coredns:1.10.1

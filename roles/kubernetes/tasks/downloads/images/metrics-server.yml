@@ -10,4 +10,4 @@
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://docker.io/rancher/mirrored-metrics-server:v0.7.0
-    docker-archive:{{ kubernetes_download_images }}/metrics-server-v0.7.0.tar
+    docker-archive:{{ kubernetes_download_images }}/metrics-server-v0.7.0.tar:rancher/mirrored-metrics-server:v0.7.0

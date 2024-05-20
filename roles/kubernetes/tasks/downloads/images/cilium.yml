@@ -10,4 +10,4 @@
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://quay.io/cilium/cilium:v1.15.5
-    docker-archive:{{ kubernetes_download_images }}/cilium-v1.15.5.tar
+    docker-archive:{{ kubernetes_download_images }}/cilium-v1.15.5.tar:quay.io/cilium/cilium:v1.15.5
