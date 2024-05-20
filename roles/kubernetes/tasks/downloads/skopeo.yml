@@ -23,6 +23,12 @@
     owner: root
     group: root
 
+- name: Rewrite Skopeo SHA256SUM
+  ansible.builtin.replace:
+    path: "{{ kubernetes_download_cache }}/skopeo.SHA256SUM"
+    regexp: './bin/skopeo'
+    replace: 'skopeo'
+
 - name: Check Skopeo
   ansible.builtin.stat:
     path: "{{ kubernetes_download_cache }}/skopeo"
