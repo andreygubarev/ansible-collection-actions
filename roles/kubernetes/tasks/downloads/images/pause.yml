@@ -1,7 +1,7 @@
 ---
 - name: Check Pause
   ansible.builtin.stat:
-    path: "{{ kubernetes_download_cache }}/pause-3.6.tar"
+    path: "{{ kubernetes_download_images }}/pause-3.6.tar"
   register: pause_image
   changed_when: false
 
@@ -10,4 +10,4 @@
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://docker.io/rancher/mirrored-pause:3.6
-    oci-archive:{{ kubernetes_download_cache }}/pause-3.6.tar
+    docker-archive:{{ kubernetes_download_images }}/pause-3.6.tar

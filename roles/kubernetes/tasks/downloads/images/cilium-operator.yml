@@ -1,7 +1,7 @@
 ---
 - name: Check Cilium Operator
   ansible.builtin.stat:
-    path: "{{ kubernetes_download_cache }}/cilium-operator-v1.15.5.tar"
+    path: "{{ kubernetes_download_images }}/cilium-operator-v1.15.5.tar"
   register: ciliumoperator_image
   changed_when: false
 
@@ -10,4 +10,4 @@
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://quay.io/cilium/operator-generic:v1.15.5
-    oci-archive:{{ kubernetes_download_cache }}/cilium-operator-v1.15.5.tar
+    docker-archive:{{ kubernetes_download_images }}/cilium-operator-v1.15.5.tar

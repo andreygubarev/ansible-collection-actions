@@ -1,7 +1,7 @@
 ---
 - name: Check CoreDNS
   ansible.builtin.stat:
-    path: "{{ kubernetes_download_cache }}/coredns-1.10.1.tar"
+    path: "{{ kubernetes_download_images }}/coredns-1.10.1.tar"
   register: coredns_image
   changed_when: false
 
@@ -10,4 +10,4 @@
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://docker.io/rancher/mirrored-coredns-coredns:1.10.1
-    oci-archive:{{ kubernetes_download_cache }}/coredns-1.10.1.tar
+    docker-archive:{{ kubernetes_download_images }}/coredns-1.10.1.tar

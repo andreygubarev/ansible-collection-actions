@@ -28,6 +28,14 @@
   ansible.builtin.import_tasks: downloads/skopeo.yml
 
 ### Docker Images ############################################################
+- name: Ensure cache directory exists
+  ansible.builtin.file:
+    path: "{{ kubernetes_download_images }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
 - name: Download CoreDNS
   ansible.builtin.import_tasks: downloads/images/coredns.yml
 

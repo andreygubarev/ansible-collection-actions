@@ -9,6 +9,7 @@ kubernetes_version_skopeo: 1.14.3
 # Kubernetes | Download
 
 kubernetes_download_cache: "/var/cache/kubernetes"
+kubernetes_download_images: "/var/lib/rancher/k3s/agent/images"
 
 # Kubernetes | Cluster
 kubernetes_cluster_apiserver: ""

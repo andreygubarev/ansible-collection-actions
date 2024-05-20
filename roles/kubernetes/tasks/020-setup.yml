@@ -71,23 +71,6 @@
   retries: 5
   delay: 10
 
-- name: Import Docker Images
-  ansible.builtin.shell: >
-    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
-    k3s ctr image import --base-name {{ item.name }} {{ kubernetes_download_cache }}/{{ item.archive }}
-  changed_when: false
-  with_items:
-    - name: rancher/mirrored-coredns-coredns
-      archive: "coredns-1.10.1.tar"
-    - name: rancher/mirrored-metrics-server
-      archive: "metrics-server-v0.7.0.tar"
-    - name: rancher/mirrored-pause
-      archive: "pause-3.6.tar"
-    - name: quay.io/cilium/cilium
-      archive: "cilium-v1.15.5.tar"
-    - name: quay.io/cilium/operator-generic
-      archive: "cilium-operator-v1.15.5.tar"
-
 - name: Wait for cluster to be ready
   ansible.builtin.wait_for:
     path: "{{ kubernetes_service_statedir }}/{{ kubernetes_node_role }}"

@@ -1,7 +1,7 @@
 ---
 - name: Check Metrics Server
   ansible.builtin.stat:
-    path: "{{ kubernetes_download_cache }}/metrics-server-v0.7.0.tar"
+    path: "{{ kubernetes_download_images }}/metrics-server-v0.7.0.tar"
   register: metricsserver_image
   changed_when: false
 
@@ -10,4 +10,4 @@
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://docker.io/rancher/mirrored-metrics-server:v0.7.0
-    oci-archive:{{ kubernetes_download_cache }}/metrics-server-v0.7.0.tar
+    docker-archive:{{ kubernetes_download_images }}/metrics-server-v0.7.0.tar

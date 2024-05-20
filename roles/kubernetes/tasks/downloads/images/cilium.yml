@@ -1,7 +1,7 @@
 ---
 - name: Check Cilium
   ansible.builtin.stat:
-    path: "{{ kubernetes_download_cache }}/cilium-v1.15.5.tar"
+    path: "{{ kubernetes_download_images }}/cilium-v1.15.5.tar"
   register: cilium_image
   changed_when: false
 
@@ -10,4 +10,4 @@
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://quay.io/cilium/cilium:v1.15.5
-    oci-archive:{{ kubernetes_download_cache }}/cilium-v1.15.5.tar
+    docker-archive:{{ kubernetes_download_images }}/cilium-v1.15.5.tar
