@@ -1,8 +1,7 @@
 # `andreygubarev.common.kubernetes`
 
-# Example
+Reproducible Kubernetes cluster setup.
 
-https://raw.githubusercontent.com/istio/istio/master/samples/httpbin/httpbin.yaml
 
 # Reference
 
