@@ -15,6 +15,9 @@ tags:
 
 dependencies:
   "ansible.posix": ">=1.0.0,<2.0.0"
+  "community.crypto": ">=2.0.0,<3.0.0"
+  "community.general": ">=8.0.0,<9.0.0"
+  "kubernetes.core": ">=2.0.0,<3.0.0"
 
 repository: https://github.com/andreygubarev/ansible-collection-common
 documentation: https://github.com/andreygubarev/ansible-collection-common
