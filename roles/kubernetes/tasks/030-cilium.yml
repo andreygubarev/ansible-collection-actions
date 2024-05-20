@@ -1,0 +1,81 @@
+---
+- name: Set Cilium Architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    ciliumcli_architecture: amd64
+
+- name: Set Cilium Architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    ciliumcli_architecture: arm64
+
+- name: Donwload Cilium CLI Archive
+  ansible.builtin.get_url:
+    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
+    checksum: "sha256:https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
+    dest: /tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz
+    mode: 0644
+
+- name: Extract Cilium CLI Archive
+  ansible.builtin.unarchive:
+    src: "/tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
+    dest: /usr/local/bin
+    remote_src: true
+    include:
+      - cilium
+    creates: /usr/local/bin/cilium
+    mode: 0755
+    owner: root
+    group: root
+
+# TODO: improve installation, Cilium requires correct value for `k8sServiceHost`
+# on the first run (when Cilium is not installed yet) localhost can be used
+# on the consecutive runs the value should be reachable Kubernetes API server
+# for private clusters: it's possible to use private IP address of bootstrap node
+
+# kube-vip requires Cilium to be up and running to start
+
+- name: Check whether Cilium is installed
+  ansible.builtin.shell: >
+    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
+    k3s kubectl -n kube-system get daemonset cilium
+  register: cilium_installed
+  changed_when: false
+  ignore_errors: true
+
+- name: Upgrade Cilium
+  when: cilium_installed.rc == 0
+  ansible.builtin.shell: >
+    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
+    cilium upgrade
+    --reuse-values
+    --set k8sServiceHost={{ kubernetes_cluster_apiserver }}
+  changed_when: false
+
+- name: Install Cilium
+  when: cilium_installed.rc != 0
+  ansible.builtin.shell: >
+    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
+    cilium install
+    --version {{ kubernetes_network_cilium_version }}
+    --namespace kube-system
+    --set operator.replicas=1
+    --set ipam.operator.clusterPoolIPv4PodCIDRList="{{ kubernetes_network_subnet_pods }}"
+    --set loadBalancer.serviceTopology=true
+    --set kubeProxyReplacement=true
+    --set bpf.lbExternalClusterIP=true
+    --set k8sServiceHost=127.0.0.1
+    --set k8sServicePort=6443
+  changed_when: false
+
+- name: Check Cilium Status
+  ansible.builtin.shell: >
+    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
+    cilium status --wait
+  changed_when: false
+
+- name: Advertise Kubernetes Pods to Tailscale
+  when: kubernetes_network_tailscale_enabled
+  ansible.builtin.command: >
+    tailscale up --advertise-routes={{ kubernetes_network_subnet_pods }}
+  changed_when: false

@@ -5,8 +5,6 @@ driver:
   name: molecule-qemu
 platforms:
   - name: instance-1
-    groups:
-      - kubernetes_server
     image_arch: aarch64
     image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
     image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
@@ -30,22 +28,16 @@ provisioner:
     host_vars:
       instance-1:
         kubernetes_node_role: server
-        kubernetes_node_labels:
-          - topology.kubernetes.io/region=us-east-1
-          - topology.kubernetes.io/zone=us-east-1a
         kubernetes_cluster_bootstrap: true
       instance-2:
         kubernetes_node_role: agent
-        kubernetes_node_labels:
-          - topology.kubernetes.io/region=us-east-1
-          - topology.kubernetes.io/zone=us-east-1b
     group_vars:
       all:
-        kubernetes_cluster_apiserver: "192.168.67.100"
+        kubernetes_cluster_apiserver: "192.168.68.100"
         kubernetes_cluster_apitoken: "secret"
-      kubernetes_server:
-        kubernetes_addon_embeddedregistry_enabled: true
         kubernetes_addon_kubevip_enabled: true
-        kubernetes_addon_kubevip_address: "192.168.67.100"
+        kubernetes_network_cilium_enabled: true
+        kubernetes_network_flannel_enabled: false
+
 verifier:
   name: testinfra

@@ -20,7 +20,7 @@ kubernetes_addon_coredns_enabled: true
 # Kubernetes | Addons | KubeVIP
 kubernetes_addon_kubevip_enabled: false
 kubernetes_addon_kubevip_version: v0.6.4
-kubernetes_addon_kubevip_address: ""
+kubernetes_addon_kubevip_address: "{{ kubernetes_cluster_apiserver }}"
 
 # Kubernetes | Addons | Local Storage
 kubernetes_addon_localstorage_enabled: false
@@ -42,9 +42,14 @@ kubernetes_network_flannel_enabled: true
 kubernetes_network_flannel_backend: vxlan
 kubernetes_network_flannel_interface: ""
 
+# Kubernetes | Network | Cilium
+kubernetes_network_cilium_enabled: false
+kubernetes_network_cilium_version: 1.15.5
+kubernetes_network_ciliumcli_version: 0.16.7
+
 # Kubernetes | Network | Tailscale
 kubernetes_network_tailscale_enabled: false
-kubernetes_network_tailscale_token: ""
+kubernetes_network_tailscale_authkey: ""
 
 # Kubernetes | Registry
 kubernetes_registry_config: "{{ kubernetes_service_confdir }}/registries.yaml"
@@ -83,11 +88,15 @@ kubernetes_command_args:
     {% if kubernetes_network_flannel_interface != "" %}
     --flannel-iface={{ kubernetes_network_flannel_interface }}
     {% endif %}
+    {% elif kubernetes_network_cilium_enabled %}
+    --disable-kube-proxy
+    --disable-network-policy
+    --flannel-backend=none
     {% else %}
     --flannel-backend=none
     {% endif %}
     {% if kubernetes_network_tailscale_enabled %}
-    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_token }}"
+    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_authkey }}"
     {% endif %}
     --data-dir={{ kubernetes_service_statedir }}
     {{ kubernetes_command_extra_args.server }}
@@ -110,7 +119,7 @@ kubernetes_command_args:
     {% endif %}
     {% endif %}
     {% if kubernetes_network_tailscale_enabled %}
-    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_token }}"
+    --vpn-auth="name=tailscale,joinKey={{ kubernetes_network_tailscale_authkey }}"
     {% endif %}
     --data-dir={{ kubernetes_service_statedir }}
     {{ kubernetes_command_extra_args.agent }}
