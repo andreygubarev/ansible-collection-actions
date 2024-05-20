@@ -11,3 +11,5 @@
     skopeo copy --insecure-policy
     docker://docker.io/rancher/mirrored-pause:3.6
     docker-archive:{{ kubernetes_download_images }}/pause-3.6.tar:rancher/mirrored-pause:3.6
+  args:
+    creates: "{{ kubernetes_download_images }}/pause-3.6.tar"

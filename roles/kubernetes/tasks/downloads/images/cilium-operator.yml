@@ -11,3 +11,5 @@
     skopeo copy --insecure-policy
     docker://quay.io/cilium/operator-generic:v1.15.5
     docker-archive:{{ kubernetes_download_images }}/cilium-operator-v1.15.5.tar:quay.io/cilium/operator-generic:v1.15.5
+  args:
+    creates: "{{ kubernetes_download_images }}/cilium-operator-v1.15.5.tar"
