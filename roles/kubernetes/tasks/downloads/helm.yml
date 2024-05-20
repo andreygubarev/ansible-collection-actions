@@ -1,0 +1,50 @@
+---
+- name: Set Helm architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    helm_architecture: amd64
+
+- name: Set Helm architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    helm_architecture: arm64
+
+- name: Check Helm SHA256SUM
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz.SHA256SUM"
+  register: helm_checksum
+
+- name: Download Helm Checksum
+  when: not helm_checksum.stat.exists
+  ansible.builtin.get_url:
+    url: "https://get.helm.sh/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz.sha256"
+    dest: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz.SHA256SUM"
+    mode: 0644
+
+- name: Check Helm
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz"
+  register: helm_binary
+
+- name: Download Helm
+  when: not helm_binary.stat.exists
+  ansible.builtin.get_url:
+    url: "https://get.helm.sh/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz"
+    checksum: "sha256:file://{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz.SHA256SUM"
+    dest: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz"
+    mode: 0644
+
+- name: Install Helm
+  ansible.builtin.unarchive:
+    src: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz"
+    dest: /usr/local/bin
+    remote_src: true
+    include:
+      - linux-{{ helm_architecture }}/helm
+    extra_opts:
+    - --transform
+    - s|linux-{{ helm_architecture }}/||g
+    creates: /usr/local/bin/helm
+    mode: 0755
+    owner: root
+    group: root

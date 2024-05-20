@@ -38,7 +38,11 @@
     release_namespace: kube-system
     wait: true
     values:
+      image:
+        useDigest: false
       operator:
+        image:
+          useDigest: false
         replicas: 1
       ipam:
         operator:

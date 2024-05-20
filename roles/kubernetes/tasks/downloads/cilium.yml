@@ -1,0 +1,47 @@
+---
+- name: Set Cilium architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    ciliumcli_architecture: amd64
+
+- name: Set Cilium architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    ciliumcli_architecture: arm64
+
+- name: Check Cilium SHA256SUM
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/cilium.tar.gz.SHA256SUM"
+  register: ciliumcli_checksum
+
+- name: Download Cilium SHA256SUM
+  when: not ciliumcli_checksum.stat.exists
+  ansible.builtin.get_url:
+    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
+    dest: "{{ kubernetes_download_cache }}/cilium.tar.gz.SHA256SUM"
+    mode: 0644
+
+- name: Check Cilium
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/cilium.tar.gz"
+  register: ciliumcli_binary
+
+- name: Download Cilium
+  when: not ciliumcli_binary.stat.exists
+  ansible.builtin.get_url:
+    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
+    checksum: "sha256:file://{{ kubernetes_download_cache }}/cilium.tar.gz.SHA256SUM"
+    dest: "{{ kubernetes_download_cache }}/cilium.tar.gz"
+    mode: 0644
+
+- name: Install Cilium
+  ansible.builtin.unarchive:
+    src: "{{ kubernetes_download_cache }}/cilium.tar.gz"
+    dest: /usr/local/bin
+    remote_src: true
+    include:
+      - cilium
+    creates: /usr/local/bin/cilium
+    mode: 0755
+    owner: root
+    group: root
