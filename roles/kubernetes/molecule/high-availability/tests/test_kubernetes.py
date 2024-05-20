@@ -28,7 +28,7 @@ def test_kubernetes_nodes_ready(host):
     assert cmd.rc == 0
 
     lines = cmd.stdout.splitlines()[1:]
-    assert len(lines) == 2
+    assert len(lines) == 3
 
     for line in lines:
         fields = line.split()

@@ -7,27 +7,6 @@
     owner: root
     group: root
 
-### kubectl ###################################################################
-- name: Download kubectl
-  ansible.builtin.import_tasks: downloads/kubectl.yml
-
-### K3S #######################################################################
-- name: Download K3S
-  ansible.builtin.import_tasks: downloads/k3s.yml
-
-### Helm ######################################################################
-- name: Download Helm
-  ansible.builtin.import_tasks: downloads/helm.yml
-
-### Cilium ####################################################################
-- name: Download Cilium
-  ansible.builtin.import_tasks: downloads/cilium.yml
-
-### Skopeo ####################################################################
-- name: Download Skopeo
-  ansible.builtin.import_tasks: downloads/skopeo.yml
-
-### Docker Images ############################################################
 - name: Ensure cache directory exists
   ansible.builtin.file:
     path: "{{ kubernetes_download_images }}"
@@ -36,17 +15,36 @@
     owner: root
     group: root
 
-- name: Download CoreDNS
-  ansible.builtin.import_tasks: downloads/images/coredns.yml
+### K3S #######################################################################
+- name: Download K3S
+  ansible.builtin.import_tasks: downloads/k3s.yml
 
-- name: Download Metrics Server
-  ansible.builtin.import_tasks: downloads/images/metrics-server.yml
+- name: Download Bootstrap
+  when: kubernetes_cluster_bootstrap
+  block:
+    - name: Download kubectl
+      ansible.builtin.import_tasks: downloads/kubectl.yml
 
-- name: Download Pause
-  ansible.builtin.import_tasks: downloads/images/pause.yml
+    - name: Download Helm
+      ansible.builtin.import_tasks: downloads/helm.yml
 
-- name: Download Cilium
-  ansible.builtin.import_tasks: downloads/images/cilium.yml
+    - name: Download Cilium
+      ansible.builtin.import_tasks: downloads/cilium.yml
 
-- name: Download Cilium Operator
-  ansible.builtin.import_tasks: downloads/images/cilium-operator.yml
+    - name: Download Skopeo
+      ansible.builtin.import_tasks: downloads/skopeo.yml
+
+    - name: Download CoreDNS Image
+      ansible.builtin.import_tasks: downloads/images/coredns.yml
+
+    - name: Download Metrics Server Image
+      ansible.builtin.import_tasks: downloads/images/metrics-server.yml
+
+    - name: Download Pause Image
+      ansible.builtin.import_tasks: downloads/images/pause.yml
+
+    - name: Download Cilium Image
+      ansible.builtin.import_tasks: downloads/images/cilium.yml
+
+    - name: Download Cilium Operator Image
+      ansible.builtin.import_tasks: downloads/images/cilium-operator.yml
