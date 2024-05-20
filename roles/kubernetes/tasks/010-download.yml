@@ -12,13 +12,13 @@
   ansible.builtin.import_tasks: downloads/kubectl.yml
 
 ### K3S #######################################################################
-- name: Download k3s
+- name: Download K3S
   ansible.builtin.import_tasks: downloads/k3s.yml
 
 ### Helm ######################################################################
-- name: Download helm
+- name: Download Helm
   ansible.builtin.import_tasks: downloads/helm.yml
 
 ### Cilium ####################################################################
-- name: Download cilium
+- name: Download Cilium
   ansible.builtin.import_tasks: downloads/cilium.yml

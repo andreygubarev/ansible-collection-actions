@@ -1,27 +1,27 @@
 ---
-- name: Set kubectl Architecture (amd64)
+- name: Set kubectl architecture (amd64)
   when: ansible_architecture == 'x86_64'
   ansible.builtin.set_fact:
     kubectl_architecture: amd64
 
-- name: Set kubectl Architecture (arm64)
+- name: Set kubectl architecture (arm64)
   when: ansible_architecture == 'aarch64'
   ansible.builtin.set_fact:
     kubectl_architecture: arm64
 
-- name: Cache kubectl Checksum
+- name: Check kubectl SHA256SUM
   ansible.builtin.stat:
-    path: "{{ kubernetes_download_cache }}/kubectl.sha256"
+    path: "{{ kubernetes_download_cache }}/kubectl.SHA256SUM"
   register: kubectl_checksum
 
 - name: Download kubectl Checksum
   when: not kubectl_checksum.stat.exists
   ansible.builtin.get_url:
     url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
-    dest: "{{ kubernetes_download_cache }}/kubectl.sha256"
+    dest: "{{ kubernetes_download_cache }}/kubectl.SHA256SUM"
     mode: 0644
 
-- name: Cache kubectl
+- name: Check kubectl
   ansible.builtin.stat:
     path: "{{ kubernetes_download_cache }}/kubectl"
   register: kubectl_binary
@@ -30,7 +30,7 @@
   when: not kubectl_binary.stat.exists
   ansible.builtin.get_url:
     url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl"
-    checksum: "sha256:file://{{ kubernetes_download_cache }}/kubectl.sha256"
+    checksum: "sha256:file://{{ kubernetes_download_cache }}/kubectl.SHA256SUM"
     dest: "{{ kubernetes_download_cache }}/kubectl"
     mode: 0755
     owner: root
