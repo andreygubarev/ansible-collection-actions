@@ -5,6 +5,10 @@ kubernetes_version_kubectl: "{{ kubernetes_version }}"
 kubernetes_version_k3s: "v{{ kubernetes_version }}+k3s1"
 kubernetes_version_helm: 3.15.0
 
+# Kubernetes | Download
+
+kubernetes_download_cache: "/var/cache/kubernetes"
+
 # Kubernetes | Cluster
 kubernetes_cluster_apiserver: ""
 kubernetes_cluster_apitoken: ""

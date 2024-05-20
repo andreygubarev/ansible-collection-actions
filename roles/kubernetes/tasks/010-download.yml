@@ -1,4 +1,12 @@
 ---
+- name: Ensure cache directory exists
+  ansible.builtin.file:
+    path: "{{ kubernetes_download_cache }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
 ### kubectl ###################################################################
 - name: Set kubectl Architecture (amd64)
   when: ansible_architecture == 'x86_64'
@@ -10,40 +18,91 @@
   ansible.builtin.set_fact:
     kubectl_architecture: arm64
 
+- name: Cache kubectl Checksum
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/kubectl.sha256"
+  register: kubectl_checksum
+
+- name: Download kubectl Checksum
+  when: not kubectl_checksum.stat.exists
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
+    dest: "{{ kubernetes_download_cache }}/kubectl.sha256"
+    mode: 0644
+
+- name: Cache kubectl
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/kubectl"
+  register: kubectl_binary
+
 - name: Download kubectl
+  when: not kubectl_binary.stat.exists
   ansible.builtin.get_url:
     url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl"
-    checksum: "sha256:https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
+    checksum: "sha256:file://{{ kubernetes_download_cache }}/kubectl.sha256"
+    dest: "{{ kubernetes_download_cache }}/kubectl"
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Install kubectl
+  ansible.builtin.copy:
+    src: "{{ kubernetes_download_cache }}/kubectl"
+    remote_src: true
     dest: /usr/local/bin/kubectl
     mode: 0755
     owner: root
     group: root
 
 ### K3S #######################################################################
-- name: Download K3S (x64)
+- name: Set K3S Architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    k3s_architecture: amd64
+
+- name: Set K3S Architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    k3s_architecture: arm64
+
+- name: Download K3S Checksum
+  ansible.builtin.get_url:
+    url: "https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-{{ k3s_architecture }}.txt"
+    dest: "{{ kubernetes_download_cache }}/k3s.sha256sum"
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Download K3S (amd64)
+  when: k3s_architecture == 'amd64'
   ansible.builtin.get_url:
     url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s
-    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-amd64.txt
-    dest: "{{ kubernetes_command }}"
+    checksum: sha256:file://{{ kubernetes_download_cache }}/k3s.sha256sum
+    dest: "{{ kubernetes_download_cache }}/k3s"
     owner: root
     group: root
     mode: 0755
   register: kubernetes_binary
-  when: ansible_facts.architecture == "x86_64"
 
 - name: Download K3S (arm64)
+  when: k3s_architecture == 'arm64'
   ansible.builtin.get_url:
     url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s-arm64
-    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-arm64.txt
-    dest: "{{ kubernetes_command }}"
+    checksum: sha256:file://{{ kubernetes_download_cache }}/k3s.sha256sum
+    dest: "{{ kubernetes_download_cache }}/k3s"
     owner: root
     group: root
     mode: 0755
   register: kubernetes_binary
-  when:
-    - ( ansible_facts.architecture is search("arm") and
-        ansible_facts.userspace_bits == "64" ) or
-      ansible_facts.architecture is search("aarch64")
+
+- name: Install K3S
+  ansible.builtin.copy:
+    src: "{{ kubernetes_download_cache }}/k3s"
+    remote_src: true
+    dest: /usr/local/bin/k3s
+    mode: 0755
+    owner: root
+    group: root
 
 ### Helm ######################################################################
 - name: Set Helm Architecture (amd64)
