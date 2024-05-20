@@ -22,3 +22,7 @@
 ### Cilium ####################################################################
 - name: Download Cilium
   ansible.builtin.import_tasks: downloads/cilium.yml
+
+### Skopeo ####################################################################
+- name: Download Skopeo
+  ansible.builtin.import_tasks: downloads/skopeo.yml
