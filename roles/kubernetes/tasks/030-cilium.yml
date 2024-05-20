@@ -20,9 +20,14 @@
   ignore_errors: true
 
 - name: Set Kubernetes Cluster API Server
+  when: cilium_installed.rc == 0
+  ansible.builtin.set_fact:
+    kubernetes_service_host: "{{ kubernetes_cluster_apiserver }}"
+
+- name: Set Kubernetes Cluster API Server
   when: cilium_installed.rc != 0
   ansible.builtin.set_fact:
-    kubernetes_cluster_apiserver: "127.0.0.1"
+    kubernetes_service_host: "127.0.0.1"
 
 - name: Install Cilium
   kubernetes.core.helm:
@@ -43,7 +48,7 @@
       kubeProxyReplacement: true
       bpf:
         lbExternalClusterIP: true
-      k8sServiceHost: "{{ kubernetes_cluster_apiserver }}"
+      k8sServiceHost: "{{ kubernetes_service_host }}"
       k8sServicePort: 6443
 
 - name: Wait for Cilium to be ready
