@@ -26,3 +26,19 @@
 ### Skopeo ####################################################################
 - name: Download Skopeo
   ansible.builtin.import_tasks: downloads/skopeo.yml
+
+### Docker Images ############################################################
+- name: Download CoreDNS
+  ansible.builtin.import_tasks: downloads/images/coredns.yml
+
+- name: Download Metrics Server
+  ansible.builtin.import_tasks: downloads/images/metrics-server.yml
+
+- name: Download Pause
+  ansible.builtin.import_tasks: downloads/images/pause.yml
+
+- name: Download Cilium
+  ansible.builtin.import_tasks: downloads/images/cilium.yml
+
+- name: Download Cilium Operator
+  ansible.builtin.import_tasks: downloads/images/cilium-operator.yml

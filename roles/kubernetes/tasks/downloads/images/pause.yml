@@ -1,0 +1,18 @@
+---
+- name: Check Pause
+  ansible.builtin.stat:
+    path: "{{ kubernetes_download_cache }}/pause-3.6.tar"
+  register: pause_image
+  changed_when: false
+
+- name: Save Metrics Server
+  when: not pause_image.stat.exists
+  ansible.builtin.shell: >
+    skopeo copy --insecure-policy
+    docker://docker.io/rancher/mirrored-pause:3.6
+    oci-archive:{{ kubernetes_download_cache }}/pause-3.6.tar
+
+- name: Import Metrics Server
+  ansible.builtin.shell: >
+    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
+    k3s ctr image import {{ kubernetes_download_cache }}/pause-3.6.tar
