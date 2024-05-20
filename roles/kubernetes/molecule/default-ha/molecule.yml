@@ -20,6 +20,14 @@ platforms:
     network_ssh_port: 22
     vm_cpus: 2
     vm_memory: 2048
+  - name: instance-3
+    image_arch: aarch64
+    image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
+    image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
+    network_mode: vmnet-shared
+    network_ssh_port: 22
+    vm_cpus: 2
+    vm_memory: 2048
 provisioner:
   name: ansible
   lint:
@@ -30,14 +38,14 @@ provisioner:
         kubernetes_node_role: server
         kubernetes_cluster_bootstrap: true
       instance-2:
+        kubernetes_node_role: server
+      instance-3:
         kubernetes_node_role: agent
     group_vars:
       all:
         kubernetes_cluster_apiserver: "192.168.68.100"
         kubernetes_cluster_apitoken: "secret"
         kubernetes_addon_kubevip_enabled: true
-        kubernetes_network_cilium_enabled: true
-        kubernetes_network_flannel_enabled: false
 
 verifier:
   name: testinfra
