@@ -20,6 +20,8 @@ provisioner:
         kubernetes_cluster_apiserver: "127.0.0.1"
         kubernetes_cluster_apitoken: "secret"
         kubernetes_cluster_bootstrap: true
+        kubernetes_network_cilium_enabled: true
+        kubernetes_network_flannel_enabled: false
         kubernetes_node_role: server
 
 verifier:

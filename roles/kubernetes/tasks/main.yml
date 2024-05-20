@@ -5,8 +5,17 @@
 - name: Download
   ansible.builtin.import_tasks: 010-download.yml
 
+- name: Register node status
+  ansible.builtin.stat:
+    path: "{{ kubernetes_service_statedir }}/server/node-token"
+  register: kubernetes_node_running
+
+- name: Set node status
+  ansible.builtin.set_fact:
+    kubernetes_node_running: "{{ kubernetes_node_running.stat.exists }}"
+
 - name: Bootstrap cluster
-  when: kubernetes_cluster_bootstrap
+  when: kubernetes_cluster_bootstrap and not kubernetes_node_running
   ansible.builtin.import_tasks: 020-setup.yml
 
 - name: Wait for cluster to be ready

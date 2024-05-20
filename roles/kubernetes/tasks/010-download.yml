@@ -1,5 +1,6 @@
 ---
-- name: Download k3s binary x64
+### K3S #######################################################################
+- name: Download K3S (x64)
   ansible.builtin.get_url:
     url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/k3s
     checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/sha256sum-amd64.txt
@@ -10,7 +11,7 @@
   register: kubernetes_binary
   when: ansible_facts.architecture == "x86_64"
 
-- name: Download k3s binary arm64
+- name: Download K3S (arm64)
   ansible.builtin.get_url:
     url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/k3s-arm64
     checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/sha256sum-arm64.txt
@@ -23,3 +24,33 @@
     - ( ansible_facts.architecture is search("arm") and
         ansible_facts.userspace_bits == "64" ) or
       ansible_facts.architecture is search("aarch64")
+
+### Cilium ####################################################################
+- name: Set Cilium Architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    ciliumcli_architecture: amd64
+
+- name: Set Cilium Architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    ciliumcli_architecture: arm64
+
+- name: Donwload Cilium CLI Archive
+  ansible.builtin.get_url:
+    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
+    checksum: "sha256:https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
+    dest: /tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz
+    mode: 0644
+
+- name: Extract Cilium CLI Archive
+  ansible.builtin.unarchive:
+    src: "/tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
+    dest: /usr/local/bin
+    remote_src: true
+    include:
+      - cilium
+    creates: /usr/local/bin/cilium
+    mode: 0755
+    owner: root
+    group: root

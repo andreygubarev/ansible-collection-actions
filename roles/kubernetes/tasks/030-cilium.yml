@@ -1,33 +1,4 @@
 ---
-- name: Set Cilium Architecture (amd64)
-  when: ansible_architecture == 'x86_64'
-  ansible.builtin.set_fact:
-    ciliumcli_architecture: amd64
-
-- name: Set Cilium Architecture (arm64)
-  when: ansible_architecture == 'aarch64'
-  ansible.builtin.set_fact:
-    ciliumcli_architecture: arm64
-
-- name: Donwload Cilium CLI Archive
-  ansible.builtin.get_url:
-    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
-    checksum: "sha256:https://github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
-    dest: /tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz
-    mode: 0644
-
-- name: Extract Cilium CLI Archive
-  ansible.builtin.unarchive:
-    src: "/tmp/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
-    dest: /usr/local/bin
-    remote_src: true
-    include:
-      - cilium
-    creates: /usr/local/bin/cilium
-    mode: 0755
-    owner: root
-    group: root
-
 # TODO: improve installation, Cilium requires correct value for `k8sServiceHost`
 # on the first run (when Cilium is not installed yet) localhost can be used
 # on the consecutive runs the value should be reachable Kubernetes API server
@@ -45,12 +16,24 @@
 
 - name: Upgrade Cilium
   when: cilium_installed.rc == 0
-  ansible.builtin.shell: >
-    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
-    cilium upgrade
-    --reuse-values
-    --set k8sServiceHost={{ kubernetes_cluster_apiserver }}
-  changed_when: false
+  block:
+    - name: Get KUBERNETES_SERVICE_HOST value
+      ansible.builtin.shell: >
+        KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
+        k3s kubectl get daemonset cilium
+        -n kube-system
+        -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="KUBERNETES_SERVICE_HOST")].value}'
+      register: kubernetes_service_host
+      changed_when: false
+
+    - name: Upgrade Cilium
+      when: kubernetes_cluster_apiserver != kubernetes_service_host.stdout
+      ansible.builtin.shell: >
+        KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
+        cilium upgrade
+        --reuse-values
+        --set k8sServiceHost={{ kubernetes_cluster_apiserver }}
+      changed_when: false
 
 - name: Install Cilium
   when: cilium_installed.rc != 0
