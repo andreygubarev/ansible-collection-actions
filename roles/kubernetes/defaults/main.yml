@@ -1,6 +1,7 @@
 ---
 # Kubernetes
 kubernetes_version: v1.30.0+k3s1
+kubernetes_version_helm: 3.15.0
 
 # Kubernetes | Cluster
 kubernetes_cluster_apiserver: ""

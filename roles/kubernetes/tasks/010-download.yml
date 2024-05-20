@@ -25,6 +25,39 @@
         ansible_facts.userspace_bits == "64" ) or
       ansible_facts.architecture is search("aarch64")
 
+### Helm ######################################################################
+- name: Set Helm Architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    helm_architecture: amd64
+
+- name: Set Helm Architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    helm_architecture: arm64
+
+- name: Download Helm
+  ansible.builtin.get_url:
+    url: "https://get.helm.sh/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz"
+    checksum: "sha256:https://get.helm.sh/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz.sha256"
+    dest: /tmp/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz
+    mode: 0644
+
+- name: Extract Helm
+  ansible.builtin.unarchive:
+    src: "/tmp/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz"
+    dest: /usr/local/bin
+    remote_src: true
+    include:
+      - linux-{{ helm_architecture }}/helm
+    extra_opts:
+    - --transform
+    - s|linux-{{ helm_architecture }}/||g
+    creates: /usr/local/bin/helm
+    mode: 0755
+    owner: root
+    group: root
+
 ### Cilium ####################################################################
 - name: Set Cilium Architecture (amd64)
   when: ansible_architecture == 'x86_64'
