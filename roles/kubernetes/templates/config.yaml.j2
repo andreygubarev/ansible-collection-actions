@@ -17,8 +17,8 @@ server: https://{{ kubernetes_cluster_apiserver }}:6443
 
 {% if kubernetes_node_role == 'server' %}
 write-kubeconfig-mode: "0644"
-{% endif %}
-
 {% if kubernetes_registry_embedded_enabled %}
 embedded-registry: true
 {% endif %}
+{% endif %}
+
