@@ -7,12 +7,7 @@
 
 - name: Save Metrics Server
   when: not metricsserver_image.stat.exists
-  ansible.builtin.shell: |
+  ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://docker.io/rancher/mirrored-metrics-server:v0.7.0
     oci-archive:{{ kubernetes_download_cache }}/metrics-server-v0.7.0.tar
-
-- name: Import Metrics Server
-  ansible.builtin.shell: |
-    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
-    k3s ctr image import {{ kubernetes_download_cache }}/metrics-server-v0.7.0.tar

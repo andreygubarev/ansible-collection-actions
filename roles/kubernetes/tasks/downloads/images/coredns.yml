@@ -7,12 +7,7 @@
 
 - name: Save CoreDNS
   when: not coredns_image.stat.exists
-  ansible.builtin.shell: |
+  ansible.builtin.shell: >
     skopeo copy --insecure-policy
     docker://docker.io/rancher/mirrored-coredns-coredns:1.10.1
     oci-archive:{{ kubernetes_download_cache }}/coredns-1.10.1.tar
-
-- name: Import CoreDNS
-  ansible.builtin.shell: |
-    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
-    k3s ctr image import {{ kubernetes_download_cache }}/coredns-1.10.1.tar

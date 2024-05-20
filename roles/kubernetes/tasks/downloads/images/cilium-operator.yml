@@ -11,8 +11,3 @@
     skopeo copy --insecure-policy
     docker://quay.io/cilium/operator-generic:v1.15.5
     oci-archive:{{ kubernetes_download_cache }}/cilium-operator-v1.15.5.tar
-
-- name: Import Cilium Operator
-  ansible.builtin.shell: >
-    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
-    k3s ctr image import {{ kubernetes_download_cache }}/cilium-v1.15.5.tar
