@@ -5,7 +5,9 @@ name = "pypi"
 
 [packages]
 ansible = "~=9.0"
+kubernetes = "~= 29.0"
 netaddr = "*"
+PyYAML = "~= 6.0"
 
 [dev-packages]
 ansible-lint = "*"
