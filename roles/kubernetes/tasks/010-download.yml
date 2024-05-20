@@ -1,9 +1,29 @@
 ---
+### kubectl ###################################################################
+- name: Set kubectl Architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    kubectl_architecture: amd64
+
+- name: Set kubectl Architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    kubectl_architecture: arm64
+
+- name: Download kubectl
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl"
+    checksum: "sha256:https://dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
+    dest: /usr/local/bin/kubectl
+    mode: 0755
+    owner: root
+    group: root
+
 ### K3S #######################################################################
 - name: Download K3S (x64)
   ansible.builtin.get_url:
-    url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/k3s
-    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/sha256sum-amd64.txt
+    url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s
+    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-amd64.txt
     dest: "{{ kubernetes_command }}"
     owner: root
     group: root
@@ -13,8 +33,8 @@
 
 - name: Download K3S (arm64)
   ansible.builtin.get_url:
-    url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/k3s-arm64
-    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/sha256sum-arm64.txt
+    url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s-arm64
+    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-arm64.txt
     dest: "{{ kubernetes_command }}"
     owner: root
     group: root

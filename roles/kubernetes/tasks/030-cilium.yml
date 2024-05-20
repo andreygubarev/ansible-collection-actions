@@ -9,7 +9,7 @@
 - name: Check whether Cilium is installed
   ansible.builtin.shell: >
     KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
-    k3s kubectl -n kube-system get daemonset cilium
+    kubectl -n kube-system get daemonset cilium
   register: cilium_installed
   changed_when: false
   ignore_errors: true
@@ -20,7 +20,7 @@
     - name: Get KUBERNETES_SERVICE_HOST value
       ansible.builtin.shell: >
         KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
-        k3s kubectl get daemonset cilium
+        kubectl get daemonset cilium
         -n kube-system
         -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="KUBERNETES_SERVICE_HOST")].value}'
       register: kubernetes_service_host
