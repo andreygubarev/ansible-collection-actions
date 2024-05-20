@@ -14,4 +14,4 @@ Reproducible Kubernetes cluster setup.
 ### Gateway API Support
 
 - https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/
-    - https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#kubeproxy-free
+- https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#kubeproxy-free
