@@ -49,7 +49,7 @@
 - name: Check Cilium Status
   ansible.builtin.shell: >
     KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
-    cilium status --wait
+    kubectl -n kube-system wait --for=condition=ready pod -l app.kubernetes.io/part-of=cilium --timeout=300s
   changed_when: false
 
 - name: Advertise Kubernetes Pods to Tailscale
