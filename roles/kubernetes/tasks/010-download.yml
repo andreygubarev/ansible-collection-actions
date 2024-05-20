@@ -1,4 +1,5 @@
 ---
+### K3S #######################################################################
 - name: Download K3S (x64)
   ansible.builtin.get_url:
     url: https://github.com/k3s-io/k3s/releases/download/{{ kubernetes_version }}/k3s
@@ -24,6 +25,7 @@
         ansible_facts.userspace_bits == "64" ) or
       ansible_facts.architecture is search("aarch64")
 
+### Cilium ####################################################################
 - name: Set Cilium Architecture (amd64)
   when: ansible_architecture == 'x86_64'
   ansible.builtin.set_fact:
