@@ -1,5 +1,5 @@
 namespace: andreygubarev
-name: common
+name: core
 version: 1.0.0
 
 readme: README.md
