@@ -21,8 +21,16 @@
 
 - name: Set Kubernetes Cluster API Server
   when: cilium_installed.rc == 0
-  ansible.builtin.set_fact:
-    kubernetes_service_host: "{{ kubernetes_cluster_apiserver }}"
+  block:
+    - name: Set Kubernetes Cluster API Server to private IP
+      when: kubernetes_cluster_apiserver == "127.0.0.1"
+      ansible.builtin.set_fact:
+        kubernetes_service_host: "{{ ansible_default_ipv4.address }}"
+
+    - name: Set Kubernetes Cluster API Server to declared IP
+      when: kubernetes_cluster_apiserver != "127.0.0.1"
+      ansible.builtin.set_fact:
+        kubernetes_service_host: "{{ kubernetes_cluster_apiserver }}"
 
 - name: Set Kubernetes Cluster API Server
   when: cilium_installed.rc != 0
