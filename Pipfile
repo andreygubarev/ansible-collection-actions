@@ -11,9 +11,7 @@ PyYAML = "~= 6.0"
 
 [dev-packages]
 ansible-lint = "*"
-molecule = "~=5.0"
-molecule-qemu = "*"
-pytest-testinfra = "~=10.0"
+molecule = "~=24.0"
 
 [requires]
 python_version = "3.11"
