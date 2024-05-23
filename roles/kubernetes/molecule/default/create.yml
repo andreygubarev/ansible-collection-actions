@@ -7,6 +7,7 @@
     - name: Pull images
       ansible.builtin.shell: |
         tart pull {{ item.image }}
+      changed_when: false
       loop: "{{ molecule_yml.platforms }}"
 
     - name: Create instances
@@ -15,6 +16,8 @@
         nohup tart run {{ item.name }} --no-graphics --no-audio --no-clipboard &
         sleep 5
         tart ip {{ item.name }}
+      args:
+        creates: "~/.tart/vms/{{ item.name }}/config.json"
       loop: "{{ molecule_yml.platforms }}"
       register: server
 

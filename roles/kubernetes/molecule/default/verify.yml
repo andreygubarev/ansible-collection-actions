@@ -4,11 +4,12 @@
   gather_facts: false
   tasks:
     - name: Verify presence of systemd kubernetes services
-      command: systemctl status kubernetes
+      ansible.builtin.command: systemctl status kubernetes
+      changed_when: false
       register: systemd_services
 
     - name: Validate kubernetes services are running
-      assert:
+      ansible.builtin.assert:
         that:
           - systemd_services.stdout.find('Active: active') != -1
         fail_msg: "Kubernetes services are not running"
