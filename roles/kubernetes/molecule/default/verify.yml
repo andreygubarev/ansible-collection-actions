@@ -1,5 +1,15 @@
 ---
-- name: Verify
+- name: Verify Kubernetes Cluster Provisioning
   hosts: all
   gather_facts: false
-  tasks: []
+  tasks:
+    - name: Verify presence of systemd kubernetes services
+      command: systemctl status kubernetes
+      register: systemd_services
+
+    - name: Validate kubernetes services are running
+      assert:
+        that:
+          - systemd_services.stdout.find('Active: active') != -1
+        fail_msg: "Kubernetes services are not running"
+        success_msg: "Kubernetes services are running"
