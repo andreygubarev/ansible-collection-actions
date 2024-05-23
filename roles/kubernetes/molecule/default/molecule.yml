@@ -1,28 +1,24 @@
 ---
-dependency:
-  name: galaxy
 driver:
-  name: molecule-qemu
+  name: default
 platforms:
   - name: instance-1
-    image_arch: aarch64
-    image_url: https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-arm64.qcow2
-    image_checksum: sha512:https://cloud.debian.org/images/cloud/bookworm/latest/SHA512SUMS
-    vm_cpus: 2
-    vm_memory: 2048
+    image: ghcr.io/cirruslabs/debian:latest
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
   inventory:
+    group_vars:
+      all:
+        ansible_ssh_common_args: >-
+          -F /dev/null
+          -o ServerAliveCountMax=60
+          -o ServerAliveInterval=10
+          -o StrictHostKeyChecking=no
+          -o UserKnownHostsFile=/dev/null
     host_vars:
       instance-1:
         kubernetes_cluster_apiserver: "127.0.0.1"
         kubernetes_cluster_apitoken: "secret"
         kubernetes_cluster_bootstrap: true
         kubernetes_network_cilium_enabled: true
-        kubernetes_network_flannel_enabled: false
         kubernetes_node_role: server
-
-verifier:
-  name: testinfra

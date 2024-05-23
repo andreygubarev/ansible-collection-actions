@@ -1,0 +1,16 @@
+---
+- name: Verify Kubernetes Cluster Provisioning
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Verify presence of systemd kubernetes services
+      ansible.builtin.command: systemctl status kubernetes
+      changed_when: false
+      register: systemd_services
+
+    - name: Validate kubernetes services are running
+      ansible.builtin.assert:
+        that:
+          - systemd_services.stdout.find('Active: active') != -1
+        fail_msg: "Kubernetes services are not running"
+        success_msg: "Kubernetes services are running"
