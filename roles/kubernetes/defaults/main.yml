@@ -17,7 +17,7 @@ kubernetes_cluster_apitoken: ""
 kubernetes_cluster_feature_gates: []
 
 # Kubernetes | Cluster | Bootstrap
-kubernetes_cluster_bootstrap: ""
+kubernetes_cluster_bootstrap: false
 kubernetes_cluster_bootstrap_domain: ""
 kubernetes_cluster_bootstrap_name: "{{ kubernetes_cluster_name }}.map"
 kubernetes_cluster_bootstrap_address: "{{ kubernetes_cluster_bootstrap_name }}.{{ kubernetes_cluster_bootstrap_domain }}"

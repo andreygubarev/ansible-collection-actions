@@ -24,7 +24,7 @@
           - 409
       register: kubernetes_cluster_bootstrap_status
 
-    - name: Set kubernetes_cluster_bootstrap
+    - name: Set Kubernetes Cluster Bootstrap Node
       ansible.builtin.set_fact:
         kubernetes_cluster_bootstrap: "{{ kubernetes_cluster_bootstrap_status.status == 201 }}"
 
