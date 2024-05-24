@@ -18,9 +18,9 @@ kubernetes_cluster_feature_gates: []
 
 # Kubernetes | Cluster | Bootstrap
 kubernetes_cluster_bootstrap: false
-kubernetes_cluster_bootstrap_domain: ""
+kubernetes_cluster_bootstrap_domain: "{{ lookup('env', 'GANDI_DOMAIN') }}"
 kubernetes_cluster_bootstrap_name: "{{ kubernetes_cluster_name }}.map"
-kubernetes_cluster_bootstrap_token: ""
+kubernetes_cluster_bootstrap_token: "{{ lookup('env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"
 
 # Kubernetes | Node
 kubernetes_node_name: ""
