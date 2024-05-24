@@ -15,7 +15,7 @@
 - name: Set Kubernetes Cluster API Server
   when: cilium_installed.rc == 0
   ansible.builtin.set_fact:
-    kubernetes_service_host: "{{ kubernetes_cluster_apiserver }}"
+    kubernetes_service_host: "{{ lookup('community.general.dig', kubernetes_cluster_apiserver, qtype='A', fail_on_error=true) }}"
 
 - name: Set Kubernetes Cluster API Server to localhost
   when: cilium_installed.rc != 0

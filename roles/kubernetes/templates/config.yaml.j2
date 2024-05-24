@@ -12,7 +12,7 @@ node-label:
 cluster-init: true
 {% endif %}
 {% else %}
-server: https://{{ kubernetes_cluster_apiserver }}:6443
+server: https://{{ lookup('community.general.dig', kubernetes_cluster_apiserver, qtype='A', fail_on_error=true) }}:6443
 {% endif %}
 
 {% if kubernetes_node_role == 'server' %}
