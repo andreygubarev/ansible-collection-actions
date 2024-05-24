@@ -17,8 +17,8 @@ provisioner:
           -o UserKnownHostsFile=/dev/null
     host_vars:
       instance-1:
+        kubernetes_cluster_name: "default"
         kubernetes_cluster_apiserver: "127.0.0.1"
         kubernetes_cluster_apitoken: "secret"
-        kubernetes_cluster_bootstrap: true
-        kubernetes_network_cilium_enabled: true
-        kubernetes_node_role: server
+        kubernetes_cluster_bootstrap_domain: "{{ lookup('env', 'GANDI_DOMAIN') }}"
+        kubernetes_cluster_bootstrap_token: "{{ lookup('env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"

@@ -2,6 +2,32 @@
 - name: Prerequisite
   ansible.builtin.import_tasks: 000-prerequisite.yml
 
+- name: Kubernetes Cluster Bootstrap
+  when: kubernetes_node_role == "server"
+  block:
+    - name: Register Kubernetes Cluster
+      ansible.builtin.uri:
+        url: "https://api.gandi.net/v5/livedns/domains/{{ kubernetes_cluster_bootstrap_domain }}/records/{{ kubernetes_cluster_bootstrap_name }}"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ kubernetes_cluster_bootstrap_token }}"
+        body_format: json
+        body:
+          rrset_name: "{{ kubernetes_cluster_bootstrap_name }}"
+          rrset_type: "A"
+          rrset_ttl: 300
+          rrset_values:
+            - "{{ ansible_default_ipv4.address }}"
+        status_code:
+          - 200
+          - 201
+          - 409
+      register: kubernetes_cluster_bootstrap_status
+
+    - name: Set Kubernetes Cluster Bootstrap Node
+      ansible.builtin.set_fact:
+        kubernetes_cluster_bootstrap: "{{ kubernetes_cluster_bootstrap_status.status == 201 }}"
+
 - name: Download
   ansible.builtin.import_tasks: 010-download.yml
 
@@ -20,9 +46,9 @@
 
 - name: Wait for cluster to be ready
   ansible.builtin.wait_for:
-    host: "{{ kubernetes_cluster_apiserver }}"
+    host: "{{ lookup('community.general.dig', kubernetes_cluster_apiserver, qtype='A', fail_on_error=true) }}"
     port: 6443
-    timeout: 300
+    timeout: 90
     state: started
 
 - name: Setup cluster
