@@ -46,9 +46,9 @@
 
 - name: Wait for cluster to be ready
   ansible.builtin.wait_for:
-    host: "{{ kubernetes_cluster_apiserver }}"
+    host: "{{ lookup('community.general.dig', kubernetes_cluster_apiserver, qtype='A', fail_on_error=true) }}"
     port: 6443
-    timeout: 300
+    timeout: 90
     state: started
 
 - name: Setup cluster
