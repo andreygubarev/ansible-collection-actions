@@ -14,6 +14,7 @@
       ansible.builtin.shell: |
         tart clone {{ item.image }} {{ item.name }}
         nohup tart run {{ item.name }} --no-graphics --no-audio --no-clipboard &
+        sleep 5
         tart ip {{ item.name }}
       args:
         creates: "~/.tart/vms/{{ item.name }}/config.json"
