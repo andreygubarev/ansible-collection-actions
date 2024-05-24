@@ -23,12 +23,6 @@
         - default
         - lo
 
-    - name: Update cache
-      become: true
-      ansible.builtin.apt:
-        update_cache: true
-        cache_valid_time: 3600
-
     - name: Install dependencies
       become: true
       ansible.builtin.apt:
@@ -37,3 +31,4 @@
           - curl
           - locales-all
         state: present
+        update_cache: true
