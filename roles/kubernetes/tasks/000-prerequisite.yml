@@ -4,6 +4,8 @@
     that:
       - kubernetes_node_role is defined
       - kubernetes_node_role in ["server", "agent"]
+      - kubernetes_cluster_name is defined
+      - kubernetes_cluster_name != ""
       - kubernetes_cluster_apiserver is defined
       - kubernetes_cluster_apiserver != ""
       - kubernetes_cluster_apitoken is defined
