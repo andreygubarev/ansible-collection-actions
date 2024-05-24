@@ -26,11 +26,6 @@ kubernetes_node_external_ip: ""
 # Kubernetes | Addons | CoreDNS
 kubernetes_addon_coredns_enabled: true
 
-# Kubernetes | Addons | KubeVIP
-kubernetes_addon_kubevip_enabled: false
-kubernetes_addon_kubevip_version: v0.6.4
-kubernetes_addon_kubevip_address: "{{ kubernetes_cluster_apiserver }}"
-
 # Kubernetes | Addons | Local Storage
 kubernetes_addon_localstorage_enabled: false
 

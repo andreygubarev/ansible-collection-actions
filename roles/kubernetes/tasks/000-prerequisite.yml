@@ -116,53 +116,6 @@
         modification_time: preserve
         access_time: preserve
 
-    - name: Enable KubeVIP addon
-      when: kubernetes_addon_kubevip_enabled
-      block:
-        - name: Assert kube-vip address is set
-          ansible.builtin.assert:
-            that:
-              - kubernetes_addon_kubevip_address != ""
-
-        - name: Create kube-vip manifest for rbac
-          ansible.builtin.get_url:
-            url: "https://raw.githubusercontent.com/kube-vip/kube-vip/{{ kubernetes_addon_kubevip_version }}/docs/manifests/rbac.yaml"
-            dest: "{{ kubernetes_service_statedir }}/server/manifests/kubevip-rbac.yaml"
-            owner: root
-            group: root
-            mode: 0644
-
-        - name: Create kube-vip manifest for daemonset
-          ansible.builtin.template:
-            src: "kubevip.yaml.j2"
-            dest: "{{ kubernetes_service_statedir }}/server/manifests/kubevip-daemonset.yaml"
-            owner: root
-            group: root
-            mode: 0644
-
-    - name: Disable KubeVIP addon
-      when: not kubernetes_addon_kubevip_enabled
-      block:
-        - name: Disable kube-vip addon rbac
-          ansible.builtin.file:
-            path: "{{ kubernetes_service_statedir }}/server/manifests/kubevip-rbac.yaml.skip"
-            state: touch
-            owner: root
-            group: root
-            mode: 0644
-            modification_time: preserve
-            access_time: preserve
-
-        - name: Disable kube-vip addon daemonset
-          ansible.builtin.file:
-            path: "{{ kubernetes_service_statedir }}/server/manifests/kubevip-daemonset.yaml.skip"
-            state: touch
-            owner: root
-            group: root
-            mode: 0644
-            modification_time: preserve
-            access_time: preserve
-
     - name: Gateway API addon
       when: kubernetes_addon_gatewayapi_enabled
       block:

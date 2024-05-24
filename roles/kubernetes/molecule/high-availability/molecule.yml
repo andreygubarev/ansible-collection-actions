@@ -45,7 +45,6 @@ provisioner:
       all:
         kubernetes_cluster_apiserver: "192.168.68.100"
         kubernetes_cluster_apitoken: "secret"
-        kubernetes_addon_kubevip_enabled: true
 
 verifier:
   name: testinfra
