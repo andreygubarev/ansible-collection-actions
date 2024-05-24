@@ -7,11 +7,11 @@ node-label:
 {% endfor %}
 {% endif %}
 
-{% if kubernetes_cluster_bootstrap and not kubernetes_node_running %}
+{% if kubernetes_cluster_bootstrap %}
+{% if not kubernetes_node_running %}
 cluster-init: true
 {% endif %}
-
-{% if not kubernetes_cluster_bootstrap %}
+{% else %}
 server: https://{{ kubernetes_cluster_apiserver }}:6443
 {% endif %}
 
@@ -21,4 +21,3 @@ write-kubeconfig-mode: "0644"
 embedded-registry: true
 {% endif %}
 {% endif %}
-

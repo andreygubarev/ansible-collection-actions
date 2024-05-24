@@ -1,11 +1,4 @@
 ---
-# TODO: improve installation, Cilium requires correct value for `k8sServiceHost`
-# on the first run (when Cilium is not installed yet) localhost can be used
-# on the consecutive runs the value should be reachable Kubernetes API server
-# for private clusters: it's possible to use private IP address of bootstrap node
-
-# kube-vip requires Cilium to be up and running to start
-
 - name: Add Cilium Helm Repository
   kubernetes.core.helm_repository:
     name: cilium
@@ -19,10 +12,10 @@
   changed_when: false
   ignore_errors: true
 
-- name: Set Kubernetes Cluster API Server to bootstrap address
+- name: Set Kubernetes Cluster API Server
   when: cilium_installed.rc == 0
   ansible.builtin.set_fact:
-    kubernetes_service_host: "{{ lookup('community.general.dig', kubernetes_cluster_bootstrap_address) }}"
+    kubernetes_service_host: "{{ kubernetes_cluster_apiserver }}"
 
 - name: Set Kubernetes Cluster API Server to localhost
   when: cilium_installed.rc != 0

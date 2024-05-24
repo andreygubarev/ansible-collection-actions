@@ -78,10 +78,14 @@
 - name: Setup Cilium
   when: kubernetes_network_cilium_enabled
   block:
-    - name: Configure Cilium
+    - name: Setup Cilium
       when: kubernetes_cluster_bootstrap
+      ansible.builtin.import_tasks: 030-cilium.yml
+
+    - name: Configure Cilium
       ansible.builtin.import_tasks: 030-cilium.yml
 
 - name: Set node status
   ansible.builtin.set_fact:
+    kubernetes_cluster_bootstrap: false
     kubernetes_node_running: true
