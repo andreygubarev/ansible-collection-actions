@@ -9,6 +9,7 @@
       ansible.builtin.shell: |
         vagrant destroy -f {{ item.name }}
       ignore_errors: true
+      changed_when: false
       loop: "{{ molecule_yml.platforms }}"
 
     # Mandatory configuration for Molecule to function.
