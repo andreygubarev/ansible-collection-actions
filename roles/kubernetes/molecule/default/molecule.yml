@@ -4,6 +4,7 @@ driver:
 platforms:
   - name: instance-1
   - name: instance-2
+  - name: instance-3
 provisioner:
   name: ansible
   inventory:
@@ -19,4 +20,6 @@ provisioner:
         kubernetes_cluster_apitoken: "secret"
         kubernetes_cluster_bootstrap_domain: "{{ lookup('env', 'GANDI_DOMAIN') }}"
         kubernetes_cluster_bootstrap_token: "{{ lookup('env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"
-    host_vars: {}
+    host_vars:
+      instance-3:
+        kubernetes_node_role: "agent"

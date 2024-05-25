@@ -14,3 +14,19 @@
           - systemd_services.stdout.find('Active: active') != -1
         fail_msg: "Kubernetes services are not running"
         success_msg: "Kubernetes services are running"
+
+- name: Verify Kubernetes Cluster State
+  hosts: instance-1
+  gather_facts: false
+  tasks:
+    - name: Verify kubernetes cluster state
+      ansible.builtin.command: k3s kubectl get nodes
+      changed_when: false
+      register: kubectl_nodes
+
+    - name: Validate kubernetes cluster state
+      ansible.builtin.assert:
+        that:
+          - kubectl_nodes.stdout.find('Ready') != -1
+        fail_msg: "Kubernetes cluster is not ready"
+        success_msg: "Kubernetes cluster is ready"
