@@ -50,7 +50,7 @@ jobs:
       - name: Run tests
         run: |
           set -euxo pipefail
-          python -m pipenv run molecule test
+          cd roles/kubernetes && python -m pipenv run molecule test
 
   build:
     runs-on: ubuntu-latest
