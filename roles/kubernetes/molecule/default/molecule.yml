@@ -3,7 +3,6 @@ driver:
   name: default
 platforms:
   - name: instance-1
-    image: ghcr.io/cirruslabs/debian:latest
 provisioner:
   name: ansible
   inventory:

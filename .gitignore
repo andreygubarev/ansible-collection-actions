@@ -1,6 +1,7 @@
 *.tar.gz
 
 .venv
+.vagrant
 
 ### Python
 
