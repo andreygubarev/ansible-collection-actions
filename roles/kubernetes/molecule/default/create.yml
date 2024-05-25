@@ -7,7 +7,7 @@
     - name: Create VMs
       ansible.builtin.command: >
         vagrant up
-        --provider {{ lookup('ansible.builtin.env', 'VAGRANT_DEFAULT_PROVIDER', default='vmware_fusion') }}
+        --provider {{ lookup('ansible.builtin.env', 'VAGRANT_DEFAULT_PROVIDER', default='virtualbox') }}
         {{ item.name }}
       loop: "{{ molecule_yml.platforms }}"
       changed_when: false
