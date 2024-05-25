@@ -3,6 +3,7 @@ driver:
   name: default
 platforms:
   - name: instance-1
+  - name: instance-2
 provisioner:
   name: ansible
   inventory:
@@ -14,9 +15,8 @@ provisioner:
           -o ServerAliveInterval=10
           -o StrictHostKeyChecking=no
           -o UserKnownHostsFile=/dev/null
-    host_vars:
-      instance-1:
         kubernetes_cluster_name: "default"
         kubernetes_cluster_apitoken: "secret"
         kubernetes_cluster_bootstrap_domain: "{{ lookup('env', 'GANDI_DOMAIN') }}"
         kubernetes_cluster_bootstrap_token: "{{ lookup('env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"
+    host_vars: {}
