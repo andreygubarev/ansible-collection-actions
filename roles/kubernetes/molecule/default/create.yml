@@ -9,13 +9,18 @@
         vagrant up
         --provider {{ lookup('ansible.builtin.env', 'VAGRANT_DEFAULT_PROVIDER', default='virtualbox') }}
         {{ item.name }}
+      args:
+        executable: /bin/bash
       loop: "{{ molecule_yml.platforms }}"
       changed_when: false
 
     - name: Read VMs SSH configuration
       ansible.builtin.shell: |
+        set -o pipefail
         vagrant ssh {{ item.name }} -c "hostname -I | awk '{ print $1 }'"
         vagrant ssh-config {{ item.name }} | grep IdentityFile | awk '{ print $2 }'
+      args:
+        executable: /bin/bash
       changed_when: true
       register: servers
       loop: "{{ molecule_yml.platforms }}"
