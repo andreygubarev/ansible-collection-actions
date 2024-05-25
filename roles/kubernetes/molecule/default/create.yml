@@ -5,7 +5,11 @@
   gather_facts: false
   tasks:
     - name: Create VMs
-      ansible.builtin.command: vagrant up
+      ansible.builtin.command: >
+        vagrant up
+        --provider {{ lookup('ansible.builtin.env', 'VAGRANT_DEFAULT_PROVIDER', default='vmware_fusion') }}
+        {{ item.name }}
+      loop: "{{ molecule_yml.platforms }}"
       changed_when: false
 
     - name: Read VMs SSH configuration
