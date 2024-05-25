@@ -76,10 +76,9 @@
     path: "{{ kubernetes_service_statedir }}/{{ kubernetes_node_role }}"
 
 - name: Setup Cilium
-  when: kubernetes_network_cilium_enabled and kubernetes_node_role == "server"
+  when: kubernetes_network_cilium_enabled and kubernetes_cluster_bootstrap
   block:
     - name: Setup Cilium
-      when: kubernetes_cluster_bootstrap
       ansible.builtin.import_tasks: 030-cilium.yml
 
     - name: Configure Cilium

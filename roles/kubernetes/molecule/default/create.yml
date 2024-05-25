@@ -4,51 +4,45 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: Pull images
-      ansible.builtin.shell: |
-        tart pull {{ item.image }}
-      changed_when: false
+    - name: Create VMs
+      ansible.builtin.command: >
+        vagrant up
+        --provider {{ lookup('ansible.builtin.env', 'VAGRANT_DEFAULT_PROVIDER', default='virtualbox') }}
+        {{ item.name }}
       loop: "{{ molecule_yml.platforms }}"
+      changed_when: false
 
-    - name: Create instances
+    - name: Read VMs SSH configuration
       ansible.builtin.shell: |
-        tart clone {{ item.image }} {{ item.name }}
-        nohup tart run {{ item.name }} --no-graphics --no-audio --no-clipboard &
+        set -o pipefail
+        vagrant ssh {{ item.name }} -c "hostname -I | awk '{ print $1 }'"
+        vagrant ssh-config {{ item.name }} | grep IdentityFile | awk '{ print $2 }'
       args:
-        creates: "~/.tart/vms/{{ item.name }}/config.json"
+        executable: /bin/bash
+      changed_when: true
+      register: servers
       loop: "{{ molecule_yml.platforms }}"
-      register: server_status
-
-    - name: Gather instance IP addresses
-      ansible.builtin.command: |
-        tart ip {{ item.name }}
-      changed_when: false
-      loop: "{{ molecule_yml.platforms }}"
-      register: server
-      until: server is succeeded
-      retries: 10
-      delay: 1
 
     - name: Wait for instances to be ready
       ansible.builtin.wait_for:
-        host: "{{ item.stdout }}"
+        host: "{{ item.stdout_lines[0] | trim }}"
         port: 22
         delay: 5
         timeout: 60
-      loop: "{{ server.results }}"
+      loop: "{{ servers.results }}"
 
     - name: Create instance config
-      when: server_status.changed | default(false) | bool # noqa no-handler
+      when: servers.changed | default(false) | bool # noqa no-handler
       block:
         - name: Populate instance config dict # noqa jinja
           ansible.builtin.set_fact:
             instance_conf_dict:
               "instance": "{{ item.item.name }}"
-              "address": "{{ item.stdout }}"
+              "address": "{{ item.stdout_lines[0] | trim }}"
               "port": "22"
-              "user": "admin"
-              "password": "admin"
-          with_items: "{{ server.results }}"
+              "user": "vagrant"
+              "identity_file": "{{ item.stdout_lines[1] | trim }}"
+          with_items: "{{ servers.results }}"
           register: instance_config_dict
 
         - name: Convert instance config dict to a list

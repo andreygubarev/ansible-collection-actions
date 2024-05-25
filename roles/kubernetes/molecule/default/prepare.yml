@@ -30,5 +30,6 @@
           - ca-certificates
           - curl
           - locales-all
+          - python3-yaml
         state: present
         update_cache: true
