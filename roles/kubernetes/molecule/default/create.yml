@@ -9,8 +9,6 @@
         vagrant up
         --provider {{ lookup('ansible.builtin.env', 'VAGRANT_DEFAULT_PROVIDER', default='virtualbox') }}
         {{ item.name }}
-      args:
-        executable: /bin/bash
       loop: "{{ molecule_yml.platforms }}"
       changed_when: false
 
