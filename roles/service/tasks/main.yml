@@ -1,1 +1,9 @@
 ---
+- name: Assert configuration
+  ansible.builtin.assert:
+    that:
+      - service_provider is defined
+      - service_provider in ['gandi', 'porkbun']
+      - service_config is defined
+      - service_config is mapping
+      - service_config != {}
