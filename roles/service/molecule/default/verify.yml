@@ -1,0 +1,51 @@
+---
+- name: Verify porkbun
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  become: true
+
+  roles:
+    - role: service
+      service_provider: porkbun
+      service_config:
+        domain: "{{ lookup('ansible.builtin.env', 'PORKBUN_DOMAIN') }}"
+        record:
+          name: molecule
+          type: A
+          data: 1.1.1.1
+        credentials:
+          api_key: "{{ lookup('ansible.builtin.env', 'PORKBUN_API_KEY') }}"
+          api_secret: "{{ lookup('ansible.builtin.env', 'PORKBUN_API_SECRET') }}"
+
+  post_tasks:
+    - name: Assert
+      ansible.builtin.assert:
+        that:
+          - service_status is defined
+          - service_status in [True, False]
+
+- name: Verify gandi
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  become: true
+
+  roles:
+    - role: service
+      service_provider: gandi
+      service_config:
+        domain: "{{ lookup('ansible.builtin.env', 'GANDI_DOMAIN') }}"
+        record:
+          name: molecule
+          type: A
+          data: 1.1.1.1
+        credentials:
+          api_token: "{{ lookup('ansible.builtin.env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"
+
+  post_tasks:
+    - name: Assert
+      ansible.builtin.assert:
+        that:
+          - service_status is defined
+          - service_status in [True, False]

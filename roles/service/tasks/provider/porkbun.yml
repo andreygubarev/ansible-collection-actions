@@ -1,0 +1,61 @@
+---
+- name: Assert configuration | porkbun
+  ansible.builtin.assert:
+    that:
+      - service_provider is defined
+      - service_provider == 'porkbun'
+
+      - service_config is defined
+      - service_config is mapping
+
+      - service_config['domain'] is defined
+      - service_config['domain'] is string
+      - service_config['domain'] is match('^[a-z0-9.-]+$')
+
+      - service_config['record'] is defined
+      - service_config['record'] is mapping
+
+      - service_config['record']['name'] is defined
+      - service_config['record']['name'] is string
+      - service_config['record']['name'] is match('^[a-z0-9.-]+$')
+
+      - service_config['record']['type'] is defined
+      - service_config['record']['type'] is string
+      - service_config['record']['type'] in ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'SRV', 'NS', 'CAA', 'PTR', 'SOA']
+
+      - service_config['record']['data'] is defined
+      - service_config['record']['data'] is string
+      - service_config['record']['data'] is match('^[a-z0-9.-]+$')
+
+      - service_config['credentials'] is defined
+      - service_config['credentials'] is mapping
+
+      - service_config['credentials']['api_key'] is defined
+      - service_config['credentials']['api_key'] is string
+      - service_config['credentials']['api_key'] is match('^pk1_[a-z0-9]+$')
+
+      - service_config['credentials']['api_secret'] is defined
+      - service_config['credentials']['api_secret'] is string
+      - service_config['credentials']['api_secret'] is match('^sk1_[a-z0-9]+$')
+
+- name: Register service | porkbun
+  ansible.builtin.uri:
+    url: "https://porkbun.com/api/json/v3/dns/create/{{ service_config['domain'] }}"
+    method: POST
+    body_format: json
+    body:
+      apikey: "{{ service_config['credentials']['api_key'] }}"
+      secretapikey: "{{ service_config['credentials']['api_secret'] }}"
+
+      name: "{{ service_config['record']['name'] }}"
+      type: "{{ service_config['record']['type'] }}"
+      ttl: "{{ service_ttl }}"
+      content: "{{ service_config['record']['data'] }}"
+    status_code:
+      - 200
+      - 400
+  register: service_status_porkbun
+
+- name: Set service status | porkbun
+  ansible.builtin.set_fact:
+    service_status: "{{ service_status_porkbun.status == 200 }}"

@@ -1,0 +1,26 @@
+galaxy_info:
+  author: Andrey Gubarev <andrey@andreygubarev.com> (andreygubarev.com)
+  description: Ansible Role for DNS Service Discovery
+  company: andreygubarev
+
+  license: MIT
+
+  min_ansible_version: "7.0.0"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - bionic
+        - xenial
+    - name: Debian
+      versions:
+        - bookworm
+        - bullseye
+
+  galaxy_tags:
+    - dns
+    - discovery
+    - service
+
+dependencies: []
