@@ -1,5 +1,5 @@
 ---
-- name: porkbun | verify
+- name: Verify porkbun
   hosts: localhost
   connection: local
   gather_facts: true
@@ -25,7 +25,7 @@
           - service_status is defined
           - service_status in [True, False]
 
-- name: gandi | verify
+- name: Verify gandi
   hosts: localhost
   connection: local
   gather_facts: true

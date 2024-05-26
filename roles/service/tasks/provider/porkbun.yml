@@ -1,5 +1,5 @@
 ---
-- name: porkbun | assert configuration
+- name: Assert configuration | porkbun
   ansible.builtin.assert:
     that:
       - service_provider is defined
@@ -38,7 +38,7 @@
       - service_config['credentials']['api_secret'] is string
       - service_config['credentials']['api_secret'] is match('^sk1_[a-z0-9]+$')
 
-- name: porkbun | register service
+- name: Register service | porkbun
   ansible.builtin.uri:
     url: "https://porkbun.com/api/json/v3/dns/create/{{ service_config['domain'] }}"
     method: POST
@@ -56,6 +56,6 @@
       - 400
   register: service_status_porkbun
 
-- name: porkbun | set service status
+- name: Set service status | porkbun
   ansible.builtin.set_fact:
     service_status: "{{ service_status_porkbun.status == 200 }}"

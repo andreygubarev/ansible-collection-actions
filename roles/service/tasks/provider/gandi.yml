@@ -1,5 +1,5 @@
 ---
-- name: gandi | assert configuration
+- name: Assert configuration | gandi
   ansible.builtin.assert:
     that:
       - service_provider is defined
@@ -34,7 +34,7 @@
       - service_config['credentials']['api_token'] is string
       - service_config['credentials']['api_token'] is match('^[a-z0-9.-]+$')
 
-- name: gandi | register service
+- name: Register service | gandi
   ansible.builtin.uri:
     url: "https://api.gandi.net/v5/livedns/domains/{{ service_config['domain'] }}/records/{{ service_config['record']['name'] }}"
     method: POST
@@ -53,6 +53,6 @@
       - 409
   register: service_status_gandi
 
-- name: gandi | set service status
+- name: Set service status | gandi
   ansible.builtin.set_fact:
     service_status: "{{ service_status_gandi.status == 201 }}"
