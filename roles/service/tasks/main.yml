@@ -6,4 +6,10 @@
       - service_provider in ['gandi', 'porkbun']
       - service_config is defined
       - service_config is mapping
-      - service_config != {}
+
+- name: Use service provider
+  ansible.builtin.include_tasks: "provider/{{ service_provider }}.yml"
+
+- name: Announce service status
+  ansible.builtin.debug:
+    msg: "Service status: {{ service_status }}"
