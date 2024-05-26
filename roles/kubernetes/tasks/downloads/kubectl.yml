@@ -17,7 +17,7 @@
 - name: Download kubectl Checksum
   when: not kubectl_checksum.stat.exists
   ansible.builtin.get_url:
-    url: "https://{{kuberentes_download_proxy}}dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
+    url: "{{ kuberentes_download_repository }}/dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
     dest: "{{ kubernetes_download_cache }}/kubectl.SHA256SUM"
     mode: 0644
 
@@ -29,7 +29,7 @@
 - name: Download kubectl
   when: not kubectl_binary.stat.exists
   ansible.builtin.get_url:
-    url: "https://{{kuberentes_download_proxy}}dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl"
+    url: "{{ kuberentes_download_repository }}/dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl"
     checksum: "sha256:file://{{ kubernetes_download_cache }}/kubectl.SHA256SUM"
     dest: "{{ kubernetes_download_cache }}/kubectl"
     mode: 0755

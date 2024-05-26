@@ -17,7 +17,7 @@
 - name: Download Skopeo SHA256SUM
   when: not skopeo_checksum.stat.exists
   ansible.builtin.get_url:
-    url: "https://{{kuberentes_download_proxy}}github.com/lework/skopeo-binary/releases/download/v{{ kubernetes_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}.sha256"
+    url: "{{ kuberentes_download_repository }}/github.com/lework/skopeo-binary/releases/download/v{{ kubernetes_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}.sha256"
     dest: "{{ kubernetes_download_cache }}/skopeo.SHA256SUM"
     mode: 0644
     owner: root
@@ -37,7 +37,7 @@
 - name: Download Skopeo
   when: not skopeo_binary.stat.exists
   ansible.builtin.get_url:
-    url: "https://{{kuberentes_download_proxy}}github.com/lework/skopeo-binary/releases/download/v{{ kubernetes_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}"
+    url: "{{ kuberentes_download_repository }}/github.com/lework/skopeo-binary/releases/download/v{{ kubernetes_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}"
     checksum: "sha256:file://{{ kubernetes_download_cache }}/skopeo.SHA256SUM"
     dest: "{{ kubernetes_download_cache }}/skopeo"
     mode: 0755
