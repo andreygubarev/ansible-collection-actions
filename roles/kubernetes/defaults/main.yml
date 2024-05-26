@@ -57,7 +57,7 @@ kubernetes_network_tailscale_enabled: false
 kubernetes_network_tailscale_authkey: ""
 
 # Kubernetes | Registry
-kubernetes_registry: "docker.andreygubarev.cloud"
+kubernetes_registry: "{{ lookup('ansible.builtin.env', 'KUBERNETES_REGISTRY', default='docker.io') }}"
 kubernetes_registry_config: "{{ kubernetes_service_confdir }}/registries.yaml"
 kubernetes_registry_embedded_enabled: true
 
