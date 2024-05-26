@@ -9,7 +9,7 @@ kubernetes_version_skopeo: 1.14.3
 # Kubernetes | Download
 kubernetes_download_cache: "/var/cache/kubernetes"
 kubernetes_download_images: "/var/lib/rancher/k3s/agent/images"
-kuberentes_download_repository: "{{ lookup('ansible.builtin.env', 'KUBERNETES_DOWNLOAD_REPOSITORY', default='https:/') }}"
+kubernetes_download_repository: "{{ lookup('ansible.builtin.env', 'KUBERNETES_DOWNLOAD_REPOSITORY', default='https:/') }}"
 
 # Kubernetes | Cluster
 kubernetes_cluster_name: ""

@@ -17,7 +17,7 @@
 - name: Download K3S Checksum
   when: not k3s_checksum.stat.exists
   ansible.builtin.get_url:
-    url: "{{ kuberentes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-{{ k3s_architecture }}.txt"
+    url: "{{ kubernetes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-{{ k3s_architecture }}.txt"
     dest: "{{ kubernetes_download_cache }}/k3s.SHA256SUM"
     mode: 0644
     owner: root
@@ -34,7 +34,7 @@
     - name: Download K3S (amd64)
       when: k3s_architecture == 'amd64'
       ansible.builtin.get_url:
-        url: "{{ kuberentes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s"
+        url: "{{ kubernetes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s"
         checksum: sha256:file://{{ kubernetes_download_cache }}/k3s.SHA256SUM
         dest: "{{ kubernetes_download_cache }}/k3s"
         owner: root
@@ -45,7 +45,7 @@
     - name: Download K3S (arm64)
       when: k3s_architecture == 'arm64'
       ansible.builtin.get_url:
-        url: "{{ kuberentes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s-arm64"
+        url: "{{ kubernetes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s-arm64"
         checksum: sha256:file://{{ kubernetes_download_cache }}/k3s.SHA256SUM
         dest: "{{ kubernetes_download_cache }}/k3s"
         owner: root
