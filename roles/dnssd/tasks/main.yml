@@ -7,8 +7,13 @@
       - dnssd_config is defined
       - dnssd_config is mapping
 
+- name: Set service status (false)
+  ansible.builtin.set_fact:
+    dnssd_status: false
+
 - name: Use service provider
   ansible.builtin.include_tasks: "provider/{{ dnssd_provider }}.yml"
+  run_once: true # Call the provider task only once to avoid race conditions locally
 
 - name: Announce service status
   ansible.builtin.debug:

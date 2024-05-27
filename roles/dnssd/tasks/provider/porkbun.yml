@@ -35,6 +35,10 @@
       - dnssd_config['record']['data'] is string
       - dnssd_config['record']['data'] is match('^[a-z0-9.-]+$')
 
+- name: Sleep random time to avoid race condition in distributed systems | porkbun
+  ansible.builtin.pause:
+    seconds: "{{ (30 | random) }}"
+
 - name: Retrive service | porkbun
   ansible.builtin.uri:
     url: "https://porkbun.com/api/json/v3/dns/retrieveByNameType/{{ dnssd_config['domain'] }}/{{ dnssd_config['record']['type'] }}/{{ dnssd_config['record']['name'] }}"
@@ -46,9 +50,6 @@
     status_code:
       - 200
   register: dnssd_records_porkbun
-
-- debug:
-    var: dnssd_records_porkbun
 
 - name: Register service | porkbun
   when: dnssd_records_porkbun.json.records | length == 0
