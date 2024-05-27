@@ -1,0 +1,58 @@
+---
+- name: Assert configuration | porkbun
+  ansible.builtin.assert:
+    that:
+      - dnssd_provider is defined
+      - dnssd_provider == 'porkbun'
+
+      - dnssd_provider_porkbun_api_key is defined
+      - dnssd_provider_porkbun_api_key is string
+      - dnssd_provider_porkbun_api_key is match('^pk1_[a-zA-Z0-9]{64}$')
+
+      - dnssd_provider_porkbun_api_secret is defined
+      - dnssd_provider_porkbun_api_secret is string
+      - dnssd_provider_porkbun_api_secret is match('^sk1_[a-zA-Z0-9]{64}$')
+
+      - dnssd_config is defined
+      - dnssd_config is mapping
+
+      - dnssd_config['domain'] is defined
+      - dnssd_config['domain'] is string
+      - dnssd_config['domain'] is match('^[a-z0-9.-]+$')
+
+      - dnssd_config['record'] is defined
+      - dnssd_config['record'] is mapping
+
+      - dnssd_config['record']['name'] is defined
+      - dnssd_config['record']['name'] is string
+      - dnssd_config['record']['name'] is match('^[a-z0-9.-]+$')
+
+      - dnssd_config['record']['type'] is defined
+      - dnssd_config['record']['type'] is string
+      - dnssd_config['record']['type'] in ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'SRV', 'NS', 'CAA', 'PTR', 'SOA']
+
+      - dnssd_config['record']['data'] is defined
+      - dnssd_config['record']['data'] is string
+      - dnssd_config['record']['data'] is match('^[a-z0-9.-]+$')
+
+- name: Register service | porkbun
+  ansible.builtin.uri:
+    url: "https://porkbun.com/api/json/v3/dns/create/{{ dnssd_config['domain'] }}"
+    method: POST
+    body_format: json
+    body:
+      apikey: "{{ dnssd_provider_porkbun_api_key }}"
+      secretapikey: "{{ dnssd_provider_porkbun_api_secret }}"
+
+      name: "{{ dnssd_config['record']['name'] }}"
+      type: "{{ dnssd_config['record']['type'] }}"
+      ttl: "{{ dnssd_ttl }}"
+      content: "{{ dnssd_config['record']['data'] }}"
+    status_code:
+      - 200
+      - 400
+  register: dnssd_status_porkbun
+
+- name: Set service status | porkbun
+  ansible.builtin.set_fact:
+    dnssd_status: "{{ dnssd_status_porkbun.status == 200 }}"
