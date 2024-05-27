@@ -1,0 +1,48 @@
+---
+- name: Converge porkbun
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Include role dnssd
+      ansible.builtin.import_role:
+        name: dnssd
+      vars:
+        dnssd_provider: porkbun
+        dnssd_config:
+          domain: "{{ lookup('ansible.builtin.env', 'PORKBUN_DOMAIN') }}"
+          record:
+            name: molecule
+            type: A
+            data: 1.1.1.1
+
+    - name: Assert
+      ansible.builtin.assert:
+        that:
+          - dnssd_status is defined
+          - dnssd_status in [True, False]
+
+- name: Converge gandi
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Include role dnssd
+      ansible.builtin.import_role:
+        name: dnssd
+      vars:
+        dnssd_provider: gandi
+        dnssd_config:
+          domain: "{{ lookup('ansible.builtin.env', 'GANDI_DOMAIN') }}"
+          record:
+            name: molecule
+            type: A
+            data: 1.1.1.1
+
+    - name: Assert
+      ansible.builtin.assert:
+        that:
+          - dnssd_status is defined
+          - dnssd_status in [True, False]

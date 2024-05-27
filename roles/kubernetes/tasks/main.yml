@@ -7,10 +7,10 @@
   block:
     - name: Register Kubernetes Cluster
       ansible.builtin.include_role:
-        name: service
+        name: dnssd
       vars:
-        service_provider: porkbun
-        service_config:
+        dnssd_provider: porkbun
+        dnssd_config:
           domain: "{{ kubernetes_cluster_bootstrap_domain }}"
           record:
             name: "{{ kubernetes_cluster_bootstrap_name }}"
@@ -19,7 +19,7 @@
 
     - name: Set Kubernetes Cluster Bootstrap Node
       ansible.builtin.set_fact:
-        kubernetes_cluster_bootstrap: "{{ service_status }}"
+        kubernetes_cluster_bootstrap: "{{ dnssd_status }}"
 
 - name: Download
   ansible.builtin.import_tasks: 010-download.yml

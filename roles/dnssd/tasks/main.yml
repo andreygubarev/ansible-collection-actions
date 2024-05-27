@@ -1,0 +1,15 @@
+---
+- name: Assert configuration
+  ansible.builtin.assert:
+    that:
+      - dnssd_provider is defined
+      - dnssd_provider in ['gandi', 'porkbun']
+      - dnssd_config is defined
+      - dnssd_config is mapping
+
+- name: Use service provider
+  ansible.builtin.include_tasks: "provider/{{ dnssd_provider }}.yml"
+
+- name: Announce service status
+  ansible.builtin.debug:
+    msg: "Service status: {{ dnssd_status }}"
