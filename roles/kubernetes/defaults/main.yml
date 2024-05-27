@@ -16,7 +16,6 @@ kubernetes_download_repository: "{{ lookup('ansible.builtin.env', 'KUBERNETES_DO
 kubernetes_cluster_name: ""
 kubernetes_cluster_apiserver: "{{ kubernetes_cluster_bootstrap_name }}.{{ kubernetes_cluster_bootstrap_domain }}"
 kubernetes_cluster_apitoken: ""
-kubernetes_cluster_feature_gates: []
 
 # Kubernetes | Cluster | Bootstrap
 kubernetes_cluster_bootstrap: false
@@ -77,13 +76,6 @@ kubernetes_command_args:
     {% endif %}
     --with-node-id
     --private-registry {{ kubernetes_registry_config }}
-    {% for feature_gates in kubernetes_cluster_feature_gates %}
-    --kube-apiserver-arg=feature-gates={{ feature_gates }}
-    --kube-scheduler-arg=feature-gates={{ feature_gates }}
-    --kube-controller-manager-arg=feature-gates={{ feature_gates }}
-    --kube-proxy-arg=feature-gates={{ feature_gates }}
-    --kubelet-arg=feature-gates={{ feature_gates }}
-    {% endfor %}
     --cluster-cidr {{ kubernetes_network_subnet_pods }}
     --service-cidr {{ kubernetes_network_subnet_services }}
     {% if kubernetes_node_external_ip != "" %}
@@ -103,10 +95,6 @@ kubernetes_command_args:
     {% endif %}
     --with-node-id
     --private-registry {{ kubernetes_registry_config }}
-    {% for feature_gates in kubernetes_cluster_feature_gates %}
-    --kube-proxy-arg=feature-gates={{ feature_gates }}
-    --kubelet-arg=feature-gates={{ feature_gates }}
-    {% endfor %}
     {% if kubernetes_node_external_ip != "" %}
     --node-external-ip={{ kubernetes_node_external_ip }}
     {% endif %}
