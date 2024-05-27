@@ -38,7 +38,6 @@ kubernetes_addon_localstorage_enabled: false
 kubernetes_addon_traefik_enabled: false
 
 # Kubernetes | Addons | Gateway API
-kubernetes_addon_gatewayapi_enabled: false
 kubernetes_addon_gatewayapi_version: v1.1.0
 kubernetes_addon_gatewayapi_channel: "experimental"
 

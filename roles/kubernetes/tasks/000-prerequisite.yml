@@ -117,14 +117,3 @@
         mode: 0644
         modification_time: preserve
         access_time: preserve
-
-    - name: Gateway API addon
-      when: kubernetes_addon_gatewayapi_enabled
-      block:
-        - name: Create gateway-api manifest for rbac
-          ansible.builtin.get_url:
-            url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/{{ kubernetes_addon_gatewayapi_version }}/{{ kubernetes_addon_gatewayapi_channel }}-install.yaml"
-            dest: "{{ kubernetes_service_statedir }}/server/manifests/gatewayapi.yaml"
-            owner: root
-            group: root
-            mode: 0644

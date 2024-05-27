@@ -1,4 +1,18 @@
 ---
+- name: Download Gateway API manifest
+  ansible.builtin.get_url:
+    url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/{{ kubernetes_addon_gatewayapi_version }}/{{ kubernetes_addon_gatewayapi_channel }}-install.yaml"
+    dest: "{{ kubernetes_service_statedir }}/server/manifests/gatewayapi.yaml"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Apply Gateway API manifest
+  ansible.builtin.shell: >
+    KUBECONFIG={{ kubernetes_service_confdir }}/k3s.yaml
+    kubectl apply -f {{ kubernetes_service_statedir }}/server/manifests/gatewayapi.yaml
+  changed_when: false
+
 - name: Add Cilium Helm Repository
   kubernetes.core.helm_repository:
     name: cilium
@@ -43,6 +57,8 @@
       loadBalancer:
         serviceTopology: true
       kubeProxyReplacement: true
+      gatewayAPI:
+        enabled: true
       bpf:
         lbExternalClusterIP: true
       k8sServiceHost: "{{ kubernetes_service_host }}"
