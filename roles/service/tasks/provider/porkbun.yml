@@ -5,6 +5,14 @@
       - service_provider is defined
       - service_provider == 'porkbun'
 
+      - service_provider_porkbun_api_key is defined
+      - service_provider_porkbun_api_key is string
+      - service_provider_porkbun_api_key is match('^pk1_[a-zA-Z0-9]{64}$')
+
+      - service_provider_porkbun_api_secret is defined
+      - service_provider_porkbun_api_secret is string
+      - service_provider_porkbun_api_secret is match('^sk1_[a-zA-Z0-9]{64}$')
+
       - service_config is defined
       - service_config is mapping
 
@@ -27,25 +35,14 @@
       - service_config['record']['data'] is string
       - service_config['record']['data'] is match('^[a-z0-9.-]+$')
 
-      - service_config['credentials'] is defined
-      - service_config['credentials'] is mapping
-
-      - service_config['credentials']['api_key'] is defined
-      - service_config['credentials']['api_key'] is string
-      - service_config['credentials']['api_key'] is match('^pk1_[a-z0-9]+$')
-
-      - service_config['credentials']['api_secret'] is defined
-      - service_config['credentials']['api_secret'] is string
-      - service_config['credentials']['api_secret'] is match('^sk1_[a-z0-9]+$')
-
 - name: Register service | porkbun
   ansible.builtin.uri:
     url: "https://porkbun.com/api/json/v3/dns/create/{{ service_config['domain'] }}"
     method: POST
     body_format: json
     body:
-      apikey: "{{ service_config['credentials']['api_key'] }}"
-      secretapikey: "{{ service_config['credentials']['api_secret'] }}"
+      apikey: "{{ service_provider_porkbun_api_key }}"
+      secretapikey: "{{ service_provider_porkbun_api_secret }}"
 
       name: "{{ service_config['record']['name'] }}"
       type: "{{ service_config['record']['type'] }}"

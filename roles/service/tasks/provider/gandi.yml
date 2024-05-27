@@ -5,6 +5,10 @@
       - service_provider is defined
       - service_provider == 'gandi'
 
+      - service_provider_gandi_token is defined
+      - service_provider_gandi_token is string
+      - service_provider_gandi_token is match('^[a-zA-Z0-9]{40}$')
+
       - service_config is defined
       - service_config is mapping
 
@@ -27,19 +31,12 @@
       - service_config['record']['data'] is string
       - service_config['record']['data'] is match('^[a-z0-9.-]+$')
 
-      - service_config['credentials'] is defined
-      - service_config['credentials'] is mapping
-
-      - service_config['credentials']['api_token'] is defined
-      - service_config['credentials']['api_token'] is string
-      - service_config['credentials']['api_token'] is match('^[a-z0-9.-]+$')
-
 - name: Register service | gandi
   ansible.builtin.uri:
     url: "https://api.gandi.net/v5/livedns/domains/{{ service_config['domain'] }}/records/{{ service_config['record']['name'] }}"
     method: POST
     headers:
-      Authorization: "Bearer {{ service_config['credentials']['api_token'] }}"
+      Authorization: "Bearer {{ service_provider_gandi_token }}"
     body_format: json
     body:
       rrset_name: "{{ service_config['record']['name'] }}"

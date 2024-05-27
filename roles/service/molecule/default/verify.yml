@@ -14,9 +14,6 @@
           name: molecule
           type: A
           data: 1.1.1.1
-        credentials:
-          api_key: "{{ lookup('ansible.builtin.env', 'PORKBUN_API_KEY') }}"
-          api_secret: "{{ lookup('ansible.builtin.env', 'PORKBUN_API_SECRET') }}"
 
   post_tasks:
     - name: Assert
@@ -40,8 +37,6 @@
           name: molecule
           type: A
           data: 1.1.1.1
-        credentials:
-          api_token: "{{ lookup('ansible.builtin.env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"
 
   post_tasks:
     - name: Assert
