@@ -16,5 +16,4 @@ provisioner:
           -o UserKnownHostsFile=/dev/null
         kubernetes_cluster_name: "default"
         kubernetes_cluster_apitoken: "secret"
-        kubernetes_cluster_bootstrap_domain: "{{ lookup('env', 'GANDI_DOMAIN') }}"
-        kubernetes_cluster_bootstrap_token: "{{ lookup('env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"
+        kubernetes_cluster_bootstrap_domain: "{{ lookup('env', 'PORKBUN_DOMAIN') }}"

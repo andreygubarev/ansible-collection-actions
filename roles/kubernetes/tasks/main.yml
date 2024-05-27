@@ -11,9 +11,9 @@
       vars:
         service_provider: porkbun
         service_config:
-          domain: "{{ lookup('ansible.builtin.env', 'PORKBUN_DOMAIN') }}"
+          domain: "{{ kubernetes_cluster_bootstrap_domain }}"
           record:
-            name: "{{ kubernetes_cluster_name }}"
+            name: "{{ kubernetes_cluster_bootstrap_name }}"
             type: A
             data: "{{ ansible_default_ipv4.address }}"
 

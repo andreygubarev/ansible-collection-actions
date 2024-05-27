@@ -5,6 +5,14 @@
       - service_provider is defined
       - service_provider == 'porkbun'
 
+      - service_provider_porkbun_api_key is defined
+      - service_provider_porkbun_api_key is string
+      - service_provider_porkbun_api_key is match('^pk1_[a-zA-Z0-9]{64}$')
+
+      - service_provider_porkbun_api_secret is defined
+      - service_provider_porkbun_api_secret is string
+      - service_provider_porkbun_api_secret is match('^sk1_[a-zA-Z0-9]{64}$')
+
       - service_config is defined
       - service_config is mapping
 
@@ -33,8 +41,8 @@
     method: POST
     body_format: json
     body:
-      apikey: "{{ lookup('ansible.builtin.env', 'PORKBUN_API_KEY') }}"
-      secretapikey: "{{ lookup('ansible.builtin.env', 'PORKBUN_API_SECRET') }}"
+      apikey: "{{ service_provider_porkbun_api_key }}"
+      secretapikey: "{{ service_provider_porkbun_api_secret }}"
 
       name: "{{ service_config['record']['name'] }}"
       type: "{{ service_config['record']['type'] }}"

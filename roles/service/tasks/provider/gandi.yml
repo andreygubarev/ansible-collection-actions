@@ -5,6 +5,10 @@
       - service_provider is defined
       - service_provider == 'gandi'
 
+      - service_provider_gandi_token is defined
+      - service_provider_gandi_token is string
+      - service_provider_gandi_token is match('^[a-zA-Z0-9]{40}$')
+
       - service_config is defined
       - service_config is mapping
 
@@ -32,7 +36,7 @@
     url: "https://api.gandi.net/v5/livedns/domains/{{ service_config['domain'] }}/records/{{ service_config['record']['name'] }}"
     method: POST
     headers:
-      Authorization: "Bearer {{ lookup('ansible.builtin.env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"
+      Authorization: "Bearer {{ service_provider_gandi_token }}"
     body_format: json
     body:
       rrset_name: "{{ service_config['record']['name'] }}"
