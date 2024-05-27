@@ -1,1 +1,1 @@
-# `andreygubarev.common.tailscale`
+# `andreygubarev.core.tailscale`
