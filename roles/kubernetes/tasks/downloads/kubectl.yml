@@ -25,6 +25,7 @@
   until: kubectl_checksum_download is succeeded
   retries: 5
   delay: 5
+  timeout: 60
 
 - name: Check kubectl
   ansible.builtin.stat:
@@ -45,6 +46,7 @@
   until: kubectl_binary is succeeded
   retries: 5
   delay: 5
+  timeout: 300
 
 - name: Install kubectl
   ansible.builtin.copy:

@@ -25,6 +25,7 @@
   until: helm_checksum_download is succeeded
   retries: 5
   delay: 5
+  timeout: 60
 
 - name: Check Helm
   ansible.builtin.stat:
@@ -43,6 +44,7 @@
   until: helm_binary_download is succeeded
   retries: 5
   delay: 5
+  timeout: 300
 
 - name: Install Helm
   ansible.builtin.unarchive:

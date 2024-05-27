@@ -27,6 +27,7 @@
   until: k3s_checksum_download is succeeded
   retries: 5
   delay: 5
+  timeout: 60
 
 - name: Check K3S
   ansible.builtin.stat:
@@ -50,6 +51,7 @@
       until: kubernetes_binary is succeeded
       retries: 5
       delay: 5
+      timeout: 300
 
     - name: Download K3S (arm64)
       when: k3s_architecture == 'arm64'
@@ -65,6 +67,7 @@
       until: kubernetes_binary is succeeded
       retries: 5
       delay: 5
+      timeout: 300
 
 - name: Install K3S
   ansible.builtin.copy:

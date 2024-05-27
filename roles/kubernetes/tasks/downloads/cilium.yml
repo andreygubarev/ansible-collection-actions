@@ -25,6 +25,7 @@
   until: ciliumcli_checksum_download is succeeded
   retries: 5
   delay: 5
+  timeout: 60
 
 - name: Check Cilium
   ansible.builtin.stat:
@@ -43,6 +44,7 @@
   until: ciliumcli_binary_download is succeeded
   retries: 5
   delay: 5
+  timeout: 300
 
 - name: Install Cilium
   ansible.builtin.unarchive:

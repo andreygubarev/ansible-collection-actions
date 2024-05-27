@@ -27,6 +27,7 @@
   until: skopeo_checksum_download is succeeded
   retries: 5
   delay: 5
+  timeout: 60
 
 - name: Rewrite Skopeo SHA256SUM
   ansible.builtin.replace:
@@ -53,6 +54,7 @@
   until: skopeo_binary_download is succeeded
   retries: 5
   delay: 5
+  timeout: 300
 
 - name: Install Skopeo
   ansible.builtin.copy:
