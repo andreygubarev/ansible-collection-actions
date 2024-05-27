@@ -19,6 +19,7 @@
   ansible.builtin.get_url:
     url: "{{ kubernetes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/sha256sum-{{ k3s_architecture }}.txt"
     dest: "{{ kubernetes_download_cache }}/k3s.SHA256SUM"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
     owner: root
     group: root
@@ -37,6 +38,7 @@
         url: "{{ kubernetes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s"
         checksum: sha256:file://{{ kubernetes_download_cache }}/k3s.SHA256SUM
         dest: "{{ kubernetes_download_cache }}/k3s"
+        tmp_dest: "{{ kubernetes_download_tempdir }}"
         owner: root
         group: root
         mode: 0755
@@ -48,6 +50,7 @@
         url: "{{ kubernetes_download_repository }}/github.com/k3s-io/k3s/releases/download/{{ kubernetes_version_k3s }}/k3s-arm64"
         checksum: sha256:file://{{ kubernetes_download_cache }}/k3s.SHA256SUM
         dest: "{{ kubernetes_download_cache }}/k3s"
+        tmp_dest: "{{ kubernetes_download_tempdir }}"
         owner: root
         group: root
         mode: 0755

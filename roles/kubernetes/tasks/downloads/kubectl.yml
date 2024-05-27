@@ -19,6 +19,7 @@
   ansible.builtin.get_url:
     url: "{{ kubernetes_download_repository }}/dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl.sha256"
     dest: "{{ kubernetes_download_cache }}/kubectl.SHA256SUM"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
 
 - name: Check kubectl
@@ -32,6 +33,7 @@
     url: "{{ kubernetes_download_repository }}/dl.k8s.io/release/v{{ kubernetes_version_kubectl }}/bin/linux/{{ kubectl_architecture }}/kubectl"
     checksum: "sha256:file://{{ kubernetes_download_cache }}/kubectl.SHA256SUM"
     dest: "{{ kubernetes_download_cache }}/kubectl"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0755
     owner: root
     group: root

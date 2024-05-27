@@ -19,6 +19,7 @@
   ansible.builtin.get_url:
     url: "{{ kubernetes_download_repository }}/github.com/lework/skopeo-binary/releases/download/v{{ kubernetes_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}.sha256"
     dest: "{{ kubernetes_download_cache }}/skopeo.SHA256SUM"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
     owner: root
     group: root
@@ -40,6 +41,7 @@
     url: "{{ kubernetes_download_repository }}/github.com/lework/skopeo-binary/releases/download/v{{ kubernetes_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}"
     checksum: "sha256:file://{{ kubernetes_download_cache }}/skopeo.SHA256SUM"
     dest: "{{ kubernetes_download_cache }}/skopeo"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0755
     owner: root
     group: root
