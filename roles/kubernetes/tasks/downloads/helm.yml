@@ -21,6 +21,10 @@
     dest: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz.SHA256SUM"
     tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
+  register: helm_checksum_download
+  until: helm_checksum_download is succeeded
+  retries: 5
+  delay: 5
 
 - name: Check Helm
   ansible.builtin.stat:
@@ -35,6 +39,10 @@
     dest: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz"
     tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
+  register: helm_binary_download
+  until: helm_binary_download is succeeded
+  retries: 5
+  delay: 5
 
 - name: Install Helm
   ansible.builtin.unarchive:

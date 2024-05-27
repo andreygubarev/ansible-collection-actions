@@ -21,6 +21,10 @@
     dest: "{{ kubernetes_download_cache }}/cilium.tar.gz.SHA256SUM"
     tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
+  register: ciliumcli_checksum_download
+  until: ciliumcli_checksum_download is succeeded
+  retries: 5
+  delay: 5
 
 - name: Check Cilium
   ansible.builtin.stat:
@@ -35,6 +39,10 @@
     dest: "{{ kubernetes_download_cache }}/cilium.tar.gz"
     tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
+  register: ciliumcli_binary_download
+  until: ciliumcli_binary_download is succeeded
+  retries: 5
+  delay: 5
 
 - name: Install Cilium
   ansible.builtin.unarchive:

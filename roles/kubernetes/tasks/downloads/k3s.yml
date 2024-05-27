@@ -23,6 +23,10 @@
     mode: 0644
     owner: root
     group: root
+  register: k3s_checksum_download
+  until: k3s_checksum_download is succeeded
+  retries: 5
+  delay: 5
 
 - name: Check K3S
   ansible.builtin.stat:
@@ -43,6 +47,9 @@
         group: root
         mode: 0755
       register: kubernetes_binary
+      until: kubernetes_binary is succeeded
+      retries: 5
+      delay: 5
 
     - name: Download K3S (arm64)
       when: k3s_architecture == 'arm64'
@@ -55,6 +62,9 @@
         group: root
         mode: 0755
       register: kubernetes_binary
+      until: kubernetes_binary is succeeded
+      retries: 5
+      delay: 5
 
 - name: Install K3S
   ansible.builtin.copy:

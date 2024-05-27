@@ -23,6 +23,10 @@
     mode: 0644
     owner: root
     group: root
+  register: skopeo_checksum_download
+  until: skopeo_checksum_download is succeeded
+  retries: 5
+  delay: 5
 
 - name: Rewrite Skopeo SHA256SUM
   ansible.builtin.replace:
@@ -45,6 +49,10 @@
     mode: 0755
     owner: root
     group: root
+  register: skopeo_binary_download
+  until: skopeo_binary_download is succeeded
+  retries: 5
+  delay: 5
 
 - name: Install Skopeo
   ansible.builtin.copy:
