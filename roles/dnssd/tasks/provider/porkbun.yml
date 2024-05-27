@@ -35,24 +35,48 @@
       - dnssd_config['record']['data'] is string
       - dnssd_config['record']['data'] is match('^[a-z0-9.-]+$')
 
-- name: Register service | porkbun
+- name: Sleep random time to avoid race condition in distributed systems | porkbun
+  ansible.builtin.pause:
+    seconds: "{{ (30 | random) }}"
+
+- name: Retrive service | porkbun
   ansible.builtin.uri:
-    url: "https://porkbun.com/api/json/v3/dns/create/{{ dnssd_config['domain'] }}"
+    url: "https://porkbun.com/api/json/v3/dns/retrieveByNameType/{{ dnssd_config['domain'] }}/{{ dnssd_config['record']['type'] }}/{{ dnssd_config['record']['name'] }}"
     method: POST
     body_format: json
     body:
       apikey: "{{ dnssd_provider_porkbun_api_key }}"
       secretapikey: "{{ dnssd_provider_porkbun_api_secret }}"
-
-      name: "{{ dnssd_config['record']['name'] }}"
-      type: "{{ dnssd_config['record']['type'] }}"
-      ttl: "{{ dnssd_ttl }}"
-      content: "{{ dnssd_config['record']['data'] }}"
     status_code:
       - 200
-      - 400
-  register: dnssd_status_porkbun
+  register: dnssd_records_porkbun
 
-- name: Set service status | porkbun
+- name: Register service | porkbun
+  when: dnssd_records_porkbun.json.records | length == 0
+  block:
+    - name: Create service | porkbun
+      ansible.builtin.uri:
+        url: "https://porkbun.com/api/json/v3/dns/create/{{ dnssd_config['domain'] }}"
+        method: POST
+        body_format: json
+        body:
+          apikey: "{{ dnssd_provider_porkbun_api_key }}"
+          secretapikey: "{{ dnssd_provider_porkbun_api_secret }}"
+
+          name: "{{ dnssd_config['record']['name'] }}"
+          type: "{{ dnssd_config['record']['type'] }}"
+          ttl: "{{ dnssd_ttl }}"
+          content: "{{ dnssd_config['record']['data'] }}"
+        status_code:
+          - 200
+          - 400
+      register: dnssd_status_porkbun
+
+    - name: Set service status (true) | porkbun
+      ansible.builtin.set_fact:
+        dnssd_status: "{{ dnssd_status_porkbun.status == 200 }}"
+
+- name: Set service status (false) | porkbun
+  when: dnssd_records_porkbun.json.records | length > 0
   ansible.builtin.set_fact:
-    dnssd_status: "{{ dnssd_status_porkbun.status == 200 }}"
+    dnssd_status: false

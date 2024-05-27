@@ -19,6 +19,7 @@
   ansible.builtin.get_url:
     url: "{{ kubernetes_download_repository }}/github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
     dest: "{{ kubernetes_download_cache }}/cilium.tar.gz.SHA256SUM"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
 
 - name: Check Cilium
@@ -32,6 +33,7 @@
     url: "{{ kubernetes_download_repository }}/github.com/cilium/cilium-cli/releases/download/v{{ kubernetes_network_ciliumcli_version }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
     checksum: "sha256:file://{{ kubernetes_download_cache }}/cilium.tar.gz.SHA256SUM"
     dest: "{{ kubernetes_download_cache }}/cilium.tar.gz"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
 
 - name: Install Cilium

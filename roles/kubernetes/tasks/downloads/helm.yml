@@ -19,6 +19,7 @@
   ansible.builtin.get_url:
     url: "{{ kubernetes_download_repository }}/get.helm.sh/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz.sha256"
     dest: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz.SHA256SUM"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
 
 - name: Check Helm
@@ -32,6 +33,7 @@
     url: "{{ kubernetes_download_repository }}/get.helm.sh/helm-v{{ kubernetes_version_helm }}-linux-{{ helm_architecture }}.tar.gz"
     checksum: "sha256:file://{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz.SHA256SUM"
     dest: "{{ kubernetes_download_cache }}/helm-v{{ kubernetes_version_helm }}.tar.gz"
+    tmp_dest: "{{ kubernetes_download_tempdir }}"
     mode: 0644
 
 - name: Install Helm
