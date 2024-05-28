@@ -16,10 +16,10 @@ kubernetes_download_images: "/var/lib/rancher/k3s/agent/images"
 kubernetes_download_repository: "{{ lookup('ansible.builtin.env', 'KUBERNETES_DOWNLOAD_REPOSITORY', default='https:/') }}"
 
 # Kubernetes | Cluster
-kubernetes_cluster_apiserver: "{{ kubernetes_cluster_bootstrap_name }}.{{ kubernetes_cluster_bootstrap_namespace }}"
+kubernetes_cluster_apiserver: "{{ kubernetes_bootstrap_name }}.{{ kubernetes_bootstrap_namespace }}"
 
 # Kubernetes | Cluster | Bootstrap
-kubernetes_cluster_bootstrap_enabled: true
+kubernetes_bootstrap_enabled: true
 
 # Kubernetes | Network | Cilium
 kubernetes_network_cilium_enabled: true

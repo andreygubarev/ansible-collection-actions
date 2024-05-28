@@ -3,8 +3,8 @@
 kubernetes_cluster_token: ""
 
 # Kubernetes | Cluster | Bootstrap
-kubernetes_cluster_bootstrap_namespace: ""
-kubernetes_cluster_bootstrap_name: ""
+kubernetes_bootstrap_namespace: ""
+kubernetes_bootstrap_name: ""
 
 # Kubernetes | Node
 kubernetes_node_name: ""

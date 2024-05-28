@@ -7,7 +7,7 @@ node-label:
 {% endfor %}
 {% endif %}
 
-{% if kubernetes_cluster_bootstrap_enabled %}
+{% if kubernetes_bootstrap_enabled %}
 {% if not kubernetes_node_running %}
 cluster-init: true
 {% endif %}
