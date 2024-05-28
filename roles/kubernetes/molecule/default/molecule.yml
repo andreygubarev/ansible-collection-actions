@@ -14,6 +14,6 @@ provisioner:
           -o ServerAliveInterval=10
           -o StrictHostKeyChecking=no
           -o UserKnownHostsFile=/dev/null
-        kubernetes_cluster_name: "default"
-        kubernetes_cluster_apitoken: "secret"
-        kubernetes_cluster_bootstrap_domain: "{{ lookup('env', 'PORKBUN_DOMAIN') }}"
+        kubernetes_bootstrap_namespace: "{{ lookup('env', 'PORKBUN_DOMAIN') }}"
+        kubernetes_bootstrap_name: "default"
+        kubernetes_bootstrap_token: "secret"

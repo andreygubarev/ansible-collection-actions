@@ -2,6 +2,11 @@
 
 Reproducible Kubernetes cluster setup.
 
+Components:
+- K3S
+- Cilium
+- Gateway API
+- Tailscale
 
 # Reference
 
