@@ -11,7 +11,7 @@
       vars:
         dnssd_provider: porkbun
         dnssd_config:
-          domain: "{{ kubernetes_cluster_bootstrap_domain }}"
+          domain: "{{ kubernetes_cluster_bootstrap_namespace }}"
           record:
             name: "{{ kubernetes_cluster_bootstrap_name }}"
             type: A

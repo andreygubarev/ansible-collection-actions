@@ -4,7 +4,7 @@ kubernetes_cluster_name: ""
 kubernetes_cluster_apitoken: ""
 
 # Kubernetes | Cluster | Bootstrap
-kubernetes_cluster_bootstrap_domain: ""
+kubernetes_cluster_bootstrap_namespace: ""
 kubernetes_cluster_bootstrap_name: "{{ kubernetes_cluster_name }}"
 
 # Kubernetes | Node
