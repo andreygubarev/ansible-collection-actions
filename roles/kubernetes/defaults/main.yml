@@ -1,7 +1,7 @@
 ---
 # Kubernetes | Cluster
 kubernetes_cluster_name: ""
-kubernetes_cluster_apitoken: ""
+kubernetes_cluster_token: ""
 
 # Kubernetes | Cluster | Bootstrap
 kubernetes_cluster_bootstrap_namespace: ""

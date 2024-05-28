@@ -15,5 +15,5 @@ provisioner:
           -o StrictHostKeyChecking=no
           -o UserKnownHostsFile=/dev/null
         kubernetes_cluster_name: "default"
-        kubernetes_cluster_apitoken: "secret"
+        kubernetes_cluster_token: "secret"
         kubernetes_cluster_bootstrap_namespace: "{{ lookup('env', 'PORKBUN_DOMAIN') }}"

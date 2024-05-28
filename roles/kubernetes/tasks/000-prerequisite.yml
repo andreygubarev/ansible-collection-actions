@@ -8,8 +8,8 @@
       - kubernetes_cluster_name != ""
       - kubernetes_cluster_apiserver is defined
       - kubernetes_cluster_apiserver != ""
-      - kubernetes_cluster_apitoken is defined
-      - kubernetes_cluster_apitoken != ""
+      - kubernetes_cluster_token is defined
+      - kubernetes_cluster_token != ""
       - kubernetes_cluster_bootstrap_enabled is defined
       - kubernetes_cluster_bootstrap_enabled and kubernetes_node_role == "server" or not kubernetes_cluster_bootstrap_enabled
 
