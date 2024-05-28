@@ -41,7 +41,7 @@
     kubeconfig: "{{ kubernetes_service_confdir }}/k3s.yaml"
     name: cilium
     chart_ref: cilium/cilium
-    chart_version: "{{ kubernetes_network_cilium_version }}"
+    chart_version: "{{ kubernetes_version_cilium }}"
     release_namespace: kube-system
     wait: true
     values:
