@@ -1,11 +1,9 @@
 ---
 # Kubernetes | Cluster
 kubernetes_cluster_name: ""
-kubernetes_cluster_apiserver: "{{ kubernetes_cluster_bootstrap_name }}.{{ kubernetes_cluster_bootstrap_domain }}"
 kubernetes_cluster_apitoken: ""
 
 # Kubernetes | Cluster | Bootstrap
-kubernetes_cluster_bootstrap: false
 kubernetes_cluster_bootstrap_domain: ""
 kubernetes_cluster_bootstrap_name: "{{ kubernetes_cluster_name }}"
 

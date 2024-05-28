@@ -13,6 +13,17 @@ kubernetes_download_tempdir: "/var/tmp/kubernetes"
 kubernetes_download_images: "/var/lib/rancher/k3s/agent/images"
 kubernetes_download_repository: "{{ lookup('ansible.builtin.env', 'KUBERNETES_DOWNLOAD_REPOSITORY', default='https:/') }}"
 
+# Kubernetes | Cluster
+kubernetes_cluster_apiserver: "{{ kubernetes_cluster_bootstrap_name }}.{{ kubernetes_cluster_bootstrap_domain }}"
+
+# Kubernetes | Cluster | Bootstrap
+kubernetes_cluster_bootstrap: true
+
+# Kubernetes | Network | Cilium
+kubernetes_network_cilium_enabled: true
+kubernetes_network_cilium_version: 1.15.5
+kubernetes_network_ciliumcli_version: 0.16.7
+
 # Kubernetes | Addons | CoreDNS
 kubernetes_addon_coredns_enabled: true
 
@@ -24,11 +35,6 @@ kubernetes_addon_traefik_enabled: false
 
 # Kubernetes | Addons | Gateway API
 kubernetes_addon_gatewayapi_channel: "experimental"
-
-# Kubernetes | Network | Cilium
-kubernetes_network_cilium_enabled: true
-kubernetes_network_cilium_version: 1.15.5
-kubernetes_network_ciliumcli_version: 0.16.7
 
 # Kubernetes | Registry
 kubernetes_registry: "{{ lookup('ansible.builtin.env', 'KUBERNETES_REGISTRY', default='docker.io') }}"
