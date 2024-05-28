@@ -28,7 +28,7 @@
   ansible.builtin.import_tasks: downloads/k3s.yml
 
 - name: Download Bootstrap
-  when: kubernetes_cluster_bootstrap
+  when: kubernetes_cluster_bootstrap_enabled
   block:
     - name: Download kubectl
       ansible.builtin.import_tasks: downloads/kubectl.yml

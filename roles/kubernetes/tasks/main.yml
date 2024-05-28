@@ -19,7 +19,7 @@
 
     - name: Set Kubernetes Cluster Bootstrap Node
       ansible.builtin.set_fact:
-        kubernetes_cluster_bootstrap: "{{ dnssd_status }}"
+        kubernetes_cluster_bootstrap_enabled: "{{ dnssd_status }}"
 
 - name: Download
   ansible.builtin.import_tasks: 010-download.yml
@@ -34,7 +34,7 @@
     kubernetes_node_running: "{{ kubernetes_node_running.stat.exists }}"
 
 - name: Bootstrap cluster
-  when: kubernetes_cluster_bootstrap and not kubernetes_node_running
+  when: kubernetes_cluster_bootstrap_enabled and not kubernetes_node_running
   ansible.builtin.import_tasks: 020-setup.yml
 
 - name: Wait for cluster to be ready

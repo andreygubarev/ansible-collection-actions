@@ -17,7 +17,7 @@ kubernetes_download_repository: "{{ lookup('ansible.builtin.env', 'KUBERNETES_DO
 kubernetes_cluster_apiserver: "{{ kubernetes_cluster_bootstrap_name }}.{{ kubernetes_cluster_bootstrap_domain }}"
 
 # Kubernetes | Cluster | Bootstrap
-kubernetes_cluster_bootstrap: true
+kubernetes_cluster_bootstrap_enabled: true
 
 # Kubernetes | Network | Cilium
 kubernetes_network_cilium_enabled: true
