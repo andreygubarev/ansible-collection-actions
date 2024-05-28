@@ -1,7 +1,7 @@
 ---
 - name: Download Gateway API manifest
   ansible.builtin.get_url:
-    url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/{{ kubernetes_addon_gatewayapi_version }}/{{ kubernetes_addon_gatewayapi_channel }}-install.yaml"
+    url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/v{{ kubernetes_version_apigateway }}/{{ kubernetes_addon_gatewayapi_channel }}-install.yaml"
     dest: "{{ kubernetes_service_statedir }}/server/manifests/gatewayapi.yaml"
     owner: root
     group: root
