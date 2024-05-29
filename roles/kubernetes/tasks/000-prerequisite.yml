@@ -1,4 +1,6 @@
 ---
+### Assertions ################################################################
+
 - name: Assert configuration
   ansible.builtin.assert:
     that:
@@ -41,6 +43,8 @@
   ansible.builtin.set_fact:
     kubernetes_node_name: "{{ ansible_facts.hostname }}"
 
+### System ####################################################################
+
 - name: Enable IPv4 forwarding
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
@@ -62,6 +66,24 @@
     state: present
     reload: true
 
+- name: Set kernel parameters for CIS hardening
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: true
+  with_items:
+    - name: vm.panic_on_oom
+      value: "0"
+    - name: vm.overcommit_memory
+      value: "1"
+    - name: kernel.panic
+      value: "10"
+    - name: kernel.panic_on_oops
+      value: "1"
+
+### Filesystem ################################################################
+
 - name: Ensure configuration directory
   ansible.builtin.file:
     path: "{{ kubernetes_service_confdir }}/config.yaml.d"
@@ -75,6 +97,8 @@
     owner: root
     group: root
     mode: 0644
+
+### Addons ####################################################################
 
 - name: Configure addons
   when: kubernetes_node_role == "server"
