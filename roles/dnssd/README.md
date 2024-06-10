@@ -1,3 +1,3 @@
-# `andreygubarev.core.kubernetes`
+# `andreygubarev.actions.kubernetes`
 
 Ansible Role for DNS Service Discovery.

@@ -1,4 +1,4 @@
-# `andreygubarev.core.kubernetes`
+# `andreygubarev.actions.kubernetes`
 
 Reproducible Kubernetes cluster setup.
 

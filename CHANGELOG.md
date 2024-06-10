@@ -1,4 +1,4 @@
-# `andreygubarev.core`
+# `andreygubarev.actions`
 
 ## v0.2.0 (2024-05-17)
 

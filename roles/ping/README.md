@@ -1,1 +1,1 @@
-# `andreygubarev.core.ping`
+# `andreygubarev.actions.ping`
