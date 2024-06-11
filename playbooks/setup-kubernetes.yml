@@ -1,5 +1,5 @@
 ---
-- name: kubernetes
+- name: Setup Kubernetes
   hosts: localhost
   connection: local
   gather_facts: true
