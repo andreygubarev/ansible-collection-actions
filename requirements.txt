@@ -1,0 +1,4 @@
+PyYAML~= 6.0
+dnspython
+kubernetes~=29.0
+netaddr
