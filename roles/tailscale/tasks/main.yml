@@ -65,8 +65,8 @@
         - name: Assert Tailscale auth key is defined
           ansible.builtin.assert:
             that:
-              - tailscale_auth_key is defined
-              - tailscale_auth_key != ""
+              - tailscale_authkey is defined
+              - tailscale_authkey != ""
             success_msg: "Tailscale auth key is defined"
             fail_msg: "Tailscale auth key is not defined"
 
@@ -80,5 +80,5 @@
             --login-server {{ tailscale_login_server }}
             {% endif %}
             --timeout {{ tailscale_login_timeout }}
-            --auth-key {{ tailscale_auth_key }}
+            --auth-key {{ tailscale_authkey }}
           changed_when: true
