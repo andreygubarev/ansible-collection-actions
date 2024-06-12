@@ -1,4 +1,4 @@
 ---
 - name: Download Package
   debug:
-    var: package
+    var: download_package_version

@@ -1,1 +1,11 @@
 ---
+download_src: "{{ ansible.builtin.lookup('env', 'DOWNLOAD_SRC') | default('') }}"
+download_dst: "/var/cache/download"
+download_arch: "{{ ansible_architecture }}"
+
+### Tailscale #################################################################
+download_package_tailscale_enabled: true
+download_package_tailscale_version: "1.66.4"
+download_package_tailscale_checksum: ""
+download_package_tailscale_src: "{{ download_src }}/tailscale_{{ version }}_{{ download_arch }}.deb"
+download_package_tailscale_dst: "{{ download_dst }}/tailscale_{{ version }}.deb"

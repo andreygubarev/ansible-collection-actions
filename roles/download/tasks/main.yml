@@ -1,1 +1,15 @@
 ---
+- name: Assert required variables
+  ansible.builtin.assert:
+    that:
+      - download_src is defined
+      - download_src != ""
+
+- name: Download Tailscale
+  when: download_package_tailscale_enabled
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/download-package.yml"
+  vars:
+    download_package_version: "{{ download_package_tailscale_version }}"
+    download_package_checksum: "{{ download_package_tailscale_checksum }}"
+    download_package_src: "{{ download_package_tailscale_src }}"
+    download_package_dst: "{{ download_package_tailscale_dst }}"
