@@ -1,6 +1,14 @@
 ---
 tailscale_enabled: true
 
+tailscale_download_arch: >-
+  {%- if ansible_architecture == 'x86_64' -%}
+  amd64
+  {%- elif ansible_architecture == 'aarch64' -%}
+  arm64
+  {%- else -%}
+  amd64
+  {%- endif -%}
 tailscale_download_version: "1.66.4"
 tailscale_download_dst: "/var/cache/download"
 tailscale_download_src:
