@@ -1,4 +1,11 @@
 ---
 - name: Download Package
-  debug:
-    var: download_package_src
+  ansible.builtin.get_url:
+    url: "{{ download_package_src }}"
+    dest: "{{ download_package_dst }}"
+    checksum: "{{ download_package_checksum }}"
+  register: download_package_status
+  until: download_package_status is succeeded
+  retries: 5
+  delay: 5
+  timeout: 60

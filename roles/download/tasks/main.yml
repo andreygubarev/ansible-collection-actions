@@ -5,6 +5,11 @@
       - download_src is defined
       - download_src != ""
 
+- name: Ensure download directory exists
+  ansible.builtin.file:
+    path: "{{ download_dst }}"
+    state: directory
+
 - name: Download Tailscale
   when: download_package_tailscale_enabled
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/download-package.yml"
