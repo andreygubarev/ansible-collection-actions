@@ -36,10 +36,10 @@
       - tailscale_arch in ['amd64', 'arm64']
 
 - name: Download Tailscale DEB package
-  ansible.builtin.get_url:
-    url: "{{ tailscale_download_url }}"
+  ansible.builtin.copy:
+    url: "tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
     dest: "/tmp/tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
-    checksum: "{{ tailscale_download_checksum }}"
+    checksum: "{{ tailscale_checksum }}"
     mode: 0644
 
 - name: Install Tailscale DEB package
