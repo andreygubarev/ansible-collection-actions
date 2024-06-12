@@ -37,7 +37,7 @@
 
 - name: Download Tailscale DEB package
   ansible.builtin.copy:
-    src: "tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
+    url: "tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
     dest: "/tmp/tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
     checksum: "{{ tailscale_checksum }}"
     mode: 0644
