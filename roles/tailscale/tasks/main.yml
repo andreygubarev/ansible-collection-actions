@@ -39,6 +39,7 @@
   ansible.builtin.file:
     path: "{{ tailscale_download_dst }}"
     state: directory
+    mode: 0755
 
 - name: Download Tailscale DEB package
   ansible.builtin.get_url:

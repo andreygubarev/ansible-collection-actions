@@ -4,6 +4,7 @@
     dest: "{{ download_package_dst }}"
     url: "{{ download_package_src[download_arch] }}"
     checksum: "{{ download_package_checksum[download_arch] }}"
+    mode: 0644
   register: download_package_status
   until: download_package_status is succeeded
   retries: 5
