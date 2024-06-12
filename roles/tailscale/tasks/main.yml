@@ -35,16 +35,22 @@
       - tailscale_arch is defined
       - tailscale_arch in ['amd64', 'arm64']
 
+- name: Ensure download directory exists
+  ansible.builtin.file:
+    path: "{{ tailscale_download_dst }}"
+    state: directory
+    mode: 0755
+
 - name: Download Tailscale DEB package
   ansible.builtin.get_url:
-    url: "{{ tailscale_download_url }}"
-    dest: "/tmp/tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
+    url: "{{ tailscale_download_src }}"
+    dest: "{{ tailscale_download_dst }}/tailscale_{{ tailscale_download_version }}.deb"
     checksum: "{{ tailscale_download_checksum }}"
     mode: 0644
 
 - name: Install Tailscale DEB package
   ansible.builtin.apt:
-    deb: "/tmp/tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
+    deb: "{{ tailscale_download_dst }}/tailscale_{{ tailscale_download_version }}.deb"
     state: present
 
 - name: Tailscale configuration
