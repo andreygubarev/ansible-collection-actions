@@ -1,7 +1,7 @@
 ---
 tailscale_enabled: true
 tailscale_version: "1.66.4"
-tailscale_checksum: "sha256:95f76dc08c489cc08a91b1f1a63fe50630ce92d7cbbfafb0d150db381ad91123"
+tailscale_checksum: "5b77a826f64ef73cd3a7daf470e0ff6c6f72e357"
 
 tailscale_auth_key: ""
 tailscale_login_server: ""
