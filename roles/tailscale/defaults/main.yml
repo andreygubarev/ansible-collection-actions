@@ -1,5 +1,9 @@
 ---
 tailscale_enabled: true
+tailscale_authkey: "{{ lookup('ansible.builtin.env', 'TAILSCALE_AUTHKEY', default='') }}"
+tailscale_login_server: "{{ lookup('ansible.builtin.env', 'TAILSCALE_LOGINSERVER', default='') }}"
+tailscale_login_timeout: 30s
+tailscale_socket: "/run/tailscale/tailscaled.sock"
 
 tailscale_download_arch: >-
   {%- if ansible_architecture == 'x86_64' -%}
@@ -17,9 +21,3 @@ tailscale_download_src:
 tailscale_download_checksum:
   amd64: "sha256:ed144ec02c916fab6c35febb5898351cff61bf398b7de7184a377051979f0039"
   arm64: "sha256:62d4bf2f20895d37d0b179d1686197e179c5062dd83dfaa885909809733a59f9"
-
-tailscale_authkey: "{{ lookup('ansible.builtin.env', 'TAILSCALE_AUTHKEY', default='') }}"
-tailscale_login_server: "{{ lookup('ansible.builtin.env', 'TAILSCALE_LOGINSERVER', default='') }}"
-tailscale_login_timeout: 30s
-
-tailscale_socket: "/run/tailscale/tailscaled.sock"
