@@ -1,0 +1,4 @@
+---
+- name: Download Package
+  debug:
+    var: package
