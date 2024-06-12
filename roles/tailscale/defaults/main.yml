@@ -1,17 +1,11 @@
 ---
 tailscale_enabled: true
+tailscale_version: "1.66.4"
+tailscale_download_url: "https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }}/pool/tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
+tailscale_download_checksum: sha256:95f76dc08c489cc08a91b1f1a63fe50630ce92d7cbbfafb0d150db381ad91123
 
 tailscale_auth_key: ""
 tailscale_login_server: ""
 tailscale_login_timeout: 30s
 
-tailscale_statedir: "/var/lib/tailscale"
-tailscale_state: "{{ tailscale_statedir }}/tailscaled.state"
 tailscale_socket: "/run/tailscale/tailscaled.sock"
-tailscale_logs: false
-tailscale_args: >-
-  {% if not tailscale_logs %}
-  --no-logs-no-support
-  {% endif %}
-  --state={{ tailscale_state }}
-  --socket={{ tailscale_socket }}

@@ -15,42 +15,31 @@
 - name: Install APT dependencies
   ansible.builtin.apt:
     name:
-      - apt-transport-https
       - ca-certificates
-      - gnupg
     state: present
 
-- name: Add APT key
-  ansible.builtin.apt_key:
-    url: https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }}/{{ ansible_distribution_release }}.noarmor.gpg
-    state: present
+- name: Set Tailscale Architecture based on Ansible facts
+  set_fact:
+    tailscale_arch: >-
+      {% if ansible_architecture == 'x86_64' %}
+      amd64
+      {% elif ansible_architecture == 'aarch64' %}
+      arm64
+      {% else %}
+      amd64
+      {% endif %}
 
-- name: Add APT repository
-  ansible.builtin.apt_repository:
-    repo: "deb https://pkgs.tailscale.com/stable/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
-    state: present
+- name: Download Tailscale DEB package
+  ansible.builtin.get_url:
+    url: "{{ tailscale_download_url }}"
+    dest: "/tmp/tailscale_{{ tailscale_version }}_amd64.deb"
+    checksum: "{{ tailscale_download_checksum }}"
+    mode: 0644
 
-- name: Install Tailscale
+- name: Install Tailscale DEB package
   ansible.builtin.apt:
-    name: tailscale
+    deb: "/tmp/tailscale_{{ tailscale_version }}_{{ tailscale_arch }}.deb"
     state: present
-
-- name: Create Tailscale state directory
-  ansible.builtin.file:
-    path: "{{ tailscale_statedir }}"
-    owner: root
-    group: root
-    mode: 0644
-    state: directory
-
-- name: Create Tailscale service
-  ansible.builtin.template:
-    src: tailscaled.service.j2
-    dest: /lib/systemd/system/tailscaled.service
-    owner: root
-    group: root
-    mode: 0644
-  register: tailscale_systemd_service
 
 - name: Tailscale configuration
   when: tailscale_enabled
@@ -59,8 +48,6 @@
       ansible.builtin.systemd:
         name: tailscaled
         enabled: true
-        daemon_reload: "{{ tailscale_systemd_service.changed }}"
-        state: "{{ tailscale_systemd_service.changed | ternary('restarted', 'started') }}"
 
     - name: Wait for Tailscale to be ready
       ansible.builtin.wait_for:
