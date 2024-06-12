@@ -36,6 +36,7 @@
   ansible.builtin.apt:
     deb: "{{ tailscale_download_dst }}/tailscale_{{ tailscale_download_version }}.deb"
     state: present
+  notify: Restart Tailscale
 
 - name: Tailscale configuration
   when: tailscale_enabled
@@ -43,6 +44,7 @@
     - name: Enable Tailscale service
       ansible.builtin.systemd:
         name: tailscaled
+        state: started
         enabled: true
 
     - name: Wait for Tailscale to be ready
