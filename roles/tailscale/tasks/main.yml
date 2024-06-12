@@ -18,16 +18,21 @@
       - ca-certificates
     state: present
 
-- name: Set Tailscale Architecture based on Ansible facts
-  set_fact:
-    tailscale_arch: >-
-      {% if ansible_architecture == 'x86_64' %}
-      amd64
-      {% elif ansible_architecture == 'aarch64' %}
-      arm64
-      {% else %}
-      amd64
-      {% endif %}
+- name: Set Tailscale architecture (amd64)
+  when: ansible_architecture == 'x86_64'
+  ansible.builtin.set_fact:
+    tailscale_arch: amd64
+
+- name: Set Tailscale architecture (arm64)
+  when: ansible_architecture == 'aarch64'
+  ansible.builtin.set_fact:
+    tailscale_arch: arm64
+
+- name: Assert Tailscale architecture is defined
+  ansible.builtin.assert:
+    that:
+      - tailscale_arch is defined
+      - tailscale_arch in ['amd64', 'arm64']
 
 - name: Download Tailscale DEB package
   ansible.builtin.get_url:
