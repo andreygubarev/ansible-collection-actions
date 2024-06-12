@@ -1,11 +1,18 @@
 ---
-download_src: "{{ ansible.builtin.lookup('env', 'DOWNLOAD_SRC') | default('') }}"
+download_src: "{{ lookup('ansible.builtin.env', 'DOWNLOAD_SOURCE', default='') }}"
 download_dst: "/var/cache/download"
-download_arch: "{{ ansible_architecture }}"
+download_arch: >-
+  {%- if ansible_architecture == 'x86_64' -%}
+  amd64
+  {%- elif ansible_architecture == 'aarch64' -%}
+  arm64
+  {%- else -%}
+  amd64
+  {%- endif -%}
 
 ### Tailscale #################################################################
 download_package_tailscale_enabled: true
 download_package_tailscale_version: "1.66.4"
 download_package_tailscale_checksum: ""
-download_package_tailscale_src: "{{ download_src }}/tailscale_{{ version }}_{{ download_arch }}.deb"
-download_package_tailscale_dst: "{{ download_dst }}/tailscale_{{ version }}.deb"
+download_package_tailscale_src: "{{ download_src }}/tailscale_{{ download_package_tailscale_version }}_{{ download_arch }}.deb"
+download_package_tailscale_dst: "{{ download_dst }}/tailscale_{{ download_package_tailscale_version }}.deb"
