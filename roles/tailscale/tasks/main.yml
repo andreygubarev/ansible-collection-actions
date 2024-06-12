@@ -27,9 +27,9 @@
 
 - name: Download Tailscale DEB package
   ansible.builtin.get_url:
-    url: "{{ tailscale_download_src[tailscale_download_arch] }}"
     dest: "{{ tailscale_download_dst }}/tailscale_{{ tailscale_download_version }}.deb"
-    checksum: "{{ tailscale_download_checksum }}"
+    url: "{{ tailscale_download_src[tailscale_download_arch] }}"
+    checksum: "{{ tailscale_download_checksum[tailscale_download_arch] }}"
     mode: 0644
 
 - name: Install Tailscale DEB package
