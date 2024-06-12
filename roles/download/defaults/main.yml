@@ -13,6 +13,10 @@ download_arch: >-
 ### Tailscale #################################################################
 download_package_tailscale_enabled: true
 download_package_tailscale_version: "1.66.4"
-download_package_tailscale_checksum: ""
-download_package_tailscale_src: "{{ download_src }}/tailscale_{{ download_package_tailscale_version }}_{{ download_arch }}.deb"
 download_package_tailscale_dst: "{{ download_dst }}/tailscale_{{ download_package_tailscale_version }}.deb"
+download_package_tailscale_src:
+  amd64: "{{ download_src }}/tailscale_{{ download_package_tailscale_version }}_amd64.deb"
+  arm64: "{{ download_src }}/tailscale_{{ download_package_tailscale_version }}_arm64.deb"
+download_package_tailscale_checksum:
+  amd64: "sha256:be3a20b194101a8d5b84e17802360b718f6545b817e3bf17d5aa52583bc3a36e"
+  arm64: "sha256:95f76dc08c489cc08a91b1f1a63fe50630ce92d7cbbfafb0d150db381ad91123"
