@@ -7,3 +7,5 @@ dnssd_status: false
 dnssd_provider_gandi_token: "{{ lookup('env', 'GANDI_PERSONAL_ACCESS_TOKEN') }}"
 dnssd_provider_porkbun_api_key: "{{ lookup('ansible.builtin.env', 'PORKBUN_API_KEY') }}"
 dnssd_provider_porkbun_api_secret: "{{ lookup('ansible.builtin.env', 'PORKBUN_API_SECRET') }}"
+dnssd_provider_route53_access_key: "{{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}"
+dnssd_provider_route53_secret_key: "{{ lookup('ansible.builtin.env', 'AWS_SECRET_ACCESS_KEY') }}"

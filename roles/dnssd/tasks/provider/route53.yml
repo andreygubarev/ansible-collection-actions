@@ -37,12 +37,13 @@
 
 - name: Register service | route53
   amazon.aws.route53:
-    state: present
+    state: create
     zone: "{{ dnssd_config['domain'] }}"
     record: "{{ dnssd_config['record']['name'] }}"
     type: "{{ dnssd_config['record']['type'] }}"
     ttl: "{{ dnssd_ttl }}"
     value: "{{ dnssd_config['record']['data'] }}"
+    wait: true
     aws_access_key: "{{ dnssd_provider_route53_access_key }}"
     aws_secret_key: "{{ dnssd_provider_route53_secret_key }}"
   register: dnssd_status_route53
