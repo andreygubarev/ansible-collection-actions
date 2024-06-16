@@ -1,0 +1,52 @@
+---
+- name: Assert configuration | route53
+  ansible.builtin.assert:
+    that:
+      - dnssd_provider is defined
+      - dnssd_provider == 'route53'
+
+      - dnssd_provider_route53_access_key is defined
+      - dnssd_provider_route53_access_key is string
+      - dnssd_provider_route53_access_key is match('^[A-Z0-9]{20}$')
+
+      - dnssd_provider_route53_secret_key is defined
+      - dnssd_provider_route53_secret_key is string
+      - dnssd_provider_route53_secret_key is match('^[a-zA-Z0-9/+]{40}$')
+
+      - dnssd_config is defined
+      - dnssd_config is mapping
+
+      - dnssd_config['domain'] is defined
+      - dnssd_config['domain'] is string
+      - dnssd_config['domain'] is match('^[a-z0-9.-]+$')
+
+      - dnssd_config['record'] is defined
+      - dnssd_config['record'] is mapping
+
+      - dnssd_config['record']['name'] is defined
+      - dnssd_config['record']['name'] is string
+      - dnssd_config['record']['name'] is match('^[a-z0-9.-]+$')
+
+      - dnssd_config['record']['type'] is defined
+      - dnssd_config['record']['type'] is string
+      - dnssd_config['record']['type'] in ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'SRV', 'NS', 'CAA', 'PTR', 'SOA']
+
+      - dnssd_config['record']['data'] is defined
+      - dnssd_config['record']['data'] is string
+      - dnssd_config['record']['data'] is match('^[a-z0-9.-]+$')
+
+- name: Register service | route53
+  amazon.aws.route53:
+    state: present
+    zone: "{{ dnssd_config['domain'] }}"
+    record: "{{ dnssd_config['record']['name'] }}"
+    type: "{{ dnssd_config['record']['type'] }}"
+    ttl: "{{ dnssd_ttl }}"
+    value: "{{ dnssd_config['record']['data'] }}"
+    aws_access_key: "{{ dnssd_provider_route53_access_key }}"
+    aws_secret_key: "{{ dnssd_provider_route53_secret_key }}"
+  register: dnssd_status_route53
+
+- name: Set service status | route53
+  ansible.builtin.set_fact:
+    dnssd_status: "{{ dnssd_status_route53.changed }}"

@@ -3,7 +3,7 @@
   ansible.builtin.assert:
     that:
       - dnssd_provider is defined
-      - dnssd_provider in ['gandi', 'porkbun']
+      - dnssd_provider in ['gandi', 'porkbun', 'route53']
       - dnssd_config is defined
       - dnssd_config is mapping
 
