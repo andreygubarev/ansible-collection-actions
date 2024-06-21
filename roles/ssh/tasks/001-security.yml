@@ -60,6 +60,27 @@
     line: "IgnoreRhosts yes"
   notify: Restart sshd
 
+- name: Ensure SSH HostbasedAuthentication is disabled (CIS 5.2.9)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?HostbasedAuthentication"
+    line: "HostbasedAuthentication no"
+  notify: Restart sshd
+
+- name: Ensure SSH root login is disabled (CIS 5.2.10)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin no"
+  notify: Restart sshd
+
+- name: Ensure SSH PermitUserEnvironment is disabled (CIS 5.2.11)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PermitUserEnvironment"
+    line: "PermitUserEnvironment no"
+  notify: Restart sshd
+
 - name: Set SSH connection parameters
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -102,13 +123,6 @@
     line: "MaxSessions 3"
   notify: Restart sshd
 
-- name: Disable Root Login
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?PermitRootLogin"
-    line: "PermitRootLogin no"
-  notify: Restart sshd
-
 - name: Disable Password Authentication
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -121,13 +135,6 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?Banner"
     line: "Banner none"
-  notify: Restart sshd
-
-- name: Disable User Environment
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?PermitUserEnvironment"
-    line: "PermitUserEnvironment no"
   notify: Restart sshd
 
 - name: Modify Cipher Suite
