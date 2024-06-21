@@ -8,7 +8,7 @@
   when: item.key is defined
   notify: Restart sshd
 
-- name: Allow SSH access for users (CIS 5.2.18)
+- name: Set allow SSH access for users (CIS 5.2.18)
   when: ssh_allow_users | length > 0
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -16,7 +16,7 @@
     line: "AllowUsers {{ ssh_allow_users | map(attribute='name') | join(' ') }}"
   notify: Restart sshd
 
-- name: Allow SSH access for users (CIS 5.2.18)
+- name: Unset allow SSH access for users (CIS 5.2.18)
   when: ssh_allow_users | length == 0
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -24,7 +24,7 @@
     state: absent
   notify: Restart sshd
 
-- name: Deny SSH access for users (CIS 5.2.18)
+- name: Set deny SSH access for users (CIS 5.2.18)
   when: ssh_deny_users | length > 0
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -32,7 +32,7 @@
     line: "DenyUsers {{ ssh_deny_users | map(attribute='name') | join(' ') }}"
   notify: Restart sshd
 
-- name: Deny SSH access for users (CIS 5.2.18)
+- name: Unset deny SSH access for users (CIS 5.2.18)
   when: ssh_deny_users | length == 0
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -40,7 +40,7 @@
     state: absent
   notify: Restart sshd
 
-- name: Allow SSH access for groups (CIS 5.2.18)
+- name: Set allow SSH access for groups (CIS 5.2.18)
   when: ssh_allow_groups | length > 0
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -48,7 +48,7 @@
     line: "AllowGroups {{ ssh_allow_groups | map(attribute='name') | join(' ') }}"
   notify: Restart sshd
 
-- name: Allow SSH access for groups (CIS 5.2.18)
+- name: Unset allow SSH access for groups (CIS 5.2.18)
   when: ssh_allow_groups | length == 0
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -56,7 +56,7 @@
     state: absent
   notify: Restart sshd
 
-- name: Deny SSH access for groups (CIS 5.2.18)
+- name: Set deny SSH access for groups (CIS 5.2.18)
   when: ssh_deny_groups | length > 0
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -64,7 +64,7 @@
     line: "DenyGroups {{ ssh_deny_groups | map(attribute='name') | join(' ') }}"
   notify: Restart sshd
 
-- name: Deny SSH access for groups (CIS 5.2.18)
+- name: Unset deny SSH access for groups (CIS 5.2.18)
   when: ssh_deny_groups | length == 0
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
