@@ -1,6 +1,29 @@
 # OpenSSH Server Hardening
+
 - name: Disable X11 Forwarding
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?X11Forwarding"
     line: "X11Forwarding no"
+  notify: Restart sshd
+
+- name: Disable SSH Root Login
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin no"
+  notify: Restart sshd
+
+- name: Disable Password Authentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PasswordAuthentication"
+    line: "PasswordAuthentication no"
+  notify: Restart sshd
+
+- name: Disable SSH Banner
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?Banner"
+    line: "Banner none"
+  notify: Restart sshd
