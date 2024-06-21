@@ -1,5 +1,9 @@
 # OpenSSH Server Hardening
 
+###############################################################################
+# CIS 5.2 - OpenSSH Server Configuration
+###############################################################################
+
 - name: Ensure permissions on /etc/ssh/sshd_config are configured (CIS 5.2.1)
   ansible.builtin.file:
     path: /etc/ssh/sshd_config
@@ -74,91 +78,104 @@
     line: "PermitRootLogin no"
   notify: Restart sshd
 
-- name: Ensure SSH PermitUserEnvironment is disabled (CIS 5.2.11)
+- name: Ensure SSH PermitEmptyPasswords is disabled (CIS 5.2.11)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PermitEmptyPasswords"
+    line: "PermitEmptyPasswords no"
+  notify: Restart sshd
+
+- name: Ensure SSH PermitUserEnvironment is disabled (CIS 5.2.12)
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?PermitUserEnvironment"
     line: "PermitUserEnvironment no"
   notify: Restart sshd
 
-- name: Set SSH connection parameters
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?ClientAliveInterval"
-    line: "ClientAliveInterval 300"
-  notify: Restart sshd
-
-- name: Set SSH connection parameters
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?ClientAliveCountMax"
-    line: "ClientAliveCountMax 0"
-  notify: Restart sshd
-
-- name: Set SSH login grace time
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?LoginGraceTime"
-    line: "LoginGraceTime 60"
-  notify: Restart sshd
-
-- name: Enable UsePAM
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?UsePAM"
-    line: "UsePAM yes"
-  notify: Restart sshd
-
-- name: Enable MaxStartups is set
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?MaxStartups"
-    line: "MaxStartups 10:30:60"
-  notify: Restart sshd
-
-- name: Enable max sessions
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?MaxSessions"
-    line: "MaxSessions 3"
-  notify: Restart sshd
-
-- name: Disable Password Authentication
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?PasswordAuthentication"
-    line: "PasswordAuthentication no"
-  notify: Restart sshd
-
-- name: Disable SSH Banner
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?Banner"
-    line: "Banner none"
-  notify: Restart sshd
-
-- name: Modify Cipher Suite
+- name: Ensure only strong Ciphers are used (CIS 5.2.13)
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?Ciphers"
     line: "Ciphers aes128-ctr,aes192-ctr,aes256-ctr"
   notify: Restart sshd
 
-- name: Modify MACs
+- name: Ensure only strong MAC algorithms are used (CIS 5.2.14)
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?MACs"
     line: "MACs hmac-sha2-256,hmac-sha2-512"
   notify: Restart sshd
 
-- name: Modify KexAlgorithms
+- name: Ensure only strong Key Exchange algorithms are used (CIS 5.2.15)
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?KexAlgorithms"
     line: "KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521"
   notify: Restart sshd
 
-- name: Modify HostKeyAlgorithms
+- name: Ensure SSH Idle Timeout Interval is configured (CIS 5.2.16)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?{{ item.key }}"
+    line: "{{ item.key }} {{ item.value }}"
+  with_items:
+    - key: ClientAliveInterval
+      value: 300
+    - key: ClientAliveCountMax
+      value: 0
+  notify: Restart sshd
+
+- name: Ensure SSH LoginGraceTime is set to one minute or less (CIS 5.2.17)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?LoginGraceTime"
+    line: "LoginGraceTime 60"
+  notify: Restart sshd
+
+# - name: Ensure SSH access is limited (CIS 5.2.18)
+
+- name: Ensure SSH warning banner is configured (CIS 5.2.19)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?Banner"
+    line: "Banner none"
+  notify: Restart sshd
+
+- name: Ensure SSH PAM is enabled (CIS 5.2.20)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?UsePAM"
+    line: "UsePAM yes"
+  notify: Restart sshd
+
+# - name: Ensure SSH AllowTcpForwarding is disabled (CIS 5.2.21)
+
+- name: Ensure SSH MaxStartups is configured (CIS 5.2.22)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?MaxStartups"
+    line: "MaxStartups 10:30:60"
+  notify: Restart sshd
+
+- name: Ensure SSH MaxSessions is set to 4 or less (CIS 5.2.23)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?MaxSessions"
+    line: "MaxSessions 3"
+  notify: Restart sshd
+
+###############################################################################
+# Additional Hardening
+###############################################################################
+
+- name: Ensure SSH Password Authentication is disabled
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PasswordAuthentication"
+    line: "PasswordAuthentication no"
+  notify: Restart sshd
+
+- name: Ensure only strong Host Key Algorithms are used
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?HostKeyAlgorithms"
