@@ -1,0 +1,16 @@
+---
+- name: Install OpenSSH server
+  ansible.builtin.apt:
+    name:
+      - openssh-server
+    state: present
+    update_cache: true
+
+- name: Start OpenSSH service
+  ansible.builtin.service:
+    name: ssh
+    state: started
+    enabled: true
+
+- name: Enhance OpenSSH security
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/001-security.yml"
