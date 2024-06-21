@@ -1,8 +1,7 @@
 ---
 ssh_allow_tcp_forwarding: true
 
-ssh_allow_users:
-  - name: admin
+ssh_allow_users: []
 ssh_allow_groups: []
 ssh_deny_users: []
 ssh_deny_groups: []
