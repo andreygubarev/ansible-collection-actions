@@ -148,7 +148,12 @@
     line: "UsePAM yes"
   notify: Restart sshd
 
-# - name: Ensure SSH AllowTcpForwarding is disabled (CIS 5.2.21)
+- name: Ensure SSH AllowTcpForwarding is disabled (CIS 5.2.21)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?AllowTcpForwarding"
+    line: "AllowTcpForwarding {{ ssh_allow_tcp_forwarding | ternary('no', 'yes') }}"
+  notify: Restart sshd
 
 - name: Ensure SSH MaxStartups is configured (CIS 5.2.22)
   ansible.builtin.lineinfile:
