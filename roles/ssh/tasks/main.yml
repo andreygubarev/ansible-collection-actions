@@ -12,9 +12,5 @@
     state: started
     enabled: true
 
-- name: Authorize SSH access
-  ansible.posix.authorized_key:
-    user: root
-    state: present
-    key: "{{ item }}"
-  with_items: "{{ ssh_authorized_keys }}"
+- name: Enhance OpenSSH security
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/001-security.yml"
