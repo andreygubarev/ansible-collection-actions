@@ -27,3 +27,31 @@
     regexp: "^#?Banner"
     line: "Banner none"
   notify: Restart sshd
+
+- name: Modify Cipher Suite
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?Ciphers"
+    line: "Ciphers aes128-ctr,aes192-ctr,aes256-ctr"
+  notify: Restart sshd
+
+- name: Modify MACs
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?MACs"
+    line: "MACs hmac-sha2-256,hmac-sha2-512"
+  notify: Restart sshd
+
+- name: Modify KexAlgorithms
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?KexAlgorithms"
+    line: "KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521"
+  notify: Restart sshd
+
+- name: Modify HostKeyAlgorithms
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?HostKeyAlgorithms"
+    line: "HostKeyAlgorithms ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-rsa,ssh-dss"
+  notify: Restart sshd
