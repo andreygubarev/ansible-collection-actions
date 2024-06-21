@@ -1,1 +1,6 @@
 # OpenSSH Server Hardening
+- name: Disable X11 Forwarding
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?X11Forwarding"
+    line: "X11Forwarding no"
