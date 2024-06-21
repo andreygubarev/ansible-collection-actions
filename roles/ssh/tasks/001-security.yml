@@ -1,6 +1,31 @@
 # OpenSSH Server Hardening
 
-- name: Set SSH Protocol Version
+- name: Ensure permissions on /etc/ssh/sshd_config are configured
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Ensure permissions on SSH private host key files are configured
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: "0600"
+  with_fileglob:
+    - /etc/ssh/ssh_host_*_key
+
+- name: Ensure permissions on SSH public host key files are configured
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: "0644"
+  with_fileglob:
+    - /etc/ssh/ssh_host_*_key.pub
+
+- name: Ensure SSH Protocol is set to 2
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?Protocol"
