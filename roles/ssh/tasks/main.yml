@@ -14,3 +14,6 @@
 
 - name: Enhance OpenSSH security
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/001-security.yml"
+
+- name: Configure OpenSSH access control
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/002-access-control.yml"

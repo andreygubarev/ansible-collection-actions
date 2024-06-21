@@ -1,0 +1,32 @@
+---
+- name: Authorize SSH keys
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ item.key }}"
+  with_items: "{{ ssh_allow_users }}"
+  when: item.key is defined
+
+- name: Ensure SSH access is allowed for users (CIS 5.2.18)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?AllowUsers"
+    line: "AllowUsers {{ ssh_allow_users | map(attribute='name') | join(' ') }}"
+
+- name: Ensure SSH access is denied for users (CIS 5.2.18)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?DenyUsers"
+    line: "DenyUsers {{ ssh_deny_users | map(attribute='name') | join(' ') }}"
+
+- name: Ensure SSH access is allowed for groups (CIS 5.2.18)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?AllowGroups"
+    line: "AllowGroups {{ ssh_allow_groups | map(attribute='name') | join(' ') }}"
+
+- name: Ensure SSH access is denied for groups (CIS 5.2.18)
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?DenyGroups"
+    line: "DenyGroups {{ ssh_deny_groups | map(attribute='name') | join(' ') }}"
