@@ -1,5 +1,68 @@
 # OpenSSH Server Hardening
 
+- name: Set SSH Protocol Version
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?Protocol"
+    line: "Protocol 2"
+  notify: Restart sshd
+
+- name: Set SSH connection parameters
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?ClientAliveInterval"
+    line: "ClientAliveInterval 300"
+  notify: Restart sshd
+
+- name: Set SSH connection parameters
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?ClientAliveCountMax"
+    line: "ClientAliveCountMax 0"
+  notify: Restart sshd
+
+- name: Set SSH max auth tries
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?MaxAuthTries"
+    line: "MaxAuthTries 3"
+  notify: Restart sshd
+
+- name: Set SSH login grace time
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?LoginGraceTime"
+    line: "LoginGraceTime 60"
+  notify: Restart sshd
+
+- name: Set SSH rhostbased authentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?RhostsAuthentication"
+    line: "RhostsAuthentication no"
+  notify: Restart sshd
+
+- name: Enable UsePAM
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?UsePAM"
+    line: "UsePAM yes"
+  notify: Restart sshd
+
+- name: Enable MaxStartups is set
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?MaxStartups"
+    line: "MaxStartups 10:30:60"
+  notify: Restart sshd
+
+- name: Enable max sessions
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?MaxSessions"
+    line: "MaxSessions 3"
+  notify: Restart sshd
+
 - name: Disable X11 Forwarding
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
@@ -7,7 +70,7 @@
     line: "X11Forwarding no"
   notify: Restart sshd
 
-- name: Disable SSH Root Login
+- name: Disable Root Login
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?PermitRootLogin"
@@ -26,6 +89,13 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?Banner"
     line: "Banner none"
+  notify: Restart sshd
+
+- name: Disable User Environment
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PermitUserEnvironment"
+    line: "PermitUserEnvironment no"
   notify: Restart sshd
 
 - name: Modify Cipher Suite
