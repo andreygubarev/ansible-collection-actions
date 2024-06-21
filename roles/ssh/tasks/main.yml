@@ -1,1 +1,20 @@
 ---
+- name: Install OpenSSH server
+  ansible.builtin.apt:
+    name:
+      - openssh-server
+    state: present
+    update_cache: true
+
+- name: Start OpenSSH service
+  ansible.builtin.service:
+    name: ssh
+    state: started
+    enabled: true
+
+- name: Authorize SSH access
+  ansible.posix.authorized_key:
+    user: root
+    state: present
+    key: "{{ item }}"
+  with_items: "{{ ssh_authorized_keys }}"
