@@ -1,7 +1,18 @@
 ---
-ssh_allow_tcp_forwarding: true
+ssh_allowtcpforwarding: true
 
-ssh_allow_users: []
-ssh_allow_groups: []
-ssh_deny_users: []
-ssh_deny_groups: []
+ssh_users: []
+# ssh_users:
+#   - name: user1
+#     state: allow
+#     key: https://github.com/user1.keys
+#   - name: user2
+#     state: deny
+#     key: https://github.com/user2.keys
+
+ssh_groups: []
+# ssh_groups:
+#   - name: group1
+#     state: allow
+#   - name: group2
+#     state: deny
