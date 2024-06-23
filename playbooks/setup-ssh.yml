@@ -4,5 +4,7 @@
   connection: local
   gather_facts: true
   become: true
+  environment:
+    PYTHONDONTWRITEBYTECODE: "1"
   roles:
     - role: ssh
