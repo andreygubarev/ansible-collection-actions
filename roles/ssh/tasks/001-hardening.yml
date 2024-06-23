@@ -173,6 +173,13 @@
 # Additional Hardening
 ###############################################################################
 
+- name: Ensure SSH Public Key Authentication is enabled
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PubkeyAuthentication"
+    line: "PubkeyAuthentication yes"
+  notify: Restart sshd
+
 - name: Ensure SSH Password Authentication is disabled
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
