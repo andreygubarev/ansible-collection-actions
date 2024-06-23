@@ -1,7 +1,7 @@
 ---
 - name: Install OpenSSH server
   when: ssh_install
-  ansible.builtin.include_tasks: "{{ role_path }}/tasks/000-openssh.yml"
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/000-install.yml"
 
 - name: Enhance OpenSSH security
   when: ssh_hardening
