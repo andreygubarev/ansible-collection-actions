@@ -96,21 +96,21 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?Ciphers"
-    line: "Ciphers aes128-ctr,aes192-ctr,aes256-ctr"
+    line: "Ciphers aes256-ctr,aes192-ctr,aes128-ctr"
   notify: Restart sshd
 
 - name: Ensure only strong MAC algorithms are used (CIS 5.2.14)
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?MACs"
-    line: "MACs hmac-sha2-256,hmac-sha2-512"
+    line: "MACs hmac-sha2-512,hmac-sha2-256"
   notify: Restart sshd
 
 - name: Ensure only strong Key Exchange algorithms are used (CIS 5.2.15)
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?KexAlgorithms"
-    line: "KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521"
+    line: "KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256"
   notify: Restart sshd
 
 - name: Ensure SSH Idle Timeout Interval is configured (CIS 5.2.16)
