@@ -1,5 +1,7 @@
 ---
-ssh_hardening: false
+ssh_install: true
+
+ssh_hardening: true
 ssh_hardening_allow_tcp_forwarding: false
 
 ssh_users: []

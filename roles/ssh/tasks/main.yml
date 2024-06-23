@@ -1,16 +1,7 @@
 ---
 - name: Install OpenSSH server
-  ansible.builtin.apt:
-    name:
-      - openssh-server
-    state: present
-    update_cache: true
-
-- name: Start OpenSSH service
-  ansible.builtin.service:
-    name: ssh
-    state: started
-    enabled: true
+  when: ssh_install
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/000-openssh.yml"
 
 - name: Enhance OpenSSH security
   when: ssh_hardening
