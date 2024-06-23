@@ -13,7 +13,9 @@
     enabled: true
 
 - name: Enhance OpenSSH security
-  ansible.builtin.include_tasks: "{{ role_path }}/tasks/001-security.yml"
+  when: ssh_hardening
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/001-hardening.yml"
 
 - name: Configure OpenSSH access control
+  when: ssh_users | length > 0 or ssh_groups | length > 0
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/002-access-control.yml"

@@ -1,5 +1,6 @@
 ---
-ssh_allowtcpforwarding: true
+ssh_hardening: false
+ssh_hardening_allow_tcp_forwarding: false
 
 ssh_users: []
 # ssh_users:
