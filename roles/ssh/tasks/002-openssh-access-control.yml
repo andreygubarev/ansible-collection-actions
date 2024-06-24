@@ -6,7 +6,7 @@
     key: "{{ item.key }}"
   with_items: "{{ ssh_allow_users }}"
   when: item.key is defined
-  notify: Restart sshd
+  notify: Restart OpenSSH
 
 - name: Configure SSH access control for users
   ansible.builtin.set_fact:
@@ -19,7 +19,7 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?AllowUsers"
     line: "AllowUsers {{ ssh_users_allow | join(' ') }}"
-  notify: Restart sshd
+  notify: Restart OpenSSH
 
 - name: Unset allow SSH access for users (CIS 5.2.18)
   when: ssh_users_allow | length == 0
@@ -27,7 +27,7 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?AllowUsers"
     state: absent
-  notify: Restart sshd
+  notify: Restart OpenSSH
 
 - name: Set deny SSH access for users (CIS 5.2.18)
   when: ssh_users_deny | length > 0
@@ -35,7 +35,7 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?DenyUsers"
     line: "DenyUsers {{ ssh_users_deny | join(' ') }}"
-  notify: Restart sshd
+  notify: Restart OpenSSH
 
 - name: Unset deny SSH access for users (CIS 5.2.18)
   when: ssh_users_deny | length == 0
@@ -43,7 +43,7 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?DenyUsers"
     state: absent
-  notify: Restart sshd
+  notify: Restart OpenSSH
 
 - name: Configure SSH access control for groups
   ansible.builtin.set_fact:
@@ -56,7 +56,7 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?AllowGroups"
     line: "AllowGroups {{ ssh_groups_allow | join(' ') }}"
-  notify: Restart sshd
+  notify: Restart OpenSSH
 
 - name: Unset allow SSH access for groups (CIS 5.2.18)
   when: ssh_groups_allow | length == 0
@@ -64,7 +64,7 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?AllowGroups"
     state: absent
-  notify: Restart sshd
+  notify: Restart OpenSSH
 
 - name: Set deny SSH access for groups (CIS 5.2.18)
   when: ssh_groups_deny | length > 0
@@ -72,7 +72,7 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?DenyGroups"
     line: "DenyGroups {{ ssh_groups_deny | join(' ') }}"
-  notify: Restart sshd
+  notify: Restart OpenSSH
 
 - name: Unset deny SSH access for groups (CIS 5.2.18)
   when: ssh_groups_deny | length == 0
@@ -80,4 +80,4 @@
     path: /etc/ssh/sshd_config
     regexp: "^#?DenyGroups"
     state: absent
-  notify: Restart sshd
+  notify: Restart OpenSSH

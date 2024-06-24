@@ -3,3 +3,8 @@
   ansible.builtin.service:
     name: sshd
     state: restarted
+
+- name: Restart SSHGuard
+  ansible.builtin.service:
+    name: sshguard
+    state: restarted

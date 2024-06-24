@@ -20,3 +20,4 @@
     path: /etc/sshguard/whitelist
     line: "{{ item }}"
   with_items: "{{ ssh_sshguard_allowlist }}"
+  notify: Restart SSHGuard
