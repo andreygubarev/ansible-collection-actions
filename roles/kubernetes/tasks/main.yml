@@ -15,7 +15,7 @@
     kubernetes_node_running: "{{ kubernetes_node_running.stat.exists }}"
 
 - name: Bootstrap cluster
-  when: kubernetes_bootstrap_enabled and not kubernetes_node_running
+  when: kubernetes_cluster_bootstrap and not kubernetes_node_running
   ansible.builtin.import_tasks: 020-setup.yml
 
 - name: Wait for cluster to be ready

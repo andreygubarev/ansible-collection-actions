@@ -8,14 +8,10 @@
       - kubernetes_node_role in ["server", "agent"]
       - kubernetes_cluster_apiserver is defined
       - kubernetes_cluster_apiserver != ""
-      - kubernetes_bootstrap_token is defined
-      - kubernetes_bootstrap_token != ""
-      - kubernetes_bootstrap_enabled is defined
-      - kubernetes_bootstrap_enabled and kubernetes_node_role == "server" or not kubernetes_bootstrap_enabled
-      - kubernetes_bootstrap_namespace is defined
-      - kubernetes_bootstrap_namespace != ""
-      - kubernetes_bootstrap_name is defined
-      - kubernetes_bootstrap_name != ""
+      - kubernetes_cluster_token is defined
+      - kubernetes_cluster_token != ""
+      - kubernetes_cluster_bootstrap is defined
+      - kubernetes_cluster_bootstrap and kubernetes_node_role == "server" or not kubernetes_cluster_bootstrap
 
 - name: Assert architecture
   ansible.builtin.assert:

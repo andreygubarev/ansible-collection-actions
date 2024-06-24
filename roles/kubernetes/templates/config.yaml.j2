@@ -1,4 +1,4 @@
-token: {{ kubernetes_bootstrap_token }}
+token: {{ kubernetes_cluster_token }}
 
 {% if kubernetes_node_labels is defined and kubernetes_node_labels != [] %}
 node-label:
@@ -7,7 +7,7 @@ node-label:
 {% endfor %}
 {% endif %}
 
-{% if kubernetes_bootstrap_enabled %}
+{% if kubernetes_cluster_bootstrap %}
 {% if not kubernetes_node_running %}
 cluster-init: true
 {% endif %}
