@@ -1,5 +1,6 @@
 ---
 # Kubernetes | Cluster | Bootstrap
+kubernetes_bootstrap_enabled: ""
 kubernetes_bootstrap_namespace: "{{ lookup('env', 'KUBERNETES_BOOTSTRAP_NAMESPACE', default='') }}"
 kubernetes_bootstrap_name: "{{ lookup('env', 'KUBERNETES_BOOTSTRAP_NAME', default='') }}"
 kubernetes_bootstrap_token: "{{ lookup('env', 'KUBERNETES_BOOTSTRAP_TOKEN', default='') }}"

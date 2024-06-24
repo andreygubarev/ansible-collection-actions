@@ -4,5 +4,23 @@
   connection: local
   gather_facts: true
   become: true
-  roles:
-    - role: kubernetes
+  tasks:
+    - name: DNS Service Discovery
+      ansible.builtin.include_role:
+        name: dnssd
+      vars:
+        dnssd_provider: porkbun
+        dnssd_config:
+          domain: "{{ kubernetes_bootstrap_namespace }}"
+          record:
+            name: "{{ kubernetes_bootstrap_name }}"
+            type: A
+            data: "{{ ansible_default_ipv4.address }}"
+
+    - name: Set Kubernetes Cluster Bootstrap Node
+      ansible.builtin.set_fact:
+        kubernetes_bootstrap_enabled: "{{ dnssd_status }}"
+
+    - name: Setup Kubernetes Cluster
+      ansible.builtin.include_role:
+        name: kubernetes
