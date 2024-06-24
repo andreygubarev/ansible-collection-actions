@@ -1,6 +1,10 @@
 ---
-ssh_install: true
-ssh_install_sshguard: true
+ssh_openssh: true
+
+ssh_sshguard: true
+ssh_sshguard_allowlist: []
+# ssh_sshguard_allowlist:
+#   - 100.64.0.1/32
 
 ssh_hardening: true
 ssh_hardening_allow_tcp_forwarding: false

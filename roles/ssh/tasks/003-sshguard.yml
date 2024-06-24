@@ -13,3 +13,10 @@
     name: sshguard
     state: started
     enabled: true
+
+- name: Set SSHGuard allowlist
+  when: ssh_sshguard_allowlist | length > 0
+  ansible.builtin.lineinfile:
+    path: /etc/sshguard/whitelist
+    line: "{{ item }}"
+  with_items: "{{ ssh_sshguard_allowlist }}"

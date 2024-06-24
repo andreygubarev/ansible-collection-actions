@@ -1,16 +1,16 @@
 ---
 - name: Install OpenSSH server
-  when: ssh_install
-  ansible.builtin.include_tasks: "{{ role_path }}/tasks/000-install.yml"
+  when: ssh_openssh
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/000-openssh.yml"
 
 - name: Enhance OpenSSH security
   when: ssh_hardening
-  ansible.builtin.include_tasks: "{{ role_path }}/tasks/001-hardening.yml"
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/001-openssh-hardening.yml"
 
 - name: Configure OpenSSH access control
   when: ssh_users | length > 0 or ssh_groups | length > 0
-  ansible.builtin.include_tasks: "{{ role_path }}/tasks/002-access-control.yml"
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/002-openssh-access-control.yml"
 
 - name: Install SSHGuard
-  when: ssh_install_sshguard
+  when: ssh_sshguard
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/003-sshguard.yml"
