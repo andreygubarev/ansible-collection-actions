@@ -152,7 +152,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?AllowTcpForwarding"
-    line: "AllowTcpForwarding {{ ssh_hardening_allow_tcp_forwarding | ternary('no', 'yes') }}"
+    line: "AllowTcpForwarding {{ ssh_hardening_allow_tcp_forwarding | ternary('yes', 'no') }}"
   notify: Restart OpenSSH
 
 - name: Ensure SSH MaxStartups is configured (CIS 5.2.22)
