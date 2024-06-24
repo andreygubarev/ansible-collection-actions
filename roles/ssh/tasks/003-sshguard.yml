@@ -1,0 +1,15 @@
+---
+- name: Install SSHGuard
+  ansible.builtin.apt:
+    name:
+      - sshguard
+      - nftables
+    state: present
+    update_cache: true
+    install_recommends: false
+
+- name: Start SSHGuard service
+  ansible.builtin.service:
+    name: sshguard
+    state: started
+    enabled: true

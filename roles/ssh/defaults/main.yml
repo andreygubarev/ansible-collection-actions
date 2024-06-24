@@ -1,5 +1,6 @@
 ---
 ssh_install: true
+ssh_install_sshguard: true
 
 ssh_hardening: true
 ssh_hardening_allow_tcp_forwarding: false

@@ -10,3 +10,7 @@
 - name: Configure OpenSSH access control
   when: ssh_users | length > 0 or ssh_groups | length > 0
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/002-access-control.yml"
+
+- name: Install SSHGuard
+  when: ssh_install_sshguard
+  ansible.builtin.include_tasks: "{{ role_path }}/tasks/003-sshguard.yml"
