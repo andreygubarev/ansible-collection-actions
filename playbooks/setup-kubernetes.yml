@@ -6,7 +6,7 @@
   become: true
   tasks:
     - name: Service Discovery
-      when: kubernetes_bootstrap_enabled is not defined or kubernetes_bootstrap_enabled == ""
+      when: kubernetes_cluster_bootstrap is not defined or kubernetes_cluster_bootstrap == ""
       block:
         - name: DNS Service Discovery
           ansible.builtin.include_role:
@@ -22,7 +22,7 @@
 
         - name: Set Kubernetes Cluster Bootstrap Node
           ansible.builtin.set_fact:
-            kubernetes_bootstrap_enabled: "{{ dnssd_status }}"
+            kubernetes_cluster_bootstrap: "{{ dnssd_status }}"
 
     - name: Setup Kubernetes Cluster
       ansible.builtin.include_role:
