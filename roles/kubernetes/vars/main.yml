@@ -49,7 +49,6 @@ kubernetes_command_args:
     {% if kubernetes_node_name != "" %}
     --node-name={{ kubernetes_node_name }}
     {% endif %}
-    --with-node-id
     --private-registry {{ kubernetes_registry_config }}
     --cluster-cidr {{ kubernetes_network_subnet_pods }}
     --service-cidr {{ kubernetes_network_subnet_services }}
@@ -68,7 +67,6 @@ kubernetes_command_args:
     {% if kubernetes_node_name != "" %}
     --node-name={{ kubernetes_node_name }}
     {% endif %}
-    --with-node-id
     --private-registry {{ kubernetes_registry_config }}
     {% if kubernetes_node_external_ip != "" %}
     --node-external-ip={{ kubernetes_node_external_ip }}
