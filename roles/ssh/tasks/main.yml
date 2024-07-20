@@ -12,5 +12,4 @@
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/002-openssh-access-control.yml"
 
 - name: Install SSHGuard
-  when: ssh_sshguard
   ansible.builtin.include_tasks: "{{ role_path }}/tasks/003-sshguard.yml"
