@@ -1,6 +1,6 @@
 ---
 - name: Restart OpenSSH
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: ssh
     state: restarted
 
