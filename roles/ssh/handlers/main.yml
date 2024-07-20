@@ -8,4 +8,4 @@
   when: "'sshguard.service' in ansible_facts.services"
   ansible.builtin.systemd_service:
     name: sshguard
-    state: restarted
+    state: "{{ sshguard | ternary('restarted', 'stopped') }}"
