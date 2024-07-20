@@ -5,6 +5,6 @@
     state: restarted
 
 - name: Restart SSHGuard
-  ansible.builtin.service:
+  ansible.builtin.systemd_service:
     name: sshguard
     state: restarted
