@@ -9,6 +9,6 @@
 
 - name: Start OpenSSH service
   ansible.builtin.service:
-    name: sshd
+    name: ssh
     state: started
     enabled: true
