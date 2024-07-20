@@ -9,7 +9,14 @@
     update_cache: true
     install_recommends: false
 
+- name: Gather SSHGuard service facts
+  ansible.builtin.service_facts: {}
+
+- debug:
+    var: ansible_facts.services
+
 - name: Start SSHGuard service
+  when: ansible_facts.services['sshguard']
   ansible.builtin.service:
     name: sshguard
     state: started
