@@ -148,7 +148,7 @@
     line: "UsePAM yes"
   notify: Restart OpenSSH
 
-- name: Ensure SSH AllowTcpForwarding is disabled (CIS 5.2.21)
+- name: Ensure SSH AllowTcpForwarding (CIS 5.2.21)
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?AllowTcpForwarding"
