@@ -1,3 +1,7 @@
 ---
 - name: Ping
   ansible.builtin.ping:
+
+- name: Debug
+  ansible.builtin.debug:
+    msg: "{{ ping_message }}"
