@@ -8,7 +8,7 @@
     - role: ssh
       vars:
         ssh_openssh: "{{ install | default(false) }}"
-        ssh_sshguard: false
+        ssh_sshguard: "{{ enable_sshguard | default(false) }}"
 
         ssh_sshguard_allowlist: []
         # ssh_sshguard_allowlist:
