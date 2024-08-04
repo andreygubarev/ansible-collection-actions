@@ -4,7 +4,7 @@
   connection: local
   gather_facts: true
   become: true
-  pre_tasks:
+  tasks:
     - name: Process aliases
       ansible.builtin.set_fact:
         install: "{{ install | default(i) | default(false) }}"
@@ -44,5 +44,6 @@
           {{ [] }}
           {%- endif -%}
 
-  roles:
-    - role: ssh
+    - name: Include SSH role
+      ansible.builtin.include_role:
+        name: ssh
