@@ -4,9 +4,9 @@
   connection: local
   gather_facts: true
   become: true
-  roles:
-    - role: ssh
-      vars:
+  pre_tasks:
+    - name: Prepare variables
+      ansible.builtin.set_fact:
         # --install
         ssh_openssh: "{{ install | default(false) }}"
 
@@ -22,22 +22,18 @@
         # --user=andrey:andreygubarev
         ssh_users: >-
           {%- if user is defined and user is string and user | length > 0 -%}
-          [dict(["name", "key"] | zip(user | split(':'))) | combine({"state": "allow"})]
+          {{ [dict(["name", "key"] | zip(user | split(':'))) | combine({"state": "allow"})] }}
           {%- else -%}
-          []
+          {{ [] }}
           {%- endif -%}
 
-        # ssh_users:
-        #   - name: user1
-        #     state: allow
-        #     key: https://github.com/user1.keys
-        #   - name: user2
-        #     state: deny
-        #     key: https://github.com/user2.keys
+        # --group=group1
+        ssh_groups: >-
+          {%- if group is defined and group is string and group | length > 0 -%}
+          {{ [dict(["name"] | zip([group])) | combine({"state": "allow"})] }}
+          {%- else -%}
+          {{ [] }}
+          {%- endif -%}
 
-        ssh_groups: []
-        # ssh_groups:
-        #   - name: group1
-        #     state: allow
-        #   - name: group2
-        #     state: deny
+  roles:
+    - role: ssh
