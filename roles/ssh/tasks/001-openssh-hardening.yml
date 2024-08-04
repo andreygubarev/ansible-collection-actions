@@ -75,7 +75,7 @@
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?PermitRootLogin"
-    line: "PermitRootLogin {{ 'no' if ssh_hardening_allow_root_login else 'yes' }}"
+    line: "PermitRootLogin {{ ssh_hardening_allow_root_login | ternary('yes', 'no') }}"
   notify: Restart OpenSSH
 
 - name: Ensure SSH PermitEmptyPasswords is disabled (CIS 5.2.11)
