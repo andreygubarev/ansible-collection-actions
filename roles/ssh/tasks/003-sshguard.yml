@@ -1,6 +1,5 @@
 ---
 - name: Install SSHGuard
-  when: ssh_sshguard
   ansible.builtin.apt:
     name:
       - sshguard
