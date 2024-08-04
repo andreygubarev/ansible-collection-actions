@@ -3,7 +3,12 @@
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
     state: present
-    key: "{{ item.key }}"
+    key: >-
+      {%- if item.key | regex_search('^[a-zA-Z0-9-]+$') %}
+      https://github.com/{{ item.key }}.keys
+      {%- else %}
+      {{ item.key }}
+      {%- endif %}
   with_items: "{{ ssh_users }}"
   when: item.key is defined
   notify: Restart OpenSSH
