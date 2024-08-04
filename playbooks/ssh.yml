@@ -7,14 +7,14 @@
   pre_tasks:
     - name: Process aliases
       ansible.builtin.set_fact:
-        install: "{{ install | default(i) }}"
-        user: "{{ user | default(u) }}"
-        group: "{{ group | default(g) }}"
+        install: "{{ install | default(i) | default(false) }}"
+        user: "{{ user | default(u) | default('') }}"
+        group: "{{ group | default(g) | default('') }}"
 
     - name: Process variables
       ansible.builtin.set_fact:
         # -i or --install
-        ssh_openssh: "{{ install | default(false) | bool }}"
+        ssh_openssh: "{{ install | default(false) }}"
 
         # --enable-sshguard
         ssh_sshguard: "{{ enable_sshguard | default(false) }}"
