@@ -7,17 +7,26 @@
   roles:
     - role: ssh
       vars:
+        # --install
         ssh_openssh: "{{ install | default(false) }}"
+
+        # --enable-sshguard
         ssh_sshguard: "{{ enable_sshguard | default(false) }}"
 
-        ssh_sshguard_allowlist: []
-        # ssh_sshguard_allowlist:
-        #   - 100.64.0.1/32
-
+        # --enable-hardening
         ssh_hardening: "{{ enable_hardening | default(false) }}"
+
+        # --enable-tcp-forwarding
         ssh_hardening_allow_tcp_forwarding: "{{ enable_tcp_forwarding | default(false) }}"
 
-        ssh_users: []
+        # --user=andrey:andreygubarev
+        ssh_users: >-
+          {%- if user is defined and user is string and user | length > 0 and user | search(':') > 0 -%}
+          [dict(["name", "key"] | zip(user | split(':'))) | combine({"state": "allow"})]
+          {%- else -%}
+          []
+          {%- endif -%}
+
         # ssh_users:
         #   - name: user1
         #     state: allow
