@@ -25,7 +25,7 @@
         # --enable-tcp-forwarding
         ssh_hardening_allow_tcp_forwarding: "{{ enable_tcp_forwarding | default(false) }}"
 
-        # -u or --user=andrey:andreygubarev
+        # -u or --user=andrey:andreygubarev (where andreygubarev is github username)
         ssh_users: >-
           {%- if user is string and user | length > 0 -%}
           {{ [dict(["name", "key"] | zip(user | split(':'))) | combine({"state": "allow"})] }}
