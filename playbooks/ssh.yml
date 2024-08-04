@@ -5,10 +5,16 @@
   gather_facts: true
   become: true
   pre_tasks:
-    - name: Prepare variables
+    - name: Process aliases
       ansible.builtin.set_fact:
-        # --install
-        ssh_openssh: "{{ install | default(false) }}"
+        install: "{{ install | default(i) }}"
+        user: "{{ user | default(u) }}"
+        group: "{{ group | default(g) }}"
+
+    - name: Process variables
+      ansible.builtin.set_fact:
+        # -i or --install
+        ssh_openssh: "{{ install | default(false) | bool }}"
 
         # --enable-sshguard
         ssh_sshguard: "{{ enable_sshguard | default(false) }}"
