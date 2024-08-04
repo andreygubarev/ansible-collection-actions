@@ -25,6 +25,9 @@
         # --enable-tcp-forwarding
         ssh_hardening_allow_tcp_forwarding: "{{ enable_tcp_forwarding | default(false) }}"
 
+        # --enable-root-login
+        ssh_hardening_allow_root_login: "{{ enable_root_login | default(false) }}"
+
         # -u or --user=andrey:andreygubarev (where andreygubarev is github username)
         ssh_users: >-
           {%- if user is string and user | length > 0 -%}

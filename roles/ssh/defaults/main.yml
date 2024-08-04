@@ -8,6 +8,7 @@ ssh_sshguard_allowlist: []
 
 ssh_hardening: true
 ssh_hardening_allow_tcp_forwarding: false
+ssh_hardening_allow_root_login: false
 
 ssh_users: []
 # ssh_users:
