@@ -27,7 +27,7 @@
 
         # -u or --user=andrey:andreygubarev
         ssh_users: >-
-          {%- if user is defined and user is string and user | length > 0 -%}
+          {%- if user is string and user | length > 0 -%}
           {{ [dict(["name", "key"] | zip(user | split(':'))) | combine({"state": "allow"})] }}
           {%- else -%}
           {{ [] }}
@@ -35,7 +35,7 @@
 
         # -g or --group=group1
         ssh_groups: >-
-          {%- if group is defined and group is string and group | length > 0 -%}
+          {%- if group is string and group | length > 0 -%}
           {{ [dict(["name"] | zip([group])) | combine({"state": "allow"})] }}
           {%- else -%}
           {{ [] }}
