@@ -6,3 +6,29 @@
   become: true
   roles:
     - role: ssh
+      vars:
+        ssh_openssh: "{{ install | default(false) }}"
+        ssh_sshguard: false
+
+        ssh_sshguard_allowlist: []
+        # ssh_sshguard_allowlist:
+        #   - 100.64.0.1/32
+
+        ssh_hardening: "{{ enable_hardening | default(false) }}"
+        ssh_hardening_allow_tcp_forwarding: "{{ enable_tcp_forwarding | default(false) }}"
+
+        ssh_users: []
+        # ssh_users:
+        #   - name: user1
+        #     state: allow
+        #     key: https://github.com/user1.keys
+        #   - name: user2
+        #     state: deny
+        #     key: https://github.com/user2.keys
+
+        ssh_groups: []
+        # ssh_groups:
+        #   - name: group1
+        #     state: allow
+        #   - name: group2
+        #     state: deny
