@@ -25,7 +25,7 @@
         # --enable-tcp-forwarding
         ssh_hardening_allow_tcp_forwarding: "{{ enable_tcp_forwarding | default(false) }}"
 
-        # --user=andrey:andreygubarev
+        # -u or --user=andrey:andreygubarev
         ssh_users: >-
           {%- if user is defined and user is string and user | length > 0 -%}
           {{ [dict(["name", "key"] | zip(user | split(':'))) | combine({"state": "allow"})] }}
@@ -33,7 +33,7 @@
           {{ [] }}
           {%- endif -%}
 
-        # --group=group1
+        # -g or --group=group1
         ssh_groups: >-
           {%- if group is defined and group is string and group | length > 0 -%}
           {{ [dict(["name"] | zip([group])) | combine({"state": "allow"})] }}
