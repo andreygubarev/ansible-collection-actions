@@ -71,7 +71,7 @@
     line: "HostbasedAuthentication no"
   notify: Restart OpenSSH
 
-- name: Ensure SSH root login is disabled (CIS 5.2.10)
+- name: Ensure SSH root login (CIS 5.2.10)
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?PermitRootLogin"
