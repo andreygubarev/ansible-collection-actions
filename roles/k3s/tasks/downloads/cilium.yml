@@ -17,7 +17,7 @@
 - name: Download Cilium SHA256SUM
   when: not ciliumcli_checksum.stat.exists
   ansible.builtin.get_url:
-    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ k3s_download_version_ciliumcli }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
+    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ k3s_version_ciliumcli }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz.sha256sum"
     dest: "{{ k3s_path_cache }}/cilium.tar.gz.SHA256SUM"
     tmp_dest: "{{ k3s_path_tmp }}"
     mode: 0644
@@ -35,7 +35,7 @@
 - name: Download Cilium
   when: not ciliumcli_binary.stat.exists
   ansible.builtin.get_url:
-    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ k3s_download_version_ciliumcli }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
+    url: "https://github.com/cilium/cilium-cli/releases/download/v{{ k3s_version_ciliumcli }}/cilium-linux-{{ ciliumcli_architecture }}.tar.gz"
     checksum: "sha256:file://{{ k3s_path_cache }}/cilium.tar.gz.SHA256SUM"
     dest: "{{ k3s_path_cache }}/cilium.tar.gz"
     tmp_dest: "{{ k3s_path_tmp }}"

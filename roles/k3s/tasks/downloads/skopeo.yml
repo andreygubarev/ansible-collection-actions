@@ -17,7 +17,7 @@
 - name: Download Skopeo SHA256SUM
   when: not skopeo_checksum.stat.exists
   ansible.builtin.get_url:
-    url: "https://github.com/lework/skopeo-binary/releases/download/v{{ k3s_download_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}.sha256"
+    url: "https://github.com/lework/skopeo-binary/releases/download/v{{ k3s_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}.sha256"
     dest: "{{ k3s_path_cache }}/skopeo.SHA256SUM"
     tmp_dest: "{{ k3s_path_tmp }}"
     mode: 0644
@@ -43,7 +43,7 @@
 - name: Download Skopeo
   when: not skopeo_binary.stat.exists
   ansible.builtin.get_url:
-    url: "https://github.com/lework/skopeo-binary/releases/download/v{{ k3s_download_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}"
+    url: "https://github.com/lework/skopeo-binary/releases/download/v{{ k3s_version_skopeo }}/skopeo-linux-{{ skopeo_architecture }}"
     checksum: "sha256:file://{{ k3s_path_cache }}/skopeo.SHA256SUM"
     dest: "{{ k3s_path_cache }}/skopeo"
     tmp_dest: "{{ k3s_path_tmp }}"

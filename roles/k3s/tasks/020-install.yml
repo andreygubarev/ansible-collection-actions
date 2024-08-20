@@ -19,7 +19,7 @@
 
 - name: Install Helm
   ansible.builtin.unarchive:
-    src: "{{ k3s_path_cache }}/helm-v{{ k3s_download_version_helm }}.tar.gz"
+    src: "{{ k3s_path_cache }}/helm-v{{ k3s_version_helm }}.tar.gz"
     dest: /usr/local/bin
     remote_src: true
     include:
