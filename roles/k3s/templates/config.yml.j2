@@ -1,7 +1,8 @@
 token: {{ k3s_token }}
 
+{% if k3s_server == '127.0.0.1' %}
 cluster-init: {{ not k3s_exists }}
-{% if k3s_server != '127.0.0.1' %}
+{% else %}
 server: https://{{ k3s_server }}:6443
 {% endif %}
 
