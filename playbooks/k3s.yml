@@ -6,7 +6,7 @@
   become: true
   tasks:
     - name: Print Usage
-      when: help | default(false)
+      failed_when: help | default(false)
       ansible.builtin.debug:
         msg: |
           Usage: @andreygubarev/k3s [OPTIONS]
@@ -25,7 +25,6 @@
             --service-subnet=SUBNET   Set the service subnet
 
     - name: Parse Arguments
-      failed_when: help | default(false)
       ansible.builtin.set_fact:
         node: "{{ node | default(n) | default('') }}"
         install: "{{ install | default(i) | default(false) }}"
