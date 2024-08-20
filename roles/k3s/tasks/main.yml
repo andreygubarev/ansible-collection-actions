@@ -11,8 +11,8 @@
   when: k3s_download_images or k3s_install
   ansible.builtin.import_tasks: 030-download-images.yml
 
-- name: Configure System
-  when: k3s_install
+- name: Configure kernel parameters
+  when: k3s_sysctl or k3s_install
   ansible.builtin.import_tasks: 040-system.yml
 
 - name: Setup Kubernetes
