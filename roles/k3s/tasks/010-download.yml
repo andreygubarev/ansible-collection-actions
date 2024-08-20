@@ -30,3 +30,6 @@
 
 - name: Download Kubectl
   ansible.builtin.import_tasks: downloads/kubectl.yml
+
+- name: Download Helm
+  ansible.builtin.import_tasks: downloads/helm.yml
