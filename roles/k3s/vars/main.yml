@@ -14,3 +14,14 @@ k3s_version_skopeo: 1.14.3
 k3s_download_image_registry: docker.io
 
 k3s_command: /usr/local/bin/k3s
+kubernetes_command_args:
+  server: >
+    --data-dir={{ k3s_path_statedir }}
+    --disable-kube-proxy
+    --disable-network-policy
+    --flannel-backend=none
+  agent: >
+    --data-dir={{ k3s_path_statedir }}
+    --disable-kube-proxy
+    --disable-network-policy
+    --flannel-backend=none

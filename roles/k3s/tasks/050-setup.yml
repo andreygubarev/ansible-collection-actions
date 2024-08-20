@@ -1,4 +1,5 @@
 ---
+### Kubernetes State ##########################################################
 - name: Ensure state directory
   ansible.builtin.file:
     path: "{{ k3s_path_statedir }}"
@@ -36,6 +37,7 @@
     modification_time: preserve
     access_time: preserve
 
+### Kubernetes Config #########################################################
 - name: Ensure configuration directory
   ansible.builtin.file:
     path: "{{ k3s_path_confdir }}/config.yaml.d"
@@ -88,7 +90,7 @@
   ansible.builtin.set_fact:
     k3s_state: "{{ 'restarted' if k3s_state_config.changed or k3s_state_service.changed or k3s_state_env.changed or k3s_binary.changed else 'started' }}"
 
-- name: Ensure service is started and enabled
+- name: Ensure systemd service is running
   ansible.builtin.systemd:
     daemon_reload: "{{ k3s_state_service.changed or k3s_state_env.changed }}"
     name: k3s
