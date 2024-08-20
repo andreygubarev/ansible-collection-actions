@@ -8,11 +8,15 @@
     - name: Parse Arguments
       ansible.builtin.set_fact:
         install: "{{ install | default(i) | default(false) }}"
+        download: "{{ download | default(false) }}"
 
     - name: Prepare Variables
       ansible.builtin.set_fact:
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
+
+        # --download
+        k3s_download: "{{ download | default(false) }}"
 
     - name: Include Role
       ansible.builtin.include_role:
