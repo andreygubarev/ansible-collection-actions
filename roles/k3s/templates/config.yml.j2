@@ -1,8 +1,10 @@
 token: {{ k3s_token }}
 
-{% if k3s_role == 'server' and k3s_server == '127.0.0.1' %}
+{% if k3s_role == 'server' %}
+{% if k3s_server == '127.0.0.1' %}
 cluster-init: {{ not k3s_exists }}
 write-kubeconfig-mode: "0644"
+{% endif %}
 {% if k3s_enable_embeddedregistry %}
 embedded-registry: true
 {% endif %}
