@@ -1,2 +1,10 @@
 cluster-init: {{ not k3s_running }}
 token: {{ k3s_token }}
+server: https://{{ k3s_server }}:6443
+
+{% if k3s_role == 'server' %}
+write-kubeconfig-mode: "0644"
+{% if k3s_enable_embeddedregistry %}
+embedded-registry: true
+{% endif %}
+{% endif %}

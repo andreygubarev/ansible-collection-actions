@@ -8,16 +8,20 @@
     - name: Parse Arguments
       ansible.builtin.set_fact:
         install: "{{ install | default(i) | default(false) }}"
+        join: "{{ join | default(omit) }}"
         download: "{{ download | default(false) }}"
         download_images: "{{ download_images | default(false) }}"
         token: "{{ token | default('') }}"
         sysctl: "{{ sysctl | default(false) }}"
         enable_localstorage: "{{ enable_localstorage | default(false) }}"
+        enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
 
     - name: Prepare Variables
       ansible.builtin.set_fact:
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
+        # --join=127.0.0.1
+        k3s_server: "{{ join | default('127.0.0.1') }}"
         # --download
         k3s_download: "{{ download | default(false) }}"
         # --download-images
@@ -28,6 +32,8 @@
         k3s_sysctl: "{{ sysctl | default(false) }}"
         # --enable-localstorage
         k3s_enable_localstorage: "{{ enable_localstorage | default(false) }}"
+        # --enable-embeddedregistry
+        k3s_enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
 
     - name: Include Role
       ansible.builtin.include_role:
