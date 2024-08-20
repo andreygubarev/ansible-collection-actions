@@ -36,3 +36,6 @@
 
 - name: Download Cilium
   ansible.builtin.import_tasks: downloads/cilium.yml
+
+- name: Download Skopeo
+  ansible.builtin.import_tasks: downloads/skopeo.yml
