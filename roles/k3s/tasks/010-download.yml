@@ -33,3 +33,6 @@
 
 - name: Download Helm
   ansible.builtin.import_tasks: downloads/helm.yml
+
+- name: Download Cilium
+  ansible.builtin.import_tasks: downloads/cilium.yml

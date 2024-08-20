@@ -31,3 +31,15 @@
     mode: 0755
     owner: root
     group: root
+
+- name: Install Cilium
+  ansible.builtin.unarchive:
+    src: "{{ k3s_download_cache }}/cilium.tar.gz"
+    dest: /usr/local/bin
+    remote_src: true
+    include:
+      - cilium
+    creates: /usr/local/bin/cilium
+    mode: 0755
+    owner: root
+    group: root
