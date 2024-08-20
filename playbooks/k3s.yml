@@ -5,9 +5,29 @@
   gather_facts: true
   become: true
   tasks:
+    - name: Print Usage
+      when: help | default(false)
+      ansible.builtin.debug:
+        msg: |
+          Usage: @andreygubarev/k3s [OPTIONS]
+
+          Options:
+            -i, --install             Install k3s
+            --role=server|agent       Set the k3s role (default: server)
+            --join=IP                 Join a cluster
+            --token=TOKEN             Token for joining a cluster
+            -n, --node=NAME           Set the name of the node
+            --download                Download packages
+            --download-images         Download docker images
+            --enable-localstorage     Enable local storage
+            --enable-embeddedregistry Enable embedded registry
+            --pod-subnet=SUBNET       Set the pod subnet
+            --service-subnet=SUBNET   Set the service subnet
+
     - name: Parse Arguments
+      failed_when: help | default(false)
       ansible.builtin.set_fact:
-        name: "{{ name | default(n) | default('') }}"
+        node: "{{ node | default(n) | default('') }}"
         install: "{{ install | default(i) | default(false) }}"
         role: "{{ role | default('server') }}"
         join: "{{ join | default(omit) }}"
@@ -22,8 +42,8 @@
 
     - name: Prepare Variables
       ansible.builtin.set_fact:
-        # -n or --name
-        k3s_name: "{{ name | default('') }}"
+        # -n or --node
+        k3s_node: "{{ node | default('') }}"
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
         # --role=server or --role=agent (default: server)

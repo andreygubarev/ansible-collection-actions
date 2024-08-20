@@ -92,9 +92,9 @@
   register: k3s_state_env
 
 - name: Set node name
-  when: k3s_name == ""
+  when: k3s_node == ""
   ansible.builtin.set_fact:
-    k3s_name: "{{ ansible_facts.hostname }}"
+    k3s_node: "{{ ansible_facts.hostname }}"
 
 - name: Create systemd service
   ansible.builtin.template:

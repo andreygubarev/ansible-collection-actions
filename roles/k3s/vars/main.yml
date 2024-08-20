@@ -22,15 +22,15 @@ kubernetes_command_args:
     --disable-kube-proxy
     --disable-network-policy
     --flannel-backend=none
-    {% if k3s_name != "" %}
-    --node-name={{ k3s_name }}
+    {% if k3s_node != "" %}
+    --node-name={{ k3s_node }}
     {% endif %}
     --private-registry {{ k3s_path_confdir }}/registries.yaml
     --cluster-cidr {{ k3s_pod_subnet }}
     --service-cidr {{ k3s_service_subnet }}
   agent: >
     --data-dir={{ k3s_path_statedir }}
-    {% if k3s_name != "" %}
-    --node-name={{ k3s_name }}
+    {% if k3s_node != "" %}
+    --node-name={{ k3s_node }}
     {% endif %}
     --private-registry {{ k3s_path_confdir }}/registries.yaml
