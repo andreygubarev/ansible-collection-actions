@@ -119,3 +119,7 @@
   until: result is succeeded
   retries: 5
   delay: 10
+
+- name: Wait for cluster to be ready
+  ansible.builtin.wait_for:
+    path: "{{ k3s_path_statedir }}/{{ k3s_role }}"

@@ -1,7 +1,7 @@
 ---
 - name: Check Cilium
   ansible.builtin.stat:
-    path: "{{ k3s_path_image }}/cilium-v1.15.5.tar"
+    path: "{{ k3s_path_image }}/cilium-v{{ k3s_version_cilium }}.tar"
   register: cilium_image
   changed_when: false
 
@@ -9,7 +9,7 @@
   when: not cilium_image.stat.exists
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
-    docker://{{ k3s_download_image_registry }}/cilium/cilium:v1.15.5
-    docker-archive:{{ k3s_path_image }}/cilium-v1.15.5.tar:quay.io/cilium/cilium:v1.15.5
+    docker://{{ k3s_download_image_registry }}/cilium/cilium:v{{ k3s_version_cilium }}
+    docker-archive:{{ k3s_path_image }}/cilium-v{{ k3s_version_cilium }}.tar:quay.io/cilium/cilium:v{{ k3s_version_cilium }}
   args:
-    creates: "{{ k3s_path_image }}/cilium-v1.15.5.tar"
+    creates: "{{ k3s_path_image }}/cilium-v{{ k3s_version_cilium }}.tar"
