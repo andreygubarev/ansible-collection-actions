@@ -1,0 +1,15 @@
+---
+- name: Check Cilium Operator
+  ansible.builtin.stat:
+    path: "{{ k3s_download_image }}/cilium-operator-v1.15.5.tar"
+  register: ciliumoperator_image
+  changed_when: false
+
+- name: Save Cilium Operator
+  when: not ciliumoperator_image.stat.exists
+  ansible.builtin.shell: >
+    skopeo copy --insecure-policy
+    docker://{{ k3s_download_image_registry }}/cilium/operator-generic:v1.15.5
+    docker-archive:{{ k3s_download_image }}/cilium-operator-v1.15.5.tar:quay.io/cilium/operator-generic:v1.15.5
+  args:
+    creates: "{{ k3s_download_image }}/cilium-operator-v1.15.5.tar"

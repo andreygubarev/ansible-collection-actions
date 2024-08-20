@@ -8,3 +8,5 @@ k3s_download_version_kubectl: 1.30.3
 k3s_download_version_helm: 3.15.0
 k3s_download_version_ciliumcli: 0.16.7
 k3s_download_version_skopeo: 1.14.3
+
+k3s_download_image_registry: docker.io

@@ -1,8 +1,12 @@
 ---
-- name: Download
+- name: Download Binaries
   when: k3s_download or k3s_install
   ansible.builtin.import_tasks: 010-download.yml
 
-- name: Install
+- name: Install Binaries
   when: k3s_install
   ansible.builtin.import_tasks: 020-install.yml
+
+- name: Download Docker Images
+  when: k3s_install
+  ansible.builtin.import_tasks: 030-download-images.yml
