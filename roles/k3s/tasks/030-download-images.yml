@@ -1,3 +1,9 @@
 ---
 - name: Download Cilium Operator Image
   ansible.builtin.import_tasks: downloads/images/cilium-operator.yml
+
+- name: Download Cilium Image
+  ansible.builtin.import_tasks: downloads/images/cilium.yml
+
+- name: Download CoreDNS Image
+  ansible.builtin.import_tasks: downloads/images/coredns.yml
