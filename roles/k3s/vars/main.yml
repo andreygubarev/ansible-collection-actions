@@ -1,4 +1,5 @@
 ---
+k3s_path_confdir: /etc/rancher/k3s
 k3s_download_cache: /var/cache/kubernetes
 k3s_download_image: /var/lib/rancher/k3s/agent/images
 k3s_download_tmp: /var/tmp/kubernetes

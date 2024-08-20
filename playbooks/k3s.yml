@@ -10,6 +10,7 @@
         install: "{{ install | default(i) | default(false) }}"
         download: "{{ download | default(false) }}"
         download_images: "{{ download_images | default(false) }}"
+        token: "{{ token | default('') }}"
 
     - name: Prepare Variables
       ansible.builtin.set_fact:
@@ -21,6 +22,9 @@
 
         # --download-images
         k3s_download_images: "{{ download_images | default(false) }}"
+
+        # --token
+        k3s_token: "{{ token | default('') }}"
 
     - name: Include Role
       ansible.builtin.include_role:

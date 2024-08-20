@@ -1,0 +1,16 @@
+---
+- name: Assert configuration
+  ansible.builtin.assert:
+    that:
+      - "k3s_token is defined"
+      - "k3s_token is not none"
+      - "k3s_token != ''"
+
+- name: Create cluster config
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: "{{ k3s_path_confdir }}/config.yaml"
+    owner: root
+    group: root
+    mode: 0644
+  register: kubernetes_config

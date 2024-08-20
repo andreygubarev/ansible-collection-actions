@@ -10,3 +10,7 @@
 - name: Download Docker Images
   when: k3s_download_images or k3s_install
   ansible.builtin.import_tasks: 030-download-images.yml
+
+- name: Setup Kubernetes
+  when: k3s_install
+  ansible.builtin.import_tasks: 040-setup.yml
