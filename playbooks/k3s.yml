@@ -8,6 +8,7 @@
     - name: Parse Arguments
       ansible.builtin.set_fact:
         install: "{{ install | default(i) | default(false) }}"
+        role: "{{ role | default('server') }}"
         join: "{{ join | default(omit) }}"
         download: "{{ download | default(false) }}"
         download_images: "{{ download_images | default(false) }}"
@@ -20,6 +21,8 @@
       ansible.builtin.set_fact:
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
+        # --role=server or --role=agent
+        k3s_role: "{{ role | default('server') }}"
         # --join=127.0.0.1
         k3s_server: "{{ join | default('127.0.0.1') }}"
         # --download
