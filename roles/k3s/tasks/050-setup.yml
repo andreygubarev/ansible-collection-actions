@@ -123,3 +123,11 @@
 - name: Wait for cluster to be ready
   ansible.builtin.wait_for:
     path: "{{ k3s_path_statedir }}/{{ k3s_role }}"
+
+- name: Setup Cilium
+  block:
+    - name: Setup Cilium
+      ansible.builtin.import_tasks: 060-cilium.yml
+
+    - name: Configure Cilium
+      ansible.builtin.import_tasks: 060-cilium.yml
