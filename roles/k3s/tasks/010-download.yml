@@ -1,0 +1,16 @@
+---
+- name: Ensure cache directory exists
+  ansible.builtin.file:
+    path: "{{ k3s_download_cachedir }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Ensure temp directory exists
+  ansible.builtin.file:
+    path: "{{ k3s_download_tempdir }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root

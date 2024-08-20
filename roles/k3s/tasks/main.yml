@@ -1,0 +1,8 @@
+---
+- name: Download
+  when: k3s_install
+  ansible.builtin.import_tasks: 010-download.yml
+
+- name: Install
+  when: k3s_install
+  ansible.builtin.import_tasks: 020-install.yml

@@ -1,0 +1,5 @@
+---
+k3s_download_cachedir: /var/cache/kubernetes
+k3s_download_tempdir: /var/tmp/kubernetes
+
+k3s_download_version_kubernetes: 1.30.0
