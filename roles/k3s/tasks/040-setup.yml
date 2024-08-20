@@ -14,3 +14,11 @@
     group: root
     mode: 0644
   register: kubernetes_config
+
+- name: Create cluster registries config
+  ansible.builtin.template:
+    src: registries.yml.j2
+    dest: "{{ k3s_path_confdir }}/registries.yaml"
+    owner: root
+    group: root
+    mode: 0644
