@@ -1,10 +1,9 @@
-cluster-init: {{ not k3s_running }}
 token: {{ k3s_token }}
 
+cluster-init: {{ not k3s_exists }}
 {% if k3s_server != '127.0.0.1' %}
 server: https://{{ k3s_server }}:6443
 {% endif %}
-
 
 {% if k3s_role == 'server' %}
 write-kubeconfig-mode: "0644"
