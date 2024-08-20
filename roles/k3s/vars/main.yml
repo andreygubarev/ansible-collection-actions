@@ -11,3 +11,5 @@ k3s_download_version_ciliumcli: 0.16.7
 k3s_download_version_skopeo: 1.14.3
 
 k3s_download_image_registry: docker.io
+
+k3s_command: /usr/local/bin/k3s

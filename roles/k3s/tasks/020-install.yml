@@ -3,7 +3,7 @@
   ansible.builtin.copy:
     src: "{{ k3s_download_cache }}/k3s"
     remote_src: true
-    dest: /usr/local/bin/k3s
+    dest: "{{ k3s_command }}"
     mode: 0755
     owner: root
     group: root
