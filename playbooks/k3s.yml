@@ -12,6 +12,7 @@
         download_images: "{{ download_images | default(false) }}"
         token: "{{ token | default('') }}"
         sysctl: "{{ sysctl | default(false) }}"
+        enable_localstorage: "{{ enable_localstorage | default(false) }}"
 
     - name: Prepare Variables
       ansible.builtin.set_fact:
@@ -21,10 +22,12 @@
         k3s_download: "{{ download | default(false) }}"
         # --download-images
         k3s_download_images: "{{ download_images | default(false) }}"
-        # --token
+        # --token=secret
         k3s_token: "{{ token | default('') }}"
         # --sysctl
         k3s_sysctl: "{{ sysctl | default(false) }}"
+        # --enable-localstorage
+        k3s_enable_localstorage: "{{ enable_localstorage | default(false) }}"
 
     - name: Include Role
       ansible.builtin.include_role:
