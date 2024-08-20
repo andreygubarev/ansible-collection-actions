@@ -37,6 +37,15 @@
     modification_time: preserve
     access_time: preserve
 
+- name: Get node status
+  ansible.builtin.stat:
+    path: "{{ k3s_path_statedir }}/server/node-token"
+  register: k3s_running
+
+- name: Set node status
+  ansible.builtin.set_fact:
+    k3s_running: "{{ k3s_running.stat.exists }}"
+
 ### Kubernetes Config #########################################################
 - name: Ensure configuration directory
   ansible.builtin.file:
