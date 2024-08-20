@@ -7,3 +7,12 @@
     mode: 0755
     owner: root
     group: root
+
+- name: Install kubectl
+  ansible.builtin.copy:
+    src: "{{ k3s_download_cache }}/kubectl"
+    remote_src: true
+    dest: /usr/local/bin/kubectl
+    mode: 0755
+    owner: root
+    group: root

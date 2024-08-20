@@ -27,3 +27,7 @@
 
 - name: Download K3S
   ansible.builtin.import_tasks: downloads/k3s.yml
+
+- name: Download Kubectl
+  when: k3s_download_kubectl
+  ansible.builtin.import_tasks: downloads/kubectl.yml
