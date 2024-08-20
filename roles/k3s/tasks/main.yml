@@ -1,6 +1,6 @@
 ---
 - name: Download Binaries
-  when: k3s_download or k3s_install
+  when: k3s_install or k3s_download
   ansible.builtin.import_tasks: 010-download.yml
 
 - name: Install Binaries
@@ -8,17 +8,27 @@
   ansible.builtin.import_tasks: 020-install.yml
 
 - name: Download Docker Images
-  when: k3s_download_images or k3s_install
+  when: k3s_install or k3s_download_images
   ansible.builtin.import_tasks: 030-download-images.yml
 
-- name: Configure Kernel Parameters
+- name: Install Kubernetes
   when: k3s_install
-  ansible.builtin.import_tasks: 040-system.yml
+  block:
+    - name: Configure Kernel Parameters
+      ansible.builtin.import_tasks: 040-system.yml
 
-- name: Initialize Kubernetes
-  when: k3s_install
-  ansible.builtin.import_tasks: 050-setup.yml
+    - name: Get node status
+      ansible.builtin.stat:
+        path: "{{ k3s_path_statedir }}/server/node-token"
+      register: k3s_exists
 
-- name: Setup Kubernetes
-  when: k3s_install
-  ansible.builtin.import_tasks: 050-setup.yml
+    - name: Set node status
+      ansible.builtin.set_fact:
+        k3s_exists: "{{ k3s_exists.stat.exists }}"
+
+    - name: Initialize Kubernetes
+      when: not k3s_exists
+      ansible.builtin.import_tasks: 050-setup.yml
+
+    - name: Setup Kubernetes
+      ansible.builtin.import_tasks: 050-setup.yml
