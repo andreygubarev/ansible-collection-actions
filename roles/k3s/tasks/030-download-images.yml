@@ -7,3 +7,9 @@
 
 - name: Download CoreDNS Image
   ansible.builtin.import_tasks: downloads/images/coredns.yml
+
+- name: Download Metrics Server Image
+  ansible.builtin.import_tasks: downloads/images/metrics-server.yml
+
+- name: Download Pause Image
+  ansible.builtin.import_tasks: downloads/images/pause.yml
