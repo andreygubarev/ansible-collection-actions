@@ -13,7 +13,7 @@
     owner: root
     group: root
     mode: 0644
-  register: kubernetes_config
+  register: k3s_state_config
 
 - name: Create cluster registries config
   ansible.builtin.template:
@@ -26,8 +26,21 @@
 - name: Create systemd service environment
   ansible.builtin.template:
     src: k3s.service.env.j2
-    dest: "/etc/systemd/system/k3s.service.env"
+    dest: /etc/systemd/system/k3s.service.env
     owner: root
     group: root
     mode: 0644
-  register: k3s_service_env
+  register: k3s_state_env
+
+- name: Create systemd service
+  ansible.builtin.template:
+    src: kubernetes.service.j2
+    dest: "/etc/systemd/system/k3s.service"
+    owner: root
+    group: root
+    mode: 0644
+  register: k3s_state_service
+
+- name: Set systemd service state based on k3s_config
+  ansible.builtin.set_fact:
+    k3s_state: "{{ 'restarted' if k3s_state_config.changed or k3s_state_service.changed or k3s_state_env.changed or k3s_binary.changed else 'started' }}"
