@@ -3,4 +3,4 @@ k3s_download_cache: /var/cache/kubernetes
 k3s_download_image: /var/lib/rancher/k3s/agent/images
 k3s_download_tmp: /var/tmp/kubernetes
 
-k3s_download_version_kubernetes: 1.30.0
+k3s_download_version_k3s: v1.30.3+k3s1
