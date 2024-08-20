@@ -15,6 +15,10 @@
   when: k3s_install
   ansible.builtin.import_tasks: 040-system.yml
 
+- name: Initialize Kubernetes
+  when: k3s_install
+  ansible.builtin.import_tasks: 050-setup.yml
+
 - name: Setup Kubernetes
   when: k3s_install
   ansible.builtin.import_tasks: 050-setup.yml
