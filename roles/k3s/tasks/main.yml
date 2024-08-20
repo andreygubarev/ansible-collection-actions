@@ -8,5 +8,5 @@
   ansible.builtin.import_tasks: 020-install.yml
 
 - name: Download Docker Images
-  when: k3s_install
+  when: k3s_download_images or k3s_install
   ansible.builtin.import_tasks: 030-download-images.yml

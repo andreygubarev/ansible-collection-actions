@@ -9,6 +9,7 @@
       ansible.builtin.set_fact:
         install: "{{ install | default(i) | default(false) }}"
         download: "{{ download | default(false) }}"
+        download_images: "{{ download_images | default(false) }}"
 
     - name: Prepare Variables
       ansible.builtin.set_fact:
@@ -17,6 +18,9 @@
 
         # --download
         k3s_download: "{{ download | default(false) }}"
+
+        # --download-images
+        k3s_download_images: "{{ download_images | default(false) }}"
 
     - name: Include Role
       ansible.builtin.include_role:
