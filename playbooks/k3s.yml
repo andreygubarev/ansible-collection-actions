@@ -1,0 +1,15 @@
+---
+- name: Setup Kubernetes
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Parse Arguments
+      ansible.builtin.set_fact:
+        install: "{{ install | default(i) | default(false) }}"
+
+    - name: Prepare Variables
+      ansible.builtin.set_fact:
+        # -i or --install
+        k3s_install: "{{ install | default(false) }}"
