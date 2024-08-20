@@ -1,16 +1,29 @@
 ---
 - name: Ensure cache directory exists
   ansible.builtin.file:
-    path: "{{ k3s_download_cachedir }}"
+    path: "{{ k3s_download_cache }}"
     state: directory
     mode: 0755
     owner: root
     group: root
 
-- name: Ensure temp directory exists
+- name: Ensure temporary directory exists
   ansible.builtin.file:
-    path: "{{ k3s_download_tempdir }}"
+    path: "{{ k3s_download_tmp }}"
     state: directory
     mode: 0755
     owner: root
     group: root
+
+- name: Ensure image directory exists
+  ansible.builtin.file:
+    path: "{{ k3s_download_image }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+### k3s #######################################################################
+
+- name: Download K3S
+  ansible.builtin.import_tasks: downloads/k3s.yml
