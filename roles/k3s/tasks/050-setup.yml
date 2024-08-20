@@ -1,4 +1,18 @@
 ---
+- name: Ensure configuration directory
+  ansible.builtin.file:
+    path: "{{ k3s_path_confdir }}/config.yaml.d"
+    state: directory
+    mode: "0755"
+
+- name: Ensure state directory
+  ansible.builtin.file:
+    path: "{{ k3s_path_statedir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Assert configuration
   ansible.builtin.assert:
     that:
