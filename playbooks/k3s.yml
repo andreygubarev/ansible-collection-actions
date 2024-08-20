@@ -7,6 +7,7 @@
   tasks:
     - name: Parse Arguments
       ansible.builtin.set_fact:
+        name: "{{ name | default(n) | default('') }}"
         install: "{{ install | default(i) | default(false) }}"
         role: "{{ role | default('server') }}"
         join: "{{ join | default(omit) }}"
@@ -16,9 +17,13 @@
         sysctl: "{{ sysctl | default(false) }}"
         enable_localstorage: "{{ enable_localstorage | default(false) }}"
         enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
+        pod_subnet: "{{ pod_subnet | default(omit) }}"
+        service_subnet: "{{ service_subnet | default(omit) }}"
 
     - name: Prepare Variables
       ansible.builtin.set_fact:
+        # -n or --name
+        k3s_name: "{{ name | default('') }}"
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
         # --role=server or --role=agent (default: server)
@@ -35,6 +40,10 @@
         k3s_enable_localstorage: "{{ enable_localstorage | default(false) }}"
         # --enable-embeddedregistry
         k3s_enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
+        # --pod-subnet
+        k3s_pod_subnet: "{{ pod_subnet | default(omit) }}"
+        # --service-subnet
+        k3s_service_subnet: "{{ service_subnet | default(omit) }}"
 
     - name: Include Role
       ansible.builtin.include_role:

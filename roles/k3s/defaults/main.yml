@@ -1,4 +1,5 @@
 ---
+k3s_name: ""
 k3s_install: false
 k3s_token: ""
 k3s_role: server
@@ -7,3 +8,5 @@ k3s_download: false
 k3s_download_images: false
 k3s_enable_localstorage: false
 k3s_enable_embeddedregistry: true
+k3s_pod_subnet: "10.42.0.0/16"
+k3s_service_subnet: "10.43.0.0/16"
