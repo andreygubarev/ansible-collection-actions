@@ -5,3 +5,4 @@ k3s_download_tmp: /var/tmp/kubernetes
 
 k3s_download_version_k3s: v1.30.3+k3s1
 k3s_download_version_kubectl: 1.30.3
+k3s_download_version_helm: 3.15.0

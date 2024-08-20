@@ -16,3 +16,18 @@
     mode: 0755
     owner: root
     group: root
+
+- name: Install Helm
+  ansible.builtin.unarchive:
+    src: "{{ k3s_download_cache }}/helm-v{{ k3s_download_version_helm }}.tar.gz"
+    dest: /usr/local/bin
+    remote_src: true
+    include:
+      - linux-{{ helm_architecture }}/helm
+    extra_opts:
+      - --transform
+      - s|linux-{{ helm_architecture }}/||g
+    creates: /usr/local/bin/helm
+    mode: 0755
+    owner: root
+    group: root
