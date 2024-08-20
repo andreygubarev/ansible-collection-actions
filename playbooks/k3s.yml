@@ -13,3 +13,7 @@
       ansible.builtin.set_fact:
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
+
+    - name: Include Role
+      ansible.builtin.include_role:
+        name: k3s
