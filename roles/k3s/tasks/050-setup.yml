@@ -8,12 +8,12 @@
     group: root
     mode: 0644
 
-- name: Configure addons
+- name: Configure Kubernetes addons
   when: k3s_role == 'server'
   ansible.builtin.import_tasks: 051-setup-addons
 
 ### Kubernetes Config #########################################################
-- name: Assert Kubernetes Config
+- name: Assert Kubernetes configuration
   ansible.builtin.assert:
     that:
       - "k3s_token is defined"
@@ -21,13 +21,13 @@
       - "k3s_token != ''"
       - "k3s_role in ['server', 'agent']"
 
-- name: Ensure configuration directory
+- name: Create Kubernetes configuration directory
   ansible.builtin.file:
     path: "{{ k3s_path_confdir }}/config.yaml.d"
     state: directory
     mode: "0755"
 
-- name: Create cluster config
+- name: Create Kubernetes configuration
   ansible.builtin.template:
     src: config.yml.j2
     dest: "{{ k3s_path_confdir }}/config.yaml"
@@ -36,7 +36,7 @@
     mode: 0644
   register: k3s_state_config
 
-- name: Create cluster registries config
+- name: Create Kubernetes configuration for registries
   ansible.builtin.template:
     src: registries.yml.j2
     dest: "{{ k3s_path_confdir }}/registries.yaml"
