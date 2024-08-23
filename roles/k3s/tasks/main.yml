@@ -14,15 +14,15 @@
 - name: Install Kubernetes
   when: k3s_install
   block:
-    - name: Configure Kernel Parameters
+    - name: Linux | modify kernel parameters
       ansible.builtin.import_tasks: 040-system.yml
 
-    - name: Get node status
+    - name: Kubernetes | get node status
       ansible.builtin.stat:
         path: "{{ k3s_path_statedir }}/server/node-token"
       register: k3s_exists
 
-    - name: Set node status
+    - name: Kubernetes | set node status
       ansible.builtin.set_fact:
         k3s_exists: "{{ k3s_exists.stat.exists }}"
 
