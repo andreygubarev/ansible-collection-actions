@@ -32,10 +32,10 @@
 - name: Check K3S
   ansible.builtin.stat:
     path: "{{ k3s_path_cache }}/k3s"
-  register: k3s_binary
+  register: k3s__binary
 
 - name: Download K3S
-  when: not k3s_binary.stat.exists
+  when: not k3s__binary.stat.exists
   block:
     - name: Download K3S (amd64)
       when: k3s_architecture == 'amd64'

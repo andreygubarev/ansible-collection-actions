@@ -1,7 +1,7 @@
 ---
 - name: Systemd | get service state
   ansible.builtin.set_fact:
-    k3s_state: "{{ 'restarted' if k3s__config.changed or k3s__service.changed or k3s__env.changed or k3s_binary.changed else 'started' }}"
+    k3s_state: "{{ 'restarted' if k3s__config.changed or k3s__service.changed or k3s__env.changed or k3s__binary.changed else 'started' }}"
 
 - name: Systemd | set service state
   ansible.builtin.systemd:
