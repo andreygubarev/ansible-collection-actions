@@ -27,8 +27,17 @@
         k3s_exists: "{{ k3s_exists.stat.exists }}"
 
     - name: Kubernetes | setup
-      ansible.builtin.import_tasks: 050-setup.yml
-
-    - name: Initialize Kubernetes
       when: not k3s_exists
       ansible.builtin.import_tasks: 050-setup.yml
+
+    - name: Kubernetes | configure
+      block:
+        - name: Kubernetes | set node status
+          ansible.builtin.set_fact:
+            k3s_exists: true
+
+        - name: Kubernetes | configuration
+          ansible.builtin.import_tasks: 052-setup-config.yml
+
+        - name: Systemd | service state
+          ansible.builtin.import_tasks: 053-setup-systemd.yml

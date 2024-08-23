@@ -1,17 +1,18 @@
 token: {{ k3s_token }}
 
-{% if k3s_role == 'server' %}
+{% if k3s_exists %}
+server: https://{{ k3s_server }}:6443
+{% else %}
 {% if k3s_server == '127.0.0.1' %}
-{% if not k3s_exists %}
 cluster-init: true
-{% endif %}
-write-kubeconfig-mode: "0644"
-{% endif %}
-{% if k3s_enable_embeddedregistry %}
-embedded-registry: true
+{% else %}
+server: https://{{ k3s_server }}:6443
 {% endif %}
 {% endif %}
 
-{% if k3s_server != '127.0.0.1' %}
-server: https://{{ k3s_server }}:6443
+{% if k3s_role == 'server' %}
+write-kubeconfig-mode: "0644"
+{% if k3s_enable_embeddedregistry %}
+embedded-registry: true
+{% endif %}
 {% endif %}
