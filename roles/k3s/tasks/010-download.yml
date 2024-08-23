@@ -1,5 +1,5 @@
 ---
-- name: Ensure cache directory exists
+- name: Download | create directory for cache
   ansible.builtin.file:
     path: "{{ k3s_path_cache }}"
     state: directory
@@ -7,7 +7,7 @@
     owner: root
     group: root
 
-- name: Ensure temporary directory exists
+- name: Download | create directory for temporary files
   ansible.builtin.file:
     path: "{{ k3s_path_tmp }}"
     state: directory
@@ -15,17 +15,17 @@
     owner: root
     group: root
 
-- name: Download K3S
+- name: Download | k3s
   ansible.builtin.import_tasks: downloads/k3s.yml
 
-- name: Download Kubectl
+- name: Download | kubectl
   ansible.builtin.import_tasks: downloads/kubectl.yml
 
-- name: Download Helm
+- name: Download | helm
   ansible.builtin.import_tasks: downloads/helm.yml
 
-- name: Download Cilium
+- name: Download | cilium
   ansible.builtin.import_tasks: downloads/cilium.yml
 
-- name: Download Skopeo
+- name: Download | skopeo
   ansible.builtin.import_tasks: downloads/skopeo.yml
