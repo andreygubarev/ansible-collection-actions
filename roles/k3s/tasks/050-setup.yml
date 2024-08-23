@@ -66,7 +66,7 @@
 - name: Systemd | service state
   ansible.builtin.import_tasks: 053-setup-systemd.yml
 
-- name: Kubernetes | wait for state directory
+- name: Kubernetes | wait for running state
   ansible.builtin.wait_for:
     path: "{{ k3s_path_statedir }}/{{ k3s_role }}"
 
