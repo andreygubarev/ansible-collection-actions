@@ -1,5 +1,5 @@
 ---
-- name: Create manifests directory
+- name: Kubernetes | create directory for addons
   ansible.builtin.file:
     path: "{{ k3s_path_statedir }}/server/manifests"
     state: directory
@@ -7,7 +7,7 @@
     group: root
     mode: 0644
 
-- name: Disable traefik addon
+- name: Kubernetes | disable traefik
   ansible.builtin.file:
     path: "{{ k3s_path_statedir }}/server/manifests/traefik.yaml.skip"
     state: touch
@@ -17,7 +17,7 @@
     modification_time: preserve
     access_time: preserve
 
-- name: Disable local-storage addon
+- name: Kubernetes | disable local-storage
   when: not k3s_enable_localstorage
   ansible.builtin.file:
     path: "{{ k3s_path_statedir }}/server/manifests/local-storage.yaml.skip"
