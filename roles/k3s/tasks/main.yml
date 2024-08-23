@@ -36,6 +36,13 @@
           ansible.builtin.import_tasks: 060-cilium.yml
           when: k3s_role == 'server'
 
+        - name: Kubernetes | wait for readiness
+          ansible.builtin.wait_for:
+            host: "{{ k3s_server }}"
+            port: 6443
+            timeout: 90
+            state: started
+
     - name: Kubernetes | configure
       block:
         - name: Kubernetes | set node status
