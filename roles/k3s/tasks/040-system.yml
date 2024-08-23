@@ -1,26 +1,26 @@
 ---
-- name: Enable IPv4 forwarding
+- name: Linux | enable ipv4 forwarding
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: "1"
     state: present
     reload: true
 
-- name: Enable IPv6 forwarding
+- name: Linux | enable ipv6 forwarding
   ansible.posix.sysctl:
     name: net.ipv6.conf.all.forwarding
     value: "1"
     state: present
     reload: true
 
-- name: Enable IPv6 router advertisements
+- name: Linux | enable ipv6 router advertisements
   ansible.posix.sysctl:
     name: net.ipv6.conf.all.accept_ra
     value: "2"
     state: present
     reload: true
 
-- name: Set kernel parameters for CIS hardening
+- name: Linux | harden kernel parameters
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
@@ -36,11 +36,11 @@
     - name: kernel.panic_on_oops
       value: "1"
 
-- name: Disable swap
+- name: Linux | disable swap
   ansible.builtin.command: swapoff -a
   changed_when: false
 
-- name: Remove swap from fstab
+- name: Linux | disable swap in fstab
   ansible.builtin.replace:
     path: /etc/fstab
     regexp: "^.*swap.*$"
