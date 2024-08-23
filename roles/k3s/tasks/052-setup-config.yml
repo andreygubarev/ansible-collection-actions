@@ -1,6 +1,6 @@
 ---
 - name: Kubernetes | set api server
-  when: k3s_exists and k3s_apiserver == '127.0.0.1'
+  when: k3s_present and k3s_apiserver == '127.0.0.1'
   ansible.builtin.set_fact:
     k3s_apiserver: "{{ ansible_default_ipv4.address }}"
 

@@ -1,6 +1,6 @@
 token: {{ k3s_token }}
 
-{% if k3s_exists %}
+{% if k3s_present %}
 server: https://{{ k3s_apiserver }}:6443
 {% else %}
 {% if k3s_apiserver == '127.0.0.1' %}
