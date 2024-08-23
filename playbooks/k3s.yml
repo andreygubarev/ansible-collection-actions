@@ -48,7 +48,7 @@
         # --role=server or --role=agent (default: server)
         k3s_role: "{{ role | default('server') }}"
         # --join=127.0.0.1 (default: 127.0.0.1)
-        k3s_server: "{{ join | default('127.0.0.1') }}"
+        k3s_apiserver: "{{ join | default('127.0.0.1') }}"
         # --token=secret
         k3s_token: "{{ token | default('') }}"
         # --download

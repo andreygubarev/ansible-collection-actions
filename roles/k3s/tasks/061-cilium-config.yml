@@ -10,7 +10,7 @@
 - name: Cilium | set api server to remote
   when: cilium_installed.rc == 0
   ansible.builtin.set_fact:
-    cilium_apiserver: "{{ k3s_server }}"
+    cilium_apiserver: "{{ k3s_apiserver }}"
 
 - name: Cilium | set api server to local
   when: cilium_installed.rc != 0

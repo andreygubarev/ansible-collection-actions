@@ -38,7 +38,7 @@
 
         - name: Kubernetes | wait for readiness
           ansible.builtin.wait_for:
-            host: "{{ k3s_server }}"
+            host: "{{ k3s_apiserver }}"
             port: 6443
             timeout: 90
             state: started
