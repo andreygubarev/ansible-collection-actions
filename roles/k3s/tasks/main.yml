@@ -41,3 +41,6 @@
 
         - name: Systemd | service state
           ansible.builtin.import_tasks: 053-setup-systemd.yml
+
+        - name: Cilium | configuration
+          ansible.builtin.import_tasks: 061-cilium-config.yml
