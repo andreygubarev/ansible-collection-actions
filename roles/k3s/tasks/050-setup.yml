@@ -52,7 +52,7 @@
     owner: root
     group: root
     mode: 0644
-  register: k3s_state_env
+  register: k3s__env
 
 - name: Systemd | create service
   ansible.builtin.template:
