@@ -61,7 +61,7 @@
     owner: root
     group: root
     mode: 0644
-  register: k3s_state_service
+  register: k3s__service
 
 - name: Systemd | service state
   ansible.builtin.import_tasks: 053-setup-systemd.yml
