@@ -1,5 +1,5 @@
 ---
-- name: Download Gateway API manifest
+- name: Cilium | download gateway api
   ansible.builtin.get_url:
     url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/v{{ k3s_version_apigateway }}/experimental-install.yaml"
     dest: "{{ k3s_path_statedir }}/server/manifests/gatewayapi.yaml"
@@ -7,7 +7,7 @@
     group: root
     mode: 0644
 
-- name: Apply Gateway API manifest
+- name: Cilium | install gateway api
   ansible.builtin.shell: >
     KUBECONFIG={{ k3s_path_confdir }}/k3s.yaml
     kubectl apply -f {{ k3s_path_statedir }}/server/manifests/gatewayapi.yaml
