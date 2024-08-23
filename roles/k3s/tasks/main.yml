@@ -34,7 +34,7 @@
 
         - name: Cilium | setup
           ansible.builtin.import_tasks: 060-cilium.yml
-          when: k3s_role == 'server'
+          when: k3s_role == 'server' and k3s_apiserver == '127.0.0.1'
 
         - name: Kubernetes | wait for readiness
           ansible.builtin.wait_for:
