@@ -9,7 +9,7 @@
       - "k3s_token != ''"
 
 ### Kubernetes | State ##########################################################
-- name: Kubernetes | ensure state directory
+- name: Kubernetes | create state directory
   ansible.builtin.file:
     path: "{{ k3s_path_statedir }}"
     state: directory
@@ -19,7 +19,7 @@
 
 - name: Kubernetes | configure addons
   when: k3s_role == 'server'
-  ansible.builtin.import_tasks: 051-setup-addons
+  ansible.builtin.import_tasks: 051-setup-addons.yml
 
 ### Kubernetes | Configuration ################################################
 - name: Kubernetes | set node name
