@@ -18,5 +18,9 @@
     name: cilium
     repo_url: https://helm.cilium.io/
 
+- name: Cilium | set state to installed
+  ansible.builtin.set_fact:
+    k3s_cilium: installed
+
 - name: Cilium | configure
   ansible.builtin.import_tasks: 061-cilium-config.yml
