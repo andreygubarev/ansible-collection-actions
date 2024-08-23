@@ -1,5 +1,5 @@
 ---
-- name: Ensure image directory exists
+- name: Download | create directory for images
   ansible.builtin.file:
     path: "{{ k3s_path_image }}"
     state: directory
@@ -7,17 +7,17 @@
     owner: root
     group: root
 
-- name: Download Cilium Operator Image
+- name: Download | image of cilium operator
   ansible.builtin.import_tasks: downloads/images/cilium-operator.yml
 
-- name: Download Cilium Image
+- name: Download | image of cilium
   ansible.builtin.import_tasks: downloads/images/cilium.yml
 
-- name: Download CoreDNS Image
+- name: Download | image of coredns
   ansible.builtin.import_tasks: downloads/images/coredns.yml
 
-- name: Download Metrics Server Image
+- name: Download | image of metrics server
   ansible.builtin.import_tasks: downloads/images/metrics-server.yml
 
-- name: Download Pause Image
+- name: Download | image of pause
   ansible.builtin.import_tasks: downloads/images/pause.yml
