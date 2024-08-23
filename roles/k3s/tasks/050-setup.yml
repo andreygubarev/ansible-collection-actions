@@ -8,34 +8,37 @@
     group: root
     mode: 0644
 
-- name: Create manifests directory
-  ansible.builtin.file:
-    path: "{{ k3s_path_statedir }}/server/manifests"
-    state: directory
-    owner: root
-    group: root
-    mode: 0644
+- name: Configure addons
+  when: k3s_role == 'server'
+  block:
+    - name: Create manifests directory
+      ansible.builtin.file:
+        path: "{{ k3s_path_statedir }}/server/manifests"
+        state: directory
+        owner: root
+        group: root
+        mode: 0644
 
-- name: Disable traefik addon
-  ansible.builtin.file:
-    path: "{{ k3s_path_statedir }}/server/manifests/traefik.yaml.skip"
-    state: touch
-    owner: root
-    group: root
-    mode: 0644
-    modification_time: preserve
-    access_time: preserve
+    - name: Disable traefik addon
+      ansible.builtin.file:
+        path: "{{ k3s_path_statedir }}/server/manifests/traefik.yaml.skip"
+        state: touch
+        owner: root
+        group: root
+        mode: 0644
+        modification_time: preserve
+        access_time: preserve
 
-- name: Disable local-storage addon
-  when: not k3s_enable_localstorage
-  ansible.builtin.file:
-    path: "{{ k3s_path_statedir }}/server/manifests/local-storage.yaml.skip"
-    state: touch
-    owner: root
-    group: root
-    mode: 0644
-    modification_time: preserve
-    access_time: preserve
+    - name: Disable local-storage addon
+      when: not k3s_enable_localstorage
+      ansible.builtin.file:
+        path: "{{ k3s_path_statedir }}/server/manifests/local-storage.yaml.skip"
+        state: touch
+        owner: root
+        group: root
+        mode: 0644
+        modification_time: preserve
+        access_time: preserve
 
 ### Kubernetes Config #########################################################
 - name: Ensure configuration directory
