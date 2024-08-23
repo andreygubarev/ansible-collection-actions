@@ -8,7 +8,13 @@
       - "k3s_token is not none"
       - "k3s_token != ''"
 
-### Kubernetes | State ##########################################################
+### Kubernetes | Node #########################################################
+- name: Kubernetes | set node name
+  when: k3s_node == ""
+  ansible.builtin.set_fact:
+    k3s_node: "{{ ansible_facts.hostname }}"
+
+### Kubernetes | State ########################################################
 - name: Kubernetes | create state directory
   ansible.builtin.file:
     path: "{{ k3s_path_statedir }}"
@@ -22,25 +28,11 @@
   ansible.builtin.import_tasks: 051-setup-addons.yml
 
 ### Kubernetes | Configuration ################################################
-- name: Kubernetes | set node name
-  when: k3s_node == ""
-  ansible.builtin.set_fact:
-    k3s_node: "{{ ansible_facts.hostname }}"
-
 - name: Kubernetes | create configuration directory
   ansible.builtin.file:
     path: "{{ k3s_path_confdir }}/config.yaml.d"
     state: directory
     mode: "0755"
-
-- name: Kubernetes | create configuration
-  ansible.builtin.template:
-    src: config.yml.j2
-    dest: "{{ k3s_path_confdir }}/config.yaml"
-    owner: root
-    group: root
-    mode: 0644
-  register: k3s_state_config
 
 - name: Kubernetes | create configuration for registries
   ansible.builtin.template:
@@ -50,8 +42,29 @@
     group: root
     mode: 0644
 
-- name: Systemd | setup
-  ansible.builtin.import_tasks: 052-setup-systemd
+- name: Kubernetes | configuration
+  ansible.builtin.import_tasks: 052-setup-config.yml
+
+- name: Systemd | create environment file
+  ansible.builtin.template:
+    src: k3s.service.env.j2
+    dest: /etc/systemd/system/k3s.service.env
+    owner: root
+    group: root
+    mode: 0644
+  register: k3s_state_env
+
+- name: Systemd | create service
+  ansible.builtin.template:
+    src: k3s.service.j2
+    dest: /etc/systemd/system/k3s.service
+    owner: root
+    group: root
+    mode: 0644
+  register: k3s_state_service
+
+- name: Systemd | service state
+  ansible.builtin.import_tasks: 053-setup-systemd.yml
 
 - name: Kubernetes | wait for state directory
   ansible.builtin.wait_for:
