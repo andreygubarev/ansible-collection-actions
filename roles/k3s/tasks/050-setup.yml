@@ -119,6 +119,7 @@
     path: "{{ k3s_path_statedir }}/{{ k3s_role }}"
 
 - name: Setup Cilium
+  when: k3s_role == 'server' and k3s_server == '127.0.0.1'
   block:
     - name: Initialize Cilium
       ansible.builtin.import_tasks: 060-cilium.yml
