@@ -57,5 +57,5 @@
           ansible.builtin.import_tasks: 053-setup-systemd.yml
 
         - name: Cilium | configuration
-          ansible.builtin.import_tasks: 061-cilium-config.yml
+          ansible.builtin.import_tasks: 062-cilium-config.yml
           when: k3s_role == 'server'
