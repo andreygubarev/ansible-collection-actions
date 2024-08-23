@@ -69,12 +69,3 @@
 - name: Kubernetes | wait for running state
   ansible.builtin.wait_for:
     path: "{{ k3s_path_statedir }}/{{ k3s_role }}"
-
-- name: Cilium | setup
-  when: k3s_role == 'server' and k3s_server == '127.0.0.1'
-  block:
-    - name: Initialize Cilium
-      ansible.builtin.import_tasks: 060-cilium.yml
-
-    - name: Setup Cilium
-      ansible.builtin.import_tasks: 060-cilium.yml
