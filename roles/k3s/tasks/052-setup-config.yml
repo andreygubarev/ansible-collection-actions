@@ -11,4 +11,4 @@
     owner: root
     group: root
     mode: 0644
-  register: k3s_state_config
+  register: k3s__config
