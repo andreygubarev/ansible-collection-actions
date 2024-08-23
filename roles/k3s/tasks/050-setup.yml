@@ -50,14 +50,14 @@
     group: root
     mode: 0644
 
-- name: Create systemd service
+- name: Systemd | setup
   ansible.builtin.import_tasks: 052-setup-systemd
 
-- name: Wait for cluster to be ready
+- name: Kubernetes | wait for state directory
   ansible.builtin.wait_for:
     path: "{{ k3s_path_statedir }}/{{ k3s_role }}"
 
-- name: Setup Cilium
+- name: Cilium | setup
   when: k3s_role == 'server' and k3s_server == '127.0.0.1'
   block:
     - name: Initialize Cilium
