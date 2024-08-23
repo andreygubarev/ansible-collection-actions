@@ -1,6 +1,15 @@
 ---
-### Kubernetes State ##########################################################
-- name: Ensure state directory
+### Kubernetes | Assertions ###################################################
+- name: Kubernetes | assert configuration
+  ansible.builtin.assert:
+    that:
+      - "k3s_role in ['server', 'agent']"
+      - "k3s_token is defined"
+      - "k3s_token is not none"
+      - "k3s_token != ''"
+
+### Kubernetes | State ##########################################################
+- name: Kubernetes | ensure state directory
   ansible.builtin.file:
     path: "{{ k3s_path_statedir }}"
     state: directory
@@ -8,26 +17,23 @@
     group: root
     mode: 0644
 
-- name: Configure Kubernetes addons
+- name: Kubernetes | configure addons
   when: k3s_role == 'server'
   ansible.builtin.import_tasks: 051-setup-addons
 
-### Kubernetes Config #########################################################
-- name: Assert Kubernetes configuration
-  ansible.builtin.assert:
-    that:
-      - "k3s_token is defined"
-      - "k3s_token is not none"
-      - "k3s_token != ''"
-      - "k3s_role in ['server', 'agent']"
+### Kubernetes | Configuration ################################################
+- name: Kubernetes | set node name
+  when: k3s_node == ""
+  ansible.builtin.set_fact:
+    k3s_node: "{{ ansible_facts.hostname }}"
 
-- name: Create Kubernetes configuration directory
+- name: Kubernetes | create configuration directory
   ansible.builtin.file:
     path: "{{ k3s_path_confdir }}/config.yaml.d"
     state: directory
     mode: "0755"
 
-- name: Create Kubernetes configuration
+- name: Kubernetes | create configuration
   ansible.builtin.template:
     src: config.yml.j2
     dest: "{{ k3s_path_confdir }}/config.yaml"
@@ -36,7 +42,7 @@
     mode: 0644
   register: k3s_state_config
 
-- name: Create Kubernetes configuration for registries
+- name: Kubernetes | create configuration for registries
   ansible.builtin.template:
     src: registries.yml.j2
     dest: "{{ k3s_path_confdir }}/registries.yaml"
@@ -44,7 +50,7 @@
     group: root
     mode: 0644
 
-- name: Configure Systemd
+- name: Create systemd service
   ansible.builtin.import_tasks: 052-setup-systemd
 
 - name: Wait for cluster to be ready
