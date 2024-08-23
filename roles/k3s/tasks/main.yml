@@ -26,9 +26,9 @@
       ansible.builtin.set_fact:
         k3s_exists: "{{ k3s_exists.stat.exists }}"
 
-    - name: Initialize Kubernetes
-      when: not k3s_exists
+    - name: Kubernetes | setup
       ansible.builtin.import_tasks: 050-setup.yml
 
-    - name: Setup Kubernetes
+    - name: Initialize Kubernetes
+      when: not k3s_exists
       ansible.builtin.import_tasks: 050-setup.yml
