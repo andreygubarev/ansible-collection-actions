@@ -17,12 +17,12 @@
     - name: Linux | modify kernel parameters
       ansible.builtin.import_tasks: 040-system.yml
 
-    - name: Kubernetes | get node status
+    - name: Kubernetes | get state
       ansible.builtin.stat:
         path: "{{ k3s_path_statedir }}/server/node-token"
       register: k3s_present
 
-    - name: Kubernetes | set node status
+    - name: Kubernetes | set state
       ansible.builtin.set_fact:
         k3s_present: "{{ k3s_present.stat.exists }}"
 
@@ -43,12 +43,13 @@
             timeout: 90
             state: started
 
-    - name: Kubernetes | configure
-      block:
-        - name: Kubernetes | set node status
+        - name: Kubernetes | set state to present
           ansible.builtin.set_fact:
             k3s_present: true
 
+    - name: Kubernetes | configure
+      when: k3s_present
+      block:
         - name: Kubernetes | configuration
           ansible.builtin.import_tasks: 052-setup-config.yml
 
