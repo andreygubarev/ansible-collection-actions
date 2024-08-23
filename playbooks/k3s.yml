@@ -19,8 +19,8 @@
             -n, --node=NAME           Set the name of the node
             --download                Download packages
             --download-images         Download docker images
-            --enable-localstorage     Enable local storage
-            --enable-embeddedregistry Enable embedded registry
+            --enable-localstorage     Enable local storage (default: false)
+            --enable-embeddedregistry Enable embedded registry (default: true)
             --pod-subnet=SUBNET       Set the pod subnet
             --service-subnet=SUBNET   Set the service subnet
 
