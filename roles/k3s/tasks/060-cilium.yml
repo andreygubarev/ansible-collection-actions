@@ -13,11 +13,6 @@
     kubectl apply -f {{ k3s_path_statedir }}/server/manifests/gatewayapi.yaml
   changed_when: false
 
-- name: Cilium | add helm repository
-  kubernetes.core.helm_repository:
-    name: cilium
-    repo_url: https://helm.cilium.io/
-
 - name: Cilium | set state to installed
   ansible.builtin.set_fact:
     k3s_cilium: installed

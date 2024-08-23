@@ -1,55 +1,57 @@
 ---
-- name: Cilium | configuration
-  when: k3s_cilium == "installed"
-  block:
-    - name: Cilium | get status
-      ansible.builtin.shell: >
-        KUBECONFIG={{ k3s_path_confdir }}/k3s.yaml
-        kubectl -n kube-system get daemonset cilium
-      register: cilium_installed
-      changed_when: false
-      ignore_errors: true
+- name: Cilium | add helm repository
+  kubernetes.core.helm_repository:
+    name: cilium
+    repo_url: https://helm.cilium.io/
 
-    - name: Cilium | set api server to remote
-      when: cilium_installed.rc == 0
-      ansible.builtin.set_fact:
-        cilium_apiserver: "{{ k3s_apiserver }}"
+- name: Cilium | get status
+  ansible.builtin.shell: >
+    KUBECONFIG={{ k3s_path_confdir }}/k3s.yaml
+    kubectl -n kube-system get daemonset cilium
+  register: cilium_installed
+  changed_when: false
+  ignore_errors: true
 
-    - name: Cilium | set api server to local
-      when: cilium_installed.rc != 0
-      ansible.builtin.set_fact:
-        cilium_apiserver: "127.0.0.1"
+- name: Cilium | set api server to remote
+  when: cilium_installed.rc == 0
+  ansible.builtin.set_fact:
+    cilium_apiserver: "{{ k3s_apiserver }}"
 
-    - name: Cilium | install and configure
-      kubernetes.core.helm:
-        kubeconfig: "{{ k3s_path_confdir }}/k3s.yaml"
-        name: cilium
-        chart_ref: cilium/cilium
-        chart_version: "{{ k3s_version_cilium }}"
-        release_namespace: kube-system
-        wait: true
-        values:
-          image:
-            useDigest: false
-          operator:
-            image:
-              useDigest: false
-            replicas: 1
-          ipam:
-            operator:
-              clusterPoolIPv4PodCIDRList: "{{ k3s_pod_subnet }}"
-          loadBalancer:
-            serviceTopology: true
-          kubeProxyReplacement: true
-          gatewayAPI:
-            enabled: true
-          bpf:
-            lbExternalClusterIP: true
-          k8sServiceHost: "{{ cilium_apiserver }}"
-          k8sServicePort: 6443
+- name: Cilium | set api server to local
+  when: cilium_installed.rc != 0
+  ansible.builtin.set_fact:
+    cilium_apiserver: "127.0.0.1"
 
-    - name: Cilium | wait for readiness
-      ansible.builtin.shell: >
-        KUBECONFIG={{ k3s_path_confdir }}/k3s.yaml
-        kubectl -n kube-system wait --for=condition=ready pod -l app.kubernetes.io/part-of=cilium --timeout=300s
-      changed_when: false
+- name: Cilium | install and configure
+  kubernetes.core.helm:
+    kubeconfig: "{{ k3s_path_confdir }}/k3s.yaml"
+    name: cilium
+    chart_ref: cilium/cilium
+    chart_version: "{{ k3s_version_cilium }}"
+    release_namespace: kube-system
+    wait: true
+    values:
+      image:
+        useDigest: false
+      operator:
+        image:
+          useDigest: false
+        replicas: 1
+      ipam:
+        operator:
+          clusterPoolIPv4PodCIDRList: "{{ k3s_pod_subnet }}"
+      loadBalancer:
+        serviceTopology: true
+      kubeProxyReplacement: true
+      gatewayAPI:
+        enabled: true
+      bpf:
+        lbExternalClusterIP: true
+      k8sServiceHost: "{{ cilium_apiserver }}"
+      k8sServicePort: 6443
+
+- name: Cilium | wait for readiness
+  ansible.builtin.shell: >
+    KUBECONFIG={{ k3s_path_confdir }}/k3s.yaml
+    kubectl -n kube-system wait --for=condition=ready pod -l app.kubernetes.io/part-of=cilium --timeout=300s
+  changed_when: false
