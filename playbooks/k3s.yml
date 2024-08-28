@@ -6,23 +6,23 @@
   become: true
   tasks:
     - name: Print Usage
+      when: help | default(false)
       failed_when: help | default(false)
       ansible.builtin.debug:
-        msg: |
-          Usage: @andreygubarev/k3s [OPTIONS]
-
-          Options:
-            -i, --install             Install k3s
-            --role=server|agent       Set the k3s role (default: server)
-            --join=IP                 Join a cluster
-            --token=TOKEN             Token for joining a cluster
-            -n, --node=NAME           Set the name of the node
-            --download                Download packages
-            --download-images         Download docker images
-            --enable-localstorage     Enable local storage (default: false)
-            --enable-embeddedregistry Enable embedded registry (default: true)
-            --pod-subnet=SUBNET       Set the pod subnet
-            --service-subnet=SUBNET   Set the service subnet
+        msg:
+          - "Usage: @andreygubarev/k3s [OPTIONS]"
+          - "Options:"
+          - "  -i, --install             Install k3s"
+          - "  --role=server|agent       Set the k3s role (default: server)"
+          - "  --join=IP                 Join a cluster"
+          - "  --token=TOKEN             Token for joining a cluster"
+          - "  -n, --node=NAME           Set the name of the node"
+          - "  --download                Download packages"
+          - "  --download-images         Download docker images"
+          - "  --enable-localstorage     Enable local storage (default: false)"
+          - "  --enable-embeddedregistry Enable embedded registry (default: true)"
+          - "  --pod-subnet=SUBNET       Set the pod subnet"
+          - "  --service-subnet=SUBNET   Set the service subnet"
 
     - name: Parse Arguments
       ansible.builtin.set_fact:
