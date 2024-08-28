@@ -1,6 +1,6 @@
 ---
 - name: Cilium | configuration
-  when: k3s__cilium
+  when: k3s__cilium or k3s_upgrade
   block:
     - name: Cilium | add helm repository
       kubernetes.core.helm_repository:

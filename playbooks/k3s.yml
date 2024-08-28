@@ -13,6 +13,7 @@
           - "Usage: @andreygubarev/k3s [OPTIONS]"
           - "Options:"
           - "  -i, --install             Install k3s"
+          - "  -u, --upgrade             Upgrade k3s"
           - "  --role=server|agent       Set the k3s role (default: server)"
           - "  --join=IP                 Join a cluster"
           - "  --token=TOKEN             Token for joining a cluster"
@@ -26,6 +27,7 @@
       ansible.builtin.set_fact:
         node: "{{ node | default(n) | default('') }}"
         install: "{{ install | default(i) | default(false) }}"
+        upgrade: "{{ upgrade | default(u) | default(false) }}"
         role: "{{ role | default('server') }}"
         join: "{{ join | default(omit) }}"
         token: "{{ token | default('') }}"
@@ -41,6 +43,8 @@
         k3s_node: "{{ node | default('') }}"
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
+        # -u or --upgrade
+        k3s_upgrade: "{{ upgrade | default(false) }}"
         # --role=server or --role=agent (default: server)
         k3s_role: "{{ role | default('server') }}"
         # --join=127.0.0.1 (default: 127.0.0.1)
