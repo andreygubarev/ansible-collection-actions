@@ -8,7 +8,7 @@
     - name: Set Usage
       ansible.builtin.set_fact:
         usage: |
-          Usage: @andreygubarev/ssh [OPTIONS]&#13;&#10;
+          Usage: @andreygubarev/ssh [OPTIONS]
 
           Options:
             -i, --install             Install OpenSSH server
@@ -23,7 +23,7 @@
       when: help | default(false)
       failed_when: help | default(false)
       ansible.builtin.debug:
-        msg: "{{ usage.split('\n') | to_nice_yaml }}"
+        var: "{{ usage.split('\n') | to_nice_yaml }}"
 
     - name: Process aliases
       ansible.builtin.set_fact:
