@@ -1,28 +1,28 @@
 ---
-- name: Tailscale | Prerequisites
+- name: Tailscale | prerequisites
   when: tailscale_install
   ansible.builtin.include_tasks: 000-prerequisite.yml
 
-- name: Tailscale | Install
+- name: Tailscale | install
   when: tailscale_install
   ansible.builtin.include_tasks: 010-install.yml
 
-- name: Tailscale configuration
+- name: Tailscale | configuration
   when: tailscale_enabled
   block:
-    - name: Enable Tailscale service
+    - name: Tailscale | enable systemd service
       ansible.builtin.systemd:
         name: tailscaled
         state: started
         enabled: true
 
-    - name: Wait for Tailscale to be ready
+    - name: Tailscale | wait for readiness
       ansible.builtin.wait_for:
         path: "{{ tailscale_socket }}"
         state: present
         timeout: 60
 
-    - name: Register Tailscale status
+    - name: Tailscale | get status
       ansible.builtin.command: >-
         tailscale
         --socket {{ tailscale_socket }}
@@ -30,10 +30,10 @@
       register: tailscale_status
       changed_when: false
 
-    - name: Register Tailscale node
+    - name: Tailscale | login
       when: (tailscale_status.stdout | from_json)['BackendState'] == 'NeedsLogin'
       block:
-        - name: Assert Tailscale auth key is defined
+        - name: Tailscale | assert auth key
           ansible.builtin.assert:
             that:
               - tailscale_authkey is defined
@@ -41,7 +41,7 @@
             success_msg: "Tailscale auth key is defined"
             fail_msg: "Tailscale auth key is not defined"
 
-        - name: Register Tailscale node
+        - name: Tailscale | login
           ansible.builtin.command: >-
             tailscale
             --socket {{ tailscale_socket }}

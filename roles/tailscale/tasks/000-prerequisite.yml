@@ -1,5 +1,5 @@
 ---
-- name: Tailscale | Assert supported OS
+- name: Tailscale | assert supported distribution
   ansible.builtin.assert:
     that:
       - ansible_distribution in ['Ubuntu', 'Debian']
