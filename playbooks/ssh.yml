@@ -8,7 +8,7 @@
     - name: Set Usage
       ansible.builtin.set_fact:
         usage: |
-          Usage: @andreygubarev/ssh [OPTIONS]
+          Usage: @andreygubarev/ssh [OPTIONS]&#13;&#10;
 
           Options:
             -i, --install             Install OpenSSH server
