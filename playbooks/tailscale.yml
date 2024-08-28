@@ -5,6 +5,16 @@
   gather_facts: true
   become: true
   tasks:
+    - name: Print Usage
+      when: help | default(false)
+      failed_when: help | default(false)
+      ansible.builtin.debug:
+        msg:
+          - "Usage: @andreygubarev/tailscale [OPTIONS]"
+          - ""
+          - "Options:"
+          - "  -t, --token               Tailscale AuthKey"
+
     - name: Parse Arguments
       ansible.builtin.set_fact:
         token: "{{ token | default(t) | default('') }}"
