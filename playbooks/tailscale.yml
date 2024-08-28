@@ -5,7 +5,7 @@
   gather_facts: true
   become: true
   tasks:
-    - name: Print Usage
+    - name: Tailscale | Usage
       when: help | default(false)
       failed_when: help | default(false)
       ansible.builtin.debug:
@@ -16,18 +16,18 @@
           - "  -i, --install             Install Tailscale Client"
           - "  -t, --token               Tailscale AuthKey"
 
-    - name: Parse Arguments
+    - name: Tailscale | Parse Arguments
       ansible.builtin.set_fact:
         install: "{{ install | default(i) | default(false) }}"
         token: "{{ token | default(t) | default('') }}"
 
-    - name: Prepare Variables
+    - name: Tailscale | Prepare Variables
       ansible.builtin.set_fact:
         # -i or --install
         tailscale_install: "{{ install | default(false) }}"
         # -t or --token
         tailscale_authkey: "{{ token | default('') }}"
 
-    - name: Include Role
+    - name: Tailscale | Include Role
       ansible.builtin.include_role:
         name: tailscale
