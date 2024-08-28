@@ -23,7 +23,8 @@
       when: help | default(false)
       failed_when: help | default(false)
       ansible.builtin.debug:
-        var: usage
+        var: item
+      with_items: "{{ usage.split('\n') }}"
 
     - name: Process aliases
       ansible.builtin.set_fact:
