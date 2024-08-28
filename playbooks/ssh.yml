@@ -14,12 +14,12 @@
           - ""
           - "Options:"
           - "  -i, --install             Install OpenSSH server"
-          - "  --enable-sshguard         Enable SSHGuard"
-          - "  --enable-hardening        Enable OpenSSH hardening"
-          - "  --enable-tcp-forwarding   Enable TCP forwarding"
-          - "  --enable-root-login       Enable root login"
           - "  -u, --user=andrey:andreygubarev (where andreygubarev is github username)"
           - "  -g, --group=group1"
+          - "  --enable-sshguard         Enable SSHGuard"
+          - "  --enable-hardening        Enable OpenSSH hardening"
+          - "  --enable-tcp-forwarding   Enable TCP forwarding (requires --enable-hardening)"
+          - "  --enable-root-login       Enable root login (requires --enable-hardening)"
 
     - name: Process aliases
       ansible.builtin.set_fact:
