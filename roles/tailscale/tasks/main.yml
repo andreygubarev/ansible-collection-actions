@@ -1,42 +1,11 @@
 ---
-- name: Assert supported OS
-  ansible.builtin.assert:
-    that:
-      - ansible_distribution in ['Ubuntu', 'Debian']
-      - ansible_distribution_release in ['focal', 'jammy', 'bullseye', 'bookworm']
-    success_msg: "Supported OS detected: {{ ansible_distribution }} {{ ansible_distribution_release }}"
-    fail_msg: "Unsupported OS detected: {{ ansible_distribution }} {{ ansible_distribution_release }}"
+- name: Tailscale | Prerequisites
+  when: tailscale_install
+  ansible.builtin.include_tasks: 000-prerequisite.yml
 
-- name: APT cache update
-  ansible.builtin.apt:
-    update_cache: true
-    cache_valid_time: 3600
-
-- name: Install APT dependencies
-  ansible.builtin.apt:
-    name:
-      - ca-certificates
-      - iptables
-    state: present
-
-- name: Ensure download directory exists
-  ansible.builtin.file:
-    path: "{{ tailscale_download_dst }}"
-    state: directory
-    mode: 0755
-
-- name: Download Tailscale DEB package
-  ansible.builtin.get_url:
-    dest: "{{ tailscale_download_dst }}/tailscale_{{ tailscale_download_version }}.deb"
-    url: "{{ tailscale_download_src[tailscale_download_arch] }}"
-    checksum: "{{ tailscale_download_checksum[tailscale_download_arch] }}"
-    mode: 0644
-
-- name: Install Tailscale DEB package
-  ansible.builtin.apt:
-    deb: "{{ tailscale_download_dst }}/tailscale_{{ tailscale_download_version }}.deb"
-    state: present
-  notify: Restart Tailscale
+- name: Tailscale | Install
+  when: tailscale_install
+  ansible.builtin.include_tasks: 010-install.yml
 
 - name: Tailscale configuration
   when: tailscale_enabled

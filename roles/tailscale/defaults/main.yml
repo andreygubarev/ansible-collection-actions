@@ -1,4 +1,5 @@
 ---
+tailscale_install: true
 tailscale_enabled: true
 tailscale_authkey: "{{ lookup('ansible.builtin.env', 'TAILSCALE_AUTHKEY', default='') }}"
 tailscale_login_server: "{{ lookup('ansible.builtin.env', 'TAILSCALE_LOGINSERVER', default='') }}"
