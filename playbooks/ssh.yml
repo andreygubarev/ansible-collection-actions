@@ -5,11 +5,9 @@
   gather_facts: true
   become: true
   tasks:
-    - name: Print Usage
-      when: help | default(false)
-      failed_when: help | default(false)
-      ansible.builtin.debug:
-        msg: |
+    - name: Set Usage
+      ansible.builtin.set_fact:
+        usage: |
           Usage: @andreygubarev/ssh [OPTIONS]
 
           Options:
@@ -20,6 +18,12 @@
             --enable-root-login       Enable root login
             -u, --user=andrey:andreygubarev (where andreygubarev is github username)
             -g, --group=group1
+
+    - name: Print Usage
+      when: help | default(false)
+      failed_when: help | default(false)
+      ansible.builtin.debug:
+        msg: "{{ print(usage) }}"
 
     - name: Process aliases
       ansible.builtin.set_fact:
