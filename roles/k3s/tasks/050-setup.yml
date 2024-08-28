@@ -45,24 +45,6 @@
 - name: Kubernetes | create configuration
   ansible.builtin.import_tasks: 052-setup-config.yml
 
-- name: Systemd | create environment file
-  ansible.builtin.template:
-    src: k3s.service.env.j2
-    dest: /etc/systemd/system/k3s.service.env
-    owner: root
-    group: root
-    mode: 0644
-  register: k3s__env
-
-- name: Systemd | create service
-  ansible.builtin.template:
-    src: k3s.service.j2
-    dest: /etc/systemd/system/k3s.service
-    owner: root
-    group: root
-    mode: 0644
-  register: k3s__service
-
 - name: Systemd | service state
   ansible.builtin.import_tasks: 053-setup-systemd.yml
 
