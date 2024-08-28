@@ -4,3 +4,4 @@ tailscale_enabled: true
 tailscale_authkey: "{{ lookup('ansible.builtin.env', 'TAILSCALE_AUTHKEY', default='') }}"
 tailscale_login_server: "{{ lookup('ansible.builtin.env', 'TAILSCALE_LOGINSERVER', default='') }}"
 tailscale_login_timeout: 30s
+tailscale_advertise_exit_node: false

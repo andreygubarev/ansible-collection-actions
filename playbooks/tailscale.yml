@@ -15,11 +15,13 @@
           - "Options:"
           - "  -i, --install             Install Tailscale Client"
           - "  -t, --token               Tailscale AuthKey"
+          - "  --advertise-exit-node     Advertise Exit Node"
 
     - name: Tailscale | Parse Arguments
       ansible.builtin.set_fact:
         install: "{{ install | default(i) | default(false) }}"
         token: "{{ token | default(t) | default('') }}"
+        advertise_exit_node: "{{ advertise_exit_node | default(false) }}"
 
     - name: Tailscale | Prepare Variables
       ansible.builtin.set_fact:
@@ -27,6 +29,8 @@
         tailscale_install: "{{ install | default(false) }}"
         # -t or --token
         tailscale_authkey: "{{ token | default('') }}"
+        # --advertise-exit-node
+        tailscale_advertise_exit_node: "{{ advertise_exit_node | default(false) }}"
 
     - name: Tailscale | Include Role
       ansible.builtin.include_role:

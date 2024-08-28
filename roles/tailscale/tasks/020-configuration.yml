@@ -29,10 +29,13 @@
         tailscale
         --socket {{ tailscale_socket }}
         up
+        {% if tailscale_authkey %}
+        --auth-key {{ tailscale_authkey }}
+        {% endif %}
         --hostname {{ ansible_hostname }}
+        --advertise-exit-node={{ tailscale_advertise_exit_node | ternary('true', 'false') }}
         {% if tailscale_login_server %}
         --login-server {{ tailscale_login_server }}
         {% endif %}
         --timeout {{ tailscale_login_timeout }}
-        --auth-key {{ tailscale_authkey }}
       changed_when: true
