@@ -23,7 +23,7 @@
       when: help | default(false)
       failed_when: help | default(false)
       ansible.builtin.debug:
-        msg: "{{ usage }}"
+        msg: "{{ usage.split('\n') | to_nice_yaml }}"
 
     - name: Process aliases
       ansible.builtin.set_fact:
