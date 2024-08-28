@@ -29,3 +29,9 @@
     deb: "{{ tailscale_download_dst }}/tailscale_{{ tailscale_download_version }}.deb"
     state: present
   notify: Restart Tailscale
+
+- name: Tailscale | enable systemd service
+  ansible.builtin.systemd:
+    name: tailscaled
+    state: started
+    enabled: true
