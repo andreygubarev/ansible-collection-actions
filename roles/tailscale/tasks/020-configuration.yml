@@ -42,5 +42,6 @@
     tailscale
     --socket {{ tailscale_socket }}
     up
+    --hostname {{ ansible_hostname }}
     --advertise-exit-node={{ tailscale_advertise_exit_node | ternary('true', 'false') }}
   changed_when: true
