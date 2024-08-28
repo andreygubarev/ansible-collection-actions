@@ -38,6 +38,7 @@
       changed_when: true
 
 - name: Tailscale | enable ip forwarding
+  when: tailscale_advertise_exit_node
   ansible.builtin.sysctl:
     name: "{{ item }}"
     value: 1
