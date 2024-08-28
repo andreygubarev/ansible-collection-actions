@@ -5,26 +5,22 @@
   gather_facts: true
   become: true
   tasks:
-    - name: Set Usage
-      ansible.builtin.set_fact:
-        usage: |
-          Usage: @andreygubarev/ssh [OPTIONS]
-
-          Options:
-            -i, --install             Install OpenSSH server
-            --enable-sshguard         Enable SSHGuard
-            --enable-hardening        Enable OpenSSH hardening
-            --enable-tcp-forwarding   Enable TCP forwarding
-            --enable-root-login       Enable root login
-            -u, --user=andrey:andreygubarev (where andreygubarev is github username)
-            -g, --group=group1
-
     - name: Print Usage
       when: help | default(false)
       failed_when: help | default(false)
       ansible.builtin.debug:
-        var: item
-      with_items: "{{ usage.split('\n') }}"
+        msg: "{{ item }}"
+      with_items:
+        - "Usage: @andreygubarev/ssh [OPTIONS]"
+        - ""
+        - "Options:"
+        - "  -i, --install             Install OpenSSH server"
+        - "  --enable-sshguard         Enable SSHGuard"
+        - "  --enable-hardening        Enable OpenSSH hardening"
+        - "  --enable-tcp-forwarding   Enable TCP forwarding"
+        - "  --enable-root-login       Enable root login"
+        - "  -u, --user=andrey:andreygubarev (where andreygubarev is github username)"
+        - "  -g, --group=group1"
 
     - name: Process aliases
       ansible.builtin.set_fact:
