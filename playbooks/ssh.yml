@@ -23,7 +23,7 @@
       when: help | default(false)
       failed_when: help | default(false)
       ansible.builtin.debug:
-        msg: "{{ usage | safe }}"
+        msg: "{{ usage }}"
 
     - name: Process aliases
       ansible.builtin.set_fact:
