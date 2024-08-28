@@ -3,12 +3,5 @@
   hosts: localhost
   connection: local
   gather_facts: false
-  tasks:
-    - print_usage:
-        message: |
-          foo
-          bar
-          baz
-
   roles:
     - role: ping
