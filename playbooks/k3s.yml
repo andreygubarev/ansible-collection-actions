@@ -28,8 +28,6 @@
         install: "{{ install | default(i) | default(false) }}"
         role: "{{ role | default('server') }}"
         join: "{{ join | default(omit) }}"
-        download: "{{ download | default(false) }}"
-        download_images: "{{ download_images | default(false) }}"
         token: "{{ token | default('') }}"
         sysctl: "{{ sysctl | default(false) }}"
         enable_localstorage: "{{ enable_localstorage | default(false) }}"
@@ -49,10 +47,6 @@
         k3s_apiserver: "{{ join | default('127.0.0.1') }}"
         # --token=secret
         k3s_token: "{{ token | default('') }}"
-        # --download
-        k3s_download: "{{ download | default(false) }}"
-        # --download-images
-        k3s_download_images: "{{ download_images | default(false) }}"
         # --enable-localstorage
         k3s_enable_localstorage: "{{ enable_localstorage | default(false) }}"
         # --enable-embeddedregistry
