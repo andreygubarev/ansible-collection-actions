@@ -1,0 +1,19 @@
+---
+- name: Setup Tailscale
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  become: true
+  tasks:
+    - name: Parse Arguments
+      ansible.builtin.set_fact:
+        token: "{{ token | default(t) | default('') }}"
+
+    - name: Prepare Variables
+      ansible.builtin.set_fact:
+        # -t or --token
+        tailscale_authkey: "{{ token | default('') }}"
+
+    - name: Include Role
+      ansible.builtin.include_role:
+        name: tailscale
