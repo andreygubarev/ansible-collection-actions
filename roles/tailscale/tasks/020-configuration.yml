@@ -27,14 +27,13 @@
     - name: Tailscale | login
       ansible.builtin.command: >-
         tailscale
-        --socket {{ tailscale_socket }}
+        --socket="{{ tailscale_socket }}"
         up
-        --auth-key {{ tailscale_authkey }}
-        --hostname {{ ansible_hostname }}
+        --auth-key="{{ tailscale_authkey }}"
+        --hostname="{{ ansible_hostname }}"
         {% if tailscale_login_server %}
-        --login-server {{ tailscale_login_server }}
+        --login-server="{{ tailscale_login_server }}"
         {% endif %}
-        --timeout {{ tailscale_login_timeout }}
       changed_when: true
 
 - name: Tailscale | enable ip forwarding
