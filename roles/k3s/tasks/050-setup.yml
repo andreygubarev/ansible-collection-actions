@@ -4,9 +4,6 @@
   ansible.builtin.assert:
     that:
       - "k3s_role in ['server', 'agent']"
-      - "k3s_token is defined"
-      - "k3s_token is not none"
-      - "k3s_token != ''"
 
 ### Kubernetes | Node #########################################################
 - name: Kubernetes | set node name
