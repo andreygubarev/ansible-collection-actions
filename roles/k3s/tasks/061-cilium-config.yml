@@ -55,6 +55,8 @@
           ipam:
             mode: kubernetes
           kubeProxyReplacement: false
+          devices:
+            - tailscale0
           # at the host network using direct exposure of the Envoy proxy
           # to the host ports (including privileged ports). When traffic
           # arrives at the Service’s port, eBPF code intercepts the traffic
