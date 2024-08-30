@@ -46,6 +46,13 @@
           ipam:
             operator:
               clusterPoolIPv4PodCIDRList: "{{ k3s_pod_subnet }}"
+          # Following configuration allows using Cilium with Tailscale.
+          # When kubeProxyReplacement is enabled, Tailscale connectivity
+          # is not stable. Case is described as:
+          # https://tailscale.com/kb/1236/kubernetes-operator#cilium-in-kube-proxy-replacement-mode
+          # Cilium runs in kube-proxy replacement mode with the socket load balancing in Pods' namespaces enabled,
+          # connections from Pods to ClusterIPs go over a TCP socket (instead of going out via Pods' veth devices)
+          # and thus bypasses Tailscale firewall rules that are attached to netfilter hooks.
           kubeProxyReplacement: false
           loadBalancer:
             serviceTopology: true
