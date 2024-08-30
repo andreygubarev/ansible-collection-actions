@@ -57,6 +57,10 @@
             enabled: true
             hostNetwork:
               enabled: true
+          envoy:
+            securityContext:
+              capabilities:
+                keepCapNetBindService: true
           nodeIPAM:
             enabled: true
           bpf:
