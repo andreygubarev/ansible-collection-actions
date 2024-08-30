@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: 020-install.yml
 
 - name: Download Docker Images
-  when: (k3s_install and k3s_role == 'server') or k3s_download_images
+  when: k3s_install and k3s_role == 'server'
   ansible.builtin.import_tasks: 030-download-images.yml
 
 - name: Install Kubernetes
