@@ -6,8 +6,8 @@
   become: true
   tasks:
     - name: Print Usage
-      when: help | default(false)
-      failed_when: help | default(false)
+      when: help | default(h) | default(false)
+      failed_when: help | default(h) | default(false)
       ansible.builtin.debug:
         msg:
           - "Usage: @andreygubarev/k3s [OPTIONS]"
