@@ -35,10 +35,12 @@
     owner: root
     group: root
     mode: 0644
+    modification_time: preserve
+    access_time: preserve
 
 - name: Kubernetes | enable gatekeeper
   ansible.builtin.copy:
-    src: "{{ role_path }}/files/addons/gatekeeper.yaml"
+    src: "{{ role_path }}/files/addons/gatekeeper.yml"
     dest: "{{ k3s_path_statedir }}/server/manifests/gatekeeper.yaml"
     owner: root
     group: root
