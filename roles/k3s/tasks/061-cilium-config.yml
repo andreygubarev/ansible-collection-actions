@@ -51,7 +51,9 @@
             serviceTopology: true
           # Following configuration allows to expose Gateway resources
           # at the host network using direct exposure of the Envoy proxy
-          # to the host ports (including privileged ports).
+          # to the host ports (including privileged ports). When traffic
+          # arrives at the Service’s port, eBPF code intercepts the traffic
+          # and transparently forwards it to Envoy.
           nodePort:
             enabled: true
           gatewayAPI:
