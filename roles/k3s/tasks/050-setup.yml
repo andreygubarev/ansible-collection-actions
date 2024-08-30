@@ -5,12 +5,6 @@
     that:
       - "k3s_role in ['server', 'agent']"
 
-### Kubernetes | Node #########################################################
-- name: Kubernetes | set node name
-  when: k3s_node == ""
-  ansible.builtin.set_fact:
-    k3s_node: "{{ ansible_facts.hostname }}"
-
 ### Kubernetes | State ########################################################
 - name: Kubernetes | create directory for state
   ansible.builtin.file:

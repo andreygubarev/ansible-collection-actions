@@ -14,6 +14,11 @@
 - name: Install Kubernetes
   when: k3s_install
   block:
+    - name: Kubernetes | set node name
+      when: k3s_node == ""
+      ansible.builtin.set_fact:
+        k3s_node: "{{ ansible_facts.hostname }}"
+
     - name: Linux | modify kernel parameters
       ansible.builtin.import_tasks: 040-system.yml
 
