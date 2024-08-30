@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gatekeeper-system
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: gatekeeper
+  namespace: kube-system
+spec:
+  repo: https://open-policy-agent.github.io/gatekeeper/charts
+  chart: gatekeeper/gatekeeper
+  targetNamespace: gatekeeper-system
+  valuesContent: |-
+    replicas: 1
