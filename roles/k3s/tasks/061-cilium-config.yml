@@ -56,7 +56,8 @@
             serviceTopology: true
           gatewayAPI:
             enabled: true
-            hostNetwork: true
+            hostNetwork:
+              enabled: true
           nodeIPAM:
             enabled: true
           bpf:
