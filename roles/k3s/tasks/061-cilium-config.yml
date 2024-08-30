@@ -52,15 +52,9 @@
           # Cilium runs in kube-proxy replacement mode with the socket load balancing in Pods' namespaces enabled,
           # connections from Pods to ClusterIPs go over a TCP socket (instead of going out via Pods' veth devices)
           # and thus bypasses Tailscale firewall rules that are attached to netfilter hooks.
-          kubeProxyReplacement: false
-          bpf:
-            masquerade: true
-          ipMasqAgent:
-            enabled: true
           ipam:
             mode: kubernetes
-          endpointRoutes:
-            enabled: true
+          kubeProxyReplacement: false
           # at the host network using direct exposure of the Envoy proxy
           # to the host ports (including privileged ports). When traffic
           # arrives at the Service’s port, eBPF code intercepts the traffic
