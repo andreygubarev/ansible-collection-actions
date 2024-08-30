@@ -1,7 +1,10 @@
 ---
+- name: Cilium | setup gateway api
+  ansible.builtin.import_tasks: 061-cilium-gatewayapi.yml
+
 - name: Cilium | set state
   ansible.builtin.set_fact:
     k3s__cilium: true
 
 - name: Cilium | setup
-  ansible.builtin.import_tasks: 061-cilium-config.yml
+  ansible.builtin.import_tasks: 062-cilium-config.yml
