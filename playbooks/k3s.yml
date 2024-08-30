@@ -18,6 +18,7 @@
           - "  --join=IP                 Join a cluster"
           - "  --token=TOKEN             Token for joining a cluster"
           - "  -n, --node=NAME           Set the name of the node"
+          - "  -l, --labels=LABELS       Set the labels for the node"
           - "  --enable-localstorage     Enable local storage (default: false)"
           - "  --enable-embeddedregistry Enable embedded registry (default: true)"
           - "  --pod-subnet=SUBNET       Set the pod subnet"
@@ -25,13 +26,13 @@
 
     - name: Parse Arguments
       ansible.builtin.set_fact:
-        node: "{{ node | default(n) | default('') }}"
         install: "{{ install | default(i) | default(false) }}"
         upgrade: "{{ upgrade | default(u) | default(false) }}"
         role: "{{ role | default('server') }}"
         join: "{{ join | default(omit) }}"
         token: "{{ token | default('') }}"
-        sysctl: "{{ sysctl | default(false) }}"
+        node: "{{ node | default(n) | default('') }}"
+        labels: "{{ labels | default(l) | default([]) }}"
         enable_localstorage: "{{ enable_localstorage | default(false) }}"
         enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
         pod_subnet: "{{ pod_subnet | default(omit) }}"
@@ -41,6 +42,8 @@
       ansible.builtin.set_fact:
         # -n or --node
         k3s_node: "{{ node | default('') }}"
+        # -l or --labels
+        k3s_labels: "{{ labels | default([]) }}"
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
         # -u or --upgrade

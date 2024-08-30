@@ -51,3 +51,22 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Kubernetes | get configuration for node labels (when string)
+  when: k3s_labels is string
+  ansible.builtin.set_fact:
+    k3s__labels: "{{ k3s_labels | split(',') }}"
+
+- name: Kubernetes | get configuration for node labels (when list)
+  when: k3s_labels is list
+  ansible.builtin.set_fact:
+    k3s__labels: "{{ k3s_labels }}"
+
+- name: Kubernetes | set configuration for node labels
+  when: k3s__labels is defined
+  ansible.builtin.template:
+    src: config.yaml.d/030-node-labels.yaml.j2
+    dest: "{{ k3s_path_confdir }}/config.yaml.d/030-node-labels.yaml"
+    owner: root
+    group: root
+    mode: 0644
