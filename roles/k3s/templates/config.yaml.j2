@@ -10,7 +10,4 @@ server: https://{{ k3s_apiserver }}:6443
 
 {% if k3s_role == 'server' %}
 write-kubeconfig-mode: "0644"
-{% if k3s_enable_embeddedregistry %}
-embedded-registry: true
-{% endif %}
 {% endif %}
