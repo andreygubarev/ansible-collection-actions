@@ -48,7 +48,6 @@
           # example.com is not accessible from the k3s-agent when using tailscale
           # https://tailscale.com/kb/1236/kubernetes-operator#cilium-in-kube-proxy-replacement-mode
           # https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#socket-loadbalancer-bypass-in-pod-namespace
-          routingMode: native
           kubeProxyReplacement: true
           socketLB:
             hostNamespaceOnly: true
