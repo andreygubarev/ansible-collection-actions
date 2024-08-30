@@ -55,6 +55,8 @@
           kubeProxyReplacement: false
           bpf:
             masquerade: true
+          ipMasqAgent:
+            enabled: true
           ipam:
             mode: kubernetes
           # at the host network using direct exposure of the Envoy proxy
