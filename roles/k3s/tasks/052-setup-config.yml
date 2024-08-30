@@ -53,12 +53,12 @@
     mode: 0644
 
 - name: Kubernetes | get configuration for node labels (when string)
-  when: k3s_labels is string
+  when: (k3s_labels | type_debug) == 'string'
   ansible.builtin.set_fact:
     k3s__labels: "{{ k3s_labels | split(',') }}"
 
 - name: Kubernetes | get configuration for node labels (when list)
-  when: k3s_labels is list
+  when: (k3s_labels | type_debug) == 'list'
   ansible.builtin.set_fact:
     k3s__labels: "{{ k3s_labels }}"
 
