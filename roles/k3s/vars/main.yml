@@ -19,7 +19,6 @@ k3s_command: /usr/local/bin/k3s
 kubernetes_command_args:
   server: >
     --data-dir={{ k3s_path_statedir }}
-    --disable-kube-proxy
     --disable-network-policy
     --disable=servicelb
     --disable=traefik
