@@ -52,7 +52,6 @@
           socketLB:
             hostNamespaceOnly: true
           loadBalancer:
-            standalone: false
             serviceTopology: true
           gatewayAPI:
             enabled: true
