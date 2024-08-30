@@ -44,10 +44,6 @@
           ipam:
             operator:
               clusterPoolIPv4PodCIDRList: "{{ k3s_pod_subnet }}"
-          # example.com served using Cilium LoadBalancer from the k3s-server
-          # example.com is not accessible from the k3s-agent when using tailscale
-          # https://tailscale.com/kb/1236/kubernetes-operator#cilium-in-kube-proxy-replacement-mode
-          # https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#socket-loadbalancer-bypass-in-pod-namespace
           kubeProxyReplacement: false
           nodePort:
             enabled: true
@@ -65,10 +61,6 @@
                   - NET_ADMIN
                   - SYS_ADMIN
                   - NET_BIND_SERVICE
-          nodeIPAM:
-            enabled: true
-          bpf:
-            lbExternalClusterIP: true
           k8sServiceHost: "{{ cilium_apiserver }}"
           k8sServicePort: 6443
 
