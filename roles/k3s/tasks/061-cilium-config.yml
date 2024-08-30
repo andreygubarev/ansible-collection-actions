@@ -46,6 +46,8 @@
           ipam:
             operator:
               clusterPoolIPv4PodCIDRList: "{{ k3s_pod_subnet }}"
+          loadBalancer:
+            serviceTopology: true
           # Following configuration allows using Cilium with Tailscale.
           # When kubeProxyReplacement is enabled, Tailscale connectivity
           # is not stable. Case is described as:
@@ -54,8 +56,7 @@
           # connections from Pods to ClusterIPs go over a TCP socket (instead of going out via Pods' veth devices)
           # and thus bypasses Tailscale firewall rules that are attached to netfilter hooks.
           kubeProxyReplacement: false
-          loadBalancer:
-            serviceTopology: true
+          routing-mode: native
           # Following configuration allows to expose Gateway resources
           # at the host network using direct exposure of the Envoy proxy
           # to the host ports (including privileged ports). When traffic
