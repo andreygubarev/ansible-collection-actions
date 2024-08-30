@@ -22,6 +22,7 @@ kubernetes_command_args:
     --disable-kube-proxy
     --disable-network-policy
     --disable=servicelb
+    --disable=traefik
     --flannel-backend=none
     {% if k3s_node != "" %}
     --node-name={{ k3s_node }}
