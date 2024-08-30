@@ -6,7 +6,7 @@ k3s_token: ""
 k3s_role: server
 k3s_apiserver: 127.0.0.1
 k3s_download: "{{ k3s_install }}"
-k3s_download_images: "{{ k3s_install }}"
+k3s_download_images: false
 k3s_enable_localstorage: false
 k3s_enable_embeddedregistry: true
 k3s_pod_subnet: "10.42.0.0/16"
