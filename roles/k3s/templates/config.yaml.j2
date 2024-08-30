@@ -7,7 +7,3 @@ cluster-init: true
 server: https://{{ k3s_apiserver }}:6443
 {% endif %}
 {% endif %}
-
-{% if k3s_role == 'server' %}
-write-kubeconfig-mode: "0644"
-{% endif %}
