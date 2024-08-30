@@ -52,8 +52,6 @@
     group: root
     mode: 0644
 
-- debug: msg="{{ (k3s_labels | type_debug) == 'string' }}"
-
 - name: Kubernetes | get configuration for node labels (when string)
   when: (k3s_labels | type_debug) == 'string'
   ansible.builtin.set_fact:
