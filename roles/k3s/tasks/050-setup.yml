@@ -25,12 +25,6 @@
   ansible.builtin.import_tasks: 051-setup-addons.yml
 
 ### Kubernetes | Configuration ################################################
-- name: Kubernetes | create directory for configuration
-  ansible.builtin.file:
-    path: "{{ k3s_path_confdir }}/config.yaml.d"
-    state: directory
-    mode: "0755"
-
 - name: Kubernetes | create configuration for registries
   ansible.builtin.template:
     src: registries.yml.j2
