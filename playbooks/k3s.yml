@@ -15,6 +15,7 @@
           - "  server                    Install k3s as a server"
           - "  agent                     Install k3s as an agent"
           - "Options:"
+          - "  -i, --install             Install k3s"
           - "  -u, --upgrade             Upgrade k3s"
           - "  --join=IP                 Join a cluster"
           - "  --token=TOKEN             Token for joining a cluster"
@@ -36,6 +37,7 @@
     - name: Parse Arguments
       ansible.builtin.set_fact:
         role: "{{ COMMAND }}"
+        install: "{{ install | default(i) | default(false) }}"
         upgrade: "{{ upgrade | default(u) | default(false) }}"
         join: "{{ join | default(omit) }}"
         token: "{{ token | default('') }}"
@@ -54,6 +56,8 @@
         k3s_node: "{{ node | default('') }}"
         # -l or --labels
         k3s_labels: "{{ labels | default([]) }}"
+        # -i or --install
+        k3s_install: "{{ install | default(false) }}"
         # -u or --upgrade
         k3s_upgrade: "{{ upgrade | default(false) }}"
         # --join=127.0.0.1 (default: 127.0.0.1)

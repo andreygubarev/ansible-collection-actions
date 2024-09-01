@@ -1,61 +1,66 @@
 ---
 - name: Download Binaries
+  when: k3s_install
   ansible.builtin.import_tasks: 010-download.yml
 
 - name: Install Binaries
+  when: k3s_install
   ansible.builtin.import_tasks: 020-install.yml
 
 - name: Download Docker Images
-  when: k3s_role == 'server'
+  when: k3s_install and k3s_role == 'server'
   ansible.builtin.import_tasks: 030-download-images.yml
 
-- name: Kubernetes | set node name
-  when: k3s_node == ""
-  ansible.builtin.set_fact:
-    k3s_node: "{{ ansible_facts.hostname }}"
-
-- name: Linux | modify kernel parameters
-  ansible.builtin.import_tasks: 040-system.yml
-
-- name: Kubernetes | get state
-  ansible.builtin.stat:
-    path: "{{ k3s_path_statedir }}/server/node-token"
-  register: k3s__present
-
-- name: Kubernetes | set state
-  ansible.builtin.set_fact:
-    k3s__present: "{{ k3s__present.stat.exists }}"
-
-- name: Kubernetes | setup
-  when: not k3s__present
+- name: Install Kubernetes
+  when: k3s_install
   block:
-    - name: Kubernetes | setup
-      ansible.builtin.import_tasks: 050-setup.yml
-
-    - name: Cilium | setup
-      ansible.builtin.import_tasks: 060-cilium.yml
-      when: k3s_role == 'server' and k3s_apiserver == '127.0.0.1'
-
-    - name: Kubernetes | wait for readiness
-      ansible.builtin.wait_for:
-        host: "{{ k3s_apiserver }}"
-        port: 6443
-        timeout: 90
-        state: started
-
-    - name: Kubernetes | set state to present
+    - name: Kubernetes | set node name
+      when: k3s_node == ""
       ansible.builtin.set_fact:
-        k3s__present: true
+        k3s_node: "{{ ansible_facts.hostname }}"
 
-- name: Kubernetes | configure
-  when: k3s__present
-  block:
-    - name: Kubernetes | configuration
-      ansible.builtin.import_tasks: 052-setup-config.yml
+    - name: Linux | modify kernel parameters
+      ansible.builtin.import_tasks: 040-system.yml
 
-    - name: Systemd | service state
-      ansible.builtin.import_tasks: 053-setup-systemd.yml
+    - name: Kubernetes | get state
+      ansible.builtin.stat:
+        path: "{{ k3s_path_statedir }}/server/node-token"
+      register: k3s__present
 
-    - name: Cilium | configuration
-      ansible.builtin.import_tasks: 062-cilium-config.yml
-      when: k3s_role == 'server'
+    - name: Kubernetes | set state
+      ansible.builtin.set_fact:
+        k3s__present: "{{ k3s__present.stat.exists }}"
+
+    - name: Kubernetes | setup
+      when: not k3s__present
+      block:
+        - name: Kubernetes | setup
+          ansible.builtin.import_tasks: 050-setup.yml
+
+        - name: Cilium | setup
+          ansible.builtin.import_tasks: 060-cilium.yml
+          when: k3s_role == 'server' and k3s_apiserver == '127.0.0.1'
+
+        - name: Kubernetes | wait for readiness
+          ansible.builtin.wait_for:
+            host: "{{ k3s_apiserver }}"
+            port: 6443
+            timeout: 90
+            state: started
+
+        - name: Kubernetes | set state to present
+          ansible.builtin.set_fact:
+            k3s__present: true
+
+    - name: Kubernetes | configure
+      when: k3s__present
+      block:
+        - name: Kubernetes | configuration
+          ansible.builtin.import_tasks: 052-setup-config.yml
+
+        - name: Systemd | service state
+          ansible.builtin.import_tasks: 053-setup-systemd.yml
+
+        - name: Cilium | configuration
+          ansible.builtin.import_tasks: 062-cilium-config.yml
+          when: k3s_role == 'server'
