@@ -1,7 +1,7 @@
 ---
 - name: Cilium | download gateway api
   ansible.builtin.get_url:
-    url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/v{{ k3s_version_apigateway }}/experimental-install.yaml"
+    url: "https://github.com/kubernetes-sigs/gateway-api/releases/download/v{{ k3s_version_gatewayapi }}/experimental-install.yaml"
     dest: "{{ k3s_path_statedir }}/server/manifests/gatewayapi.yaml"
     owner: root
     group: root
