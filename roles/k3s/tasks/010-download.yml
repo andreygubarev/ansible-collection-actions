@@ -27,8 +27,5 @@
     - name: Download | helm
       ansible.builtin.import_tasks: downloads/helm.yml
 
-    - name: Download | cilium
-      ansible.builtin.import_tasks: downloads/cilium.yml
-
     - name: Download | skopeo
       ansible.builtin.import_tasks: downloads/skopeo.yml
