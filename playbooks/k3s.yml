@@ -15,9 +15,9 @@
           - "  server                    Install k3s as a server"
           - "  agent                     Install k3s as an agent"
           - "Options:"
-          - "  -t, --token=TOKEN             Token for joining a cluster"
           - "  -u, --upgrade             Upgrade k3s"
           - "  --join=IP                 Join a cluster"
+          - "  --token=TOKEN             Token for joining a cluster"
           - "  -n, --node=NAME           Set the name of the node"
           - "  -l, --labels=LABELS       Set the labels for the node"
           - "  --enable-embeddedregistry Enable embedded registry (default: true)"
@@ -35,10 +35,10 @@
 
     - name: Parse Arguments
       ansible.builtin.set_fact:
-        token: "{{ token | default(t) | default('') }}"
         role: "{{ COMMAND }}"
         upgrade: "{{ upgrade | default(u) | default(false) }}"
         join: "{{ join | default(omit) }}"
+        token: "{{ token | default('') }}"
         node: "{{ node | default(n) | default('') }}"
         labels: "{{ labels | default(l) | default([]) }}"
         enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
