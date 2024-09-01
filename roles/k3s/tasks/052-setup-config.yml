@@ -71,7 +71,6 @@
     k3s__labels: "{{ k3s_labels }}"
 
 - name: Kubernetes | set configuration for node labels
-  when: k3s__labels is defined
   ansible.builtin.template:
     src: config.yaml.d/030-labels.yaml.j2
     dest: "{{ k3s_path_confdir }}/config.yaml.d/030-labels.yaml"
