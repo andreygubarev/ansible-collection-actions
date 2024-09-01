@@ -3,7 +3,9 @@ node-label:
 {% for label in k3s__labels %}
 - "{{ label }}"
 {% endfor %}
-{% if k3s_external_ip %}
-- svccontroller.k3s.cattle.io/enablelb=true
 {% endif %}
+
+{% if k3s_external_ip %}
+node-label+:
+- svccontroller.k3s.cattle.io/enablelb=true
 {% endif %}
