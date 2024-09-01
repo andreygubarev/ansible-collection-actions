@@ -78,3 +78,12 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Kubernetes | set configuration for tailscale
+  when: k3s_vpnauth
+  ansible.builtin.template:
+    src: config.yaml.d/040-vpn-auth.yaml.j2
+    dest: "{{ k3s_path_confdir }}/config.yaml.d/040-vpn-auth.yaml"
+    owner: root
+    group: root
+    mode: 0644
