@@ -20,6 +20,9 @@ kubernetes_command_args:
     {% if k3s_node != "" %}
     --node-name={{ k3s_node }}
     {% endif %}
+    {% if k3s_external_ip %}
+    --node-external-ip={{ k3s_external_ip }}
+    {% endif %}
     --private-registry {{ k3s_path_confdir }}/registries.yaml
     --cluster-cidr {{ k3s_pod_subnet }}
     --service-cidr {{ k3s_service_subnet }}
@@ -27,5 +30,8 @@ kubernetes_command_args:
     --data-dir={{ k3s_path_statedir }}
     {% if k3s_node != "" %}
     --node-name={{ k3s_node }}
+    {% endif %}
+    {% if k3s_external_ip %}
+    --node-external-ip={{ k3s_external_ip }}
     {% endif %}
     --private-registry {{ k3s_path_confdir }}/registries.yaml
