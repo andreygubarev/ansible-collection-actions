@@ -1,6 +1,6 @@
 ---
 - name: Download Binaries
-  when: k3s_install or k3s_download
+  when: k3s_install
   ansible.builtin.import_tasks: 010-download.yml
 
 - name: Install Binaries
