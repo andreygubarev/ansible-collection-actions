@@ -17,8 +17,9 @@
           - "Options:"
           - "  -i, --install             Install k3s"
           - "  -u, --upgrade             Upgrade k3s"
-          - "  --join=IP                 Join a cluster"
           - "  -t, --token=TOKEN         Token for joining a cluster"
+          - "  --join=IP                 Join a cluster"
+          - "  --external-ip=IP          Set the external IP of the node"
           - "  -n, --node=NAME           Set the name of the node"
           - "  -l, --labels=LABELS       Set the labels for the node"
           - "  --enable-embeddedregistry Enable embedded registry (default: true)"
@@ -39,8 +40,9 @@
         role: "{{ COMMAND }}"
         install: "{{ install | default(i) | default(false) }}"
         upgrade: "{{ upgrade | default(u) | default(false) }}"
-        join: "{{ join | default(omit) }}"
         token: "{{ token | default(t) | default('') }}"
+        join: "{{ join | default(omit) }}"
+        external_ip: "{{ external_ip | default(omit) }}"
         node: "{{ node | default(n) | default('') }}"
         labels: "{{ labels | default(l) | default([]) }}"
         enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
@@ -60,10 +62,12 @@
         k3s_install: "{{ install | default(false) }}"
         # -u or --upgrade
         k3s_upgrade: "{{ upgrade | default(false) }}"
-        # --join=127.0.0.1 (default: 127.0.0.1)
-        k3s_apiserver: "{{ join | default('127.0.0.1') }}"
         # --token=secret
         k3s_token: "{{ token | default('') }}"
+        # --join=127.0.0.1 (default: 127.0.0.1)
+        k3s_apiserver: "{{ join | default('127.0.0.1') }}"
+        # --external-ip=1.1.1.1
+        k3s_external_ip: "{{ external_ip | default(omit) }}"
         # --enable-embeddedregistry
         k3s_enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
         # --enable-localstorage

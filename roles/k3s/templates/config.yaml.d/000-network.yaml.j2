@@ -4,3 +4,7 @@ disable:
 {% if not k3s_enable_localstorage %}
   - local-storage
 {% endif %}
+
+{% if k3s_external_ip %}
+node-external-ip: "{{ k3s_external_ip }}"
+{% endif %}
