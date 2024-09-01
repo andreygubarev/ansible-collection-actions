@@ -11,5 +11,3 @@ k3s_enable_embeddedregistry: true
 k3s_pod_subnet: "10.42.0.0/16"
 k3s_service_subnet: "10.43.0.0/16"
 k3s_vpnauth: false
-
-k3s__cilium: false

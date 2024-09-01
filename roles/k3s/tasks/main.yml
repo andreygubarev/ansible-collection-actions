@@ -43,10 +43,6 @@
         - name: Kubernetes | setup
           ansible.builtin.import_tasks: 050-setup.yml
 
-        - name: Cilium | setup
-          ansible.builtin.import_tasks: 060-cilium.yml
-          when: k3s_role == 'server' and k3s_apiserver == '127.0.0.1'
-
         - name: Kubernetes | wait for readiness
           ansible.builtin.wait_for:
             host: "{{ k3s_apiserver }}"
@@ -66,7 +62,3 @@
 
         - name: Systemd | service state
           ansible.builtin.import_tasks: 053-setup-systemd.yml
-
-        - name: Cilium | configuration
-          ansible.builtin.import_tasks: 062-cilium-config.yml
-          when: k3s_role == 'server'
