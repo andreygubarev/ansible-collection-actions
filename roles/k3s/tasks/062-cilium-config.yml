@@ -36,13 +36,16 @@
         values:
           k8sServiceHost: "{{ cilium_apiserver }}"
           k8sServicePort: 6443
+
           image:
             useDigest: false
           operator:
             image:
               useDigest: false
             replicas: 1
+            rollOutPods: true
           rollOutCiliumPods: true
+
           loadBalancer:
             serviceTopology: true
           # Following configuration allows using Cilium with Tailscale.
@@ -55,6 +58,7 @@
           ipam:
             mode: kubernetes
           kubeProxyReplacement: false
+
           # at the host network using direct exposure of the Envoy proxy
           # to the host ports (including privileged ports). When traffic
           # arrives at the Service’s port, eBPF code intercepts the traffic
