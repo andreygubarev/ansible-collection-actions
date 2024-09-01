@@ -23,6 +23,7 @@
           - "  -l, --labels=LABELS       Set the labels for the node"
           - "  --enable-localstorage     Enable local storage (default: false)"
           - "  --enable-embeddedregistry Enable embedded registry (default: true)"
+          - "  --iface=IFACE             Set the network interface to use"
           - "  --pod-subnet=SUBNET       Set the pod subnet"
           - "  --service-subnet=SUBNET   Set the service subnet"
 
@@ -44,6 +45,7 @@
         labels: "{{ labels | default(l) | default([]) }}"
         enable_localstorage: "{{ enable_localstorage | default(false) }}"
         enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
+        iface: "{{ iface | default(omit) }}"
         pod_subnet: "{{ pod_subnet | default(omit) }}"
         service_subnet: "{{ service_subnet | default(omit) }}"
 
@@ -66,6 +68,8 @@
         k3s_enable_localstorage: "{{ enable_localstorage | default(false) }}"
         # --enable-embeddedregistry
         k3s_enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
+        # --iface
+        k3s_iface: "{{ iface | default(omit) }}"
         # --pod-subnet
         k3s_pod_subnet: "{{ pod_subnet | default(omit) }}"
         # --service-subnet
