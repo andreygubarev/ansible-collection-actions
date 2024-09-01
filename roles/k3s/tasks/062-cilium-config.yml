@@ -57,7 +57,9 @@
           # and thus bypasses Tailscale firewall rules that are attached to netfilter hooks.
           ipam:
             mode: kubernetes
-          kubeProxyReplacement: false
+          kubeProxyReplacement: true
+          socketLB:
+            hostNamespaceOnly: true
 
           # at the host network using direct exposure of the Envoy proxy
           # to the host ports (including privileged ports). When traffic
