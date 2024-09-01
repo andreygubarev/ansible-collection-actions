@@ -34,6 +34,12 @@
     - name: Kubernetes | setup
       when: not k3s__present
       block:
+        - name: Kubernetes | assert role configuration
+          ansible.builtin.assert:
+            that:
+              - k3s_role == 'agent' and k3s_apiserver != '127.0.0.1'
+            msg: "Agent role requires an API server to join"
+
         - name: Kubernetes | setup
           ansible.builtin.import_tasks: 050-setup.yml
 
