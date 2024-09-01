@@ -11,7 +11,6 @@
       ansible.builtin.debug:
         msg:
           - "Usage: @andreygubarev/tailscale [OPTIONS]"
-          - ""
           - "Options:"
           - "  -i, --install             Install Tailscale Client"
           - "  -t, --token               Tailscale AuthKey"
