@@ -9,7 +9,7 @@
       when: help | default(h) | default(false)
       failed_when: help | default(h) | default(false)
       ansible.builtin.debug:
-        var:
+        msg:
           - "Usage: @andreygubarev/tailscale [OPTIONS]"
           - ""
           - "Options:"
