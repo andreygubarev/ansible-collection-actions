@@ -6,24 +6,3 @@
     owner: root
     group: root
     mode: 0644
-
-- name: Kubernetes | disable traefik
-  ansible.builtin.file:
-    path: "{{ k3s_path_statedir }}/server/manifests/traefik.yaml.skip"
-    state: touch
-    owner: root
-    group: root
-    mode: 0644
-    modification_time: preserve
-    access_time: preserve
-
-- name: Kubernetes | disable local-storage
-  when: not k3s_enable_localstorage
-  ansible.builtin.file:
-    path: "{{ k3s_path_statedir }}/server/manifests/local-storage.yaml.skip"
-    state: touch
-    owner: root
-    group: root
-    mode: 0644
-    modification_time: preserve
-    access_time: preserve
