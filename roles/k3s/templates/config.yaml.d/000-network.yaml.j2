@@ -1,6 +1,3 @@
 flannel-backend: "vxlan"
 disable:
   - traefik
-{% if not k3s_enable_localstorage %}
-  - local-storage
-{% endif %}
