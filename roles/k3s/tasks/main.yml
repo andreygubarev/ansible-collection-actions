@@ -64,5 +64,5 @@
         - name: Systemd | service state
           ansible.builtin.import_tasks: 053-setup-systemd.yml
 
-        - name: Istio | setup
-          ansible.builtin.import_tasks: 060-istio.yml
+    - name: Istio | setup
+      ansible.builtin.import_tasks: 060-istio.yml
