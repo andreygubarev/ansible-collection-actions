@@ -3,7 +3,7 @@ k3s_node: ""
 k3s_labels: "{{ lookup('ansible.builtin.env', 'K3S_LABELS', default=[]) }}"
 k3s_install: false
 k3s_upgrade: false
-k3s_token: ""
+k3s_token: "{{ lookup('ansible.builtin.env', 'K3S_TOKEN', default='') }}"
 k3s_role: server
 k3s_apiserver: "{{ lookup('ansible.builtin.env', 'K3S_APISERVER', default='127.0.0.1') }}"
 k3s_enable_localstorage: false
