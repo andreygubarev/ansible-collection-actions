@@ -1,7 +1,7 @@
 ---
 - name: Download Docker Image | check istio pilot
   ansible.builtin.stat:
-    path: "{{ k3s_path_image }}/istio-pilot-1.23.0.tar"
+    path: "{{ k3s_path_image }}/istio-pilot-{{ k3s_version_istio }}.tar"
   register: istiod_image
   changed_when: false
 
