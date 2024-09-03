@@ -6,6 +6,7 @@
 
 - name: Istio | create namespace
   kubernetes.core.k8s:
+    kubeconfig: "{{ k3s_path_confdir }}/k3s.yaml"
     api_version: v1
     kind: Namespace
     name: istio-system
