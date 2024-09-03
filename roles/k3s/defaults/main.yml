@@ -10,5 +10,5 @@ k3s_enable_localstorage: false
 k3s_enable_embeddedregistry: true
 k3s_pod_subnet: "10.42.0.0/16"
 k3s_service_subnet: "10.43.0.0/16"
-k3s_vpnauth: false
+k3s_tailscale_authkey: false
 k3s_external_ip: "{{ lookup('ansible.builtin.env', 'K3S_EXTERNAL_IP', default='') }}"

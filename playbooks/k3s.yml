@@ -24,9 +24,9 @@
           - "  --join=IP                 Join a cluster"
           - "  --pod-subnet=SUBNET       Set the pod subnet"
           - "  --service-subnet=SUBNET   Set the service subnet"
+          - "  --tailscale=TOKEN         Enable Tailscale Integration"
           - "  --enable-embeddedregistry Enable embedded registry (default: true)"
           - "  --enable-localstorage     Enable local storage (default: false)"
-          - "  --enable-tailscale=TOKEN  Enable Tailscale"
 
     - name: Assert Arguments
       ansible.builtin.assert:
@@ -47,7 +47,7 @@
         labels: "{{ labels | default(l) | default([]) }}"
         enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
         enable_localstorage: "{{ enable_localstorage | default(false) }}"
-        enable_tailscale: "{{ enable_tailscale | default(false) }}"
+        tailscale: "{{ tailscale | default(false) }}"
         pod_subnet: "{{ pod_subnet | default(omit) }}"
         service_subnet: "{{ service_subnet | default(omit) }}"
 
@@ -73,7 +73,7 @@
         # --enable-localstorage
         k3s_enable_localstorage: "{{ enable_localstorage | default(false) }}"
         # --enable-tailscale
-        k3s_vpnauth: "{{ enable_tailscale | default(false) }}"
+        k3s_tailscale_authkey: "{{ tailscale | default(false) }}"
         # --pod-subnet
         k3s_pod_subnet: "{{ pod_subnet | default(omit) }}"
         # --service-subnet
