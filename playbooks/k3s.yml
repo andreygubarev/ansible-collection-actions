@@ -66,7 +66,7 @@
         k3s_token: "{{ token | default('') }}"
         # --join=127.0.0.1 (default: 127.0.0.1)
         k3s_apiserver: "{{ join | default('127.0.0.1') }}"
-        # --external-ip=1.1.1.1
+        # --public-ip=1.1.1.1
         k3s_public_ip: "{{ public_ip | default(omit) }}"
         # --enable-embeddedregistry
         k3s_enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
