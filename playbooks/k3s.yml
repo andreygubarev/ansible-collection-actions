@@ -60,8 +60,6 @@
         k3s_labels: "{{ labels | default([]) }}"
         # -i or --install
         k3s_install: "{{ install | default(false) }}"
-        # -u or --upgrade
-        k3s_upgrade: "{{ upgrade | default(false) }}"
         # --token=secret
         k3s_token: "{{ token | default('') }}"
         # --join=127.0.0.1 (default: 127.0.0.1)
