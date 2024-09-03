@@ -80,7 +80,7 @@
     mode: 0644
 
 - name: Kubernetes | set configuration for servicelb
-  when: k3s_external_ip
+  when: k3s_public_ip
   ansible.builtin.template:
     src: config.yaml.d/031-labels-enablelb.yaml.j2
     dest: "{{ k3s_path_confdir }}/config.yaml.d/031-labels-enablelb.yaml.j2"

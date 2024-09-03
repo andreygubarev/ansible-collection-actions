@@ -20,7 +20,7 @@
           - "  -l, --labels=LABELS       Set the labels for the node"
           - "  -n, --node=NAME           Set the name of the node"
           - "  -t, --token=TOKEN         Token for joining a cluster"
-          - "  --external-ip=IP          Set the external IP of the node"
+          - "  --public-ip=IP          Set the external IP of the node"
           - "  --join=IP                 Join a cluster"
           - "  --pod-subnet=SUBNET       Set the pod subnet"
           - "  --service-subnet=SUBNET   Set the service subnet"
@@ -42,7 +42,7 @@
         upgrade: "{{ upgrade | default(u) | default(false) }}"
         token: "{{ token | default(t) | default('') }}"
         join: "{{ join | default(omit) }}"
-        external_ip: "{{ external_ip | default(omit) }}"
+        public_ip: "{{ public_ip | default(omit) }}"
         node: "{{ node | default(n) | default('') }}"
         labels: "{{ labels | default(l) | default([]) }}"
         enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
@@ -67,7 +67,7 @@
         # --join=127.0.0.1 (default: 127.0.0.1)
         k3s_apiserver: "{{ join | default('127.0.0.1') }}"
         # --external-ip=1.1.1.1
-        k3s_external_ip: "{{ external_ip | default(omit) }}"
+        k3s_public_ip: "{{ public_ip | default(omit) }}"
         # --enable-embeddedregistry
         k3s_enable_embeddedregistry: "{{ enable_embeddedregistry | default(true) }}"
         # --enable-localstorage
