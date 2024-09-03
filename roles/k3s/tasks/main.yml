@@ -7,11 +7,20 @@
   when: k3s_install
   ansible.builtin.import_tasks: 020-install.yml
 
+- name: Kubernetes | get state
+  ansible.builtin.stat:
+    path: "{{ k3s_path_statedir }}/server/node-token"
+  register: k3s__present
+
+- name: Kubernetes | set state
+  ansible.builtin.set_fact:
+    k3s__present: "{{ k3s__present.stat.exists }}"
+
 - name: Download Docker Images
-  when: k3s_install and k3s_role == 'server'
+  when: k3s_install and k3s_role == 'server' and not k3s__present
   ansible.builtin.import_tasks: 030-download-images.yml
 
-- name: Install Kubernetes
+- name: Kubernetes | install
   when: k3s_install
   block:
     - name: Kubernetes | set node name
@@ -21,15 +30,6 @@
 
     - name: Linux | modify kernel parameters
       ansible.builtin.import_tasks: 040-system.yml
-
-    - name: Kubernetes | get state
-      ansible.builtin.stat:
-        path: "{{ k3s_path_statedir }}/server/node-token"
-      register: k3s__present
-
-    - name: Kubernetes | set state
-      ansible.builtin.set_fact:
-        k3s__present: "{{ k3s__present.stat.exists }}"
 
     - name: Kubernetes | setup
       when: not k3s__present
