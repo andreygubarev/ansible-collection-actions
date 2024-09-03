@@ -51,6 +51,10 @@
             timeout: 90
             state: started
 
+        - name: Istio | setup
+          when: k3s_role == 'server'
+          ansible.builtin.import_tasks: 060-istio.yml
+
         - name: Kubernetes | set state to present
           ansible.builtin.set_fact:
             k3s__present: true
@@ -63,6 +67,3 @@
 
         - name: Systemd | service state
           ansible.builtin.import_tasks: 053-setup-systemd.yml
-
-    - name: Istio | setup
-      ansible.builtin.import_tasks: 060-istio.yml
