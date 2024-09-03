@@ -1,11 +1,11 @@
 ---
-- name: Download | check istio pilot
+- name: Download Image | check istio pilot
   ansible.builtin.stat:
     path: "{{ k3s_path_image }}/istio-pilot-1.23.0.tar"
   register: istiod_image
   changed_when: false
 
-- name: Download | save istio pilot
+- name: Download Image | save istio pilot
   when: not istiod_image.stat.exists
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
@@ -14,13 +14,13 @@
   args:
     creates: "{{ k3s_path_image }}/istio-pilot-{{ k3s_version_istio }}.tar"
 
-- name: Download | check istio proxyv2
+- name: Download Image | check istio proxyv2
   ansible.builtin.stat:
     path: "{{ k3s_path_image }}/istio-proxyv2-{{ k3s_version_istio }}.tar"
   register: istiod_image
   changed_when: false
 
-- name: Download | save istio proxyv2
+- name: Download Image | save istio proxyv2
   when: not istiod_image.stat.exists
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
