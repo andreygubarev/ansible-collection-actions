@@ -10,6 +10,7 @@ k3s_version_kubectl: 1.30.3
 k3s_version_helm: 3.15.0
 k3s_version_skopeo: 1.14.3
 k3s_version_gatewayapi: 1.1.0
+k3s_version_istio: 1.23.0
 
 k3s_download_image_registry: docker.io
 
