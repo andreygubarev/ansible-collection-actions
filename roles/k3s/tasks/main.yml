@@ -55,6 +55,9 @@
           ansible.builtin.set_fact:
             k3s__present: true
 
+        - name: Istio | setup
+          ansible.builtin.import_tasks: 060-istio.yml
+
     - name: Kubernetes | configure
       when: k3s__present
       block:
