@@ -1,11 +1,11 @@
 ---
-- name: Check Metrics Server
+- name: Download Docker Image | check metric-server
   ansible.builtin.stat:
     path: "{{ k3s_path_image }}/metrics-server-v0.7.0.tar"
   register: metricsserver_image
   changed_when: false
 
-- name: Save Metrics Server
+- name: Download Docker Image | save metric-server
   when: not metricsserver_image.stat.exists
   ansible.builtin.shell: >
     skopeo copy --insecure-policy
